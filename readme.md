@@ -1,4 +1,4 @@
-guideline for using git
+## Guideline for using git
 
 
 1. CLone this repository by command git clone https://github.com/Team-Engineers/ourntamockpapers.git
