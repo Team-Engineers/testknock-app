@@ -43,9 +43,9 @@ const Login = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="form-container sign-up-container">
-                <form action="#">
+                <form action="#" className='flex items-center justify-center'>
                   <img src = {Logo} alt = "tiet-logo" className='img-fluid' style={{height:"120px"}}/>
-                  <h1>Sign Up</h1>
+                  <h1 className='mt-3'>Sign Up</h1>
   
                   {/* <span>use your email for registration</span> */}
                   <input type="text" placeholder="Name" />
@@ -59,7 +59,9 @@ const Login = () => {
             <div className="form-container sign-in-container">
               <form action="#">
               <img src = {Logo} alt = "tiet-logo" className='img-fluid' style={{height:"120px"}}/>
-                <h1>Sign in</h1>
+
+                <h1 className='mt-3'>Sign in</h1>
+
                 {/* <span>use your account</span> */}
                 <input type="email" placeholder="Email" />
                 <input type="password" placeholder="Password" />
