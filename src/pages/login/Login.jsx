@@ -59,7 +59,9 @@ const Login = () => {
             <div className="form-container sign-in-container">
               <form action="#">
               <img src = {Logo} alt = "tiet-logo" className='img-fluid' style={{height:"120px"}}/>
+
                 <h1 className='mt-3'>Sign in</h1>
+
                 {/* <span>use your account</span> */}
                 <input type="email" placeholder="Email" />
                 <input type="password" placeholder="Password" />
