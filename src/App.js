@@ -1,10 +1,12 @@
 import React from 'react'
-import LoginPage from './pages/Login'
+import Login from './pages/login/Login'
 
 const App = () => {
-    return ( <
-        div > < LoginPage / > < /div>
-    );
+  return (
+    <>
+      <Login/>
+    </>
+  )
 }
 
 export default App
