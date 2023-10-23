@@ -1,15 +1,15 @@
 import React from 'react';
-import { Route, HashRouter, Routes } from 'react-router-dom';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 const App = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
-          <Route exact path="/" element= {  <Home /> }/>
+          <Route exact path="/" element= {  <Home/> }/>
           <Route path="/login" element= {  <Login/> }/>
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
