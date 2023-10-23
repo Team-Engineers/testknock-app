@@ -1,5 +1,20 @@
 ## Guideline for using git
 
+### Rules for new branch name 
+Use Branch Name : feat-001YourFeatureName <br>
+Note: take 001 or 002 or 003 or 004 depends on the previous merged branch
+
+### IMPORTANT NOTE 
+
+--> BEFORE WORKING ON ANY NEW CODE OR CHANGES FIRSTLY YOU SHOULD CHECK YOUR BRANCH BY USING THE COMMAND  git branch 
+
+
+--> THE BRANCH SHOULD BE MASTER, IF IT IS NOT THEN CHANGE YOUR BRANCH TO MASTER USING COMMAND git checkout master 
+
+--> AND PULL THE LATEST CHANGES FROM REMOTE USING COMMAND git pull origin master
+
+--> THEN YOU CAN FOLLOW FROM STEP 1, BY CREATING YOUR NEW BRANCH FROM MASTER BRANCH
+
 
 1. CLone this repository by command git clone https://github.com/Team-Engineers/ourntamockpapers.git
 
@@ -14,14 +29,3 @@
 6. Now push your changes to remote using command git push origin feat-YourBranchName
 
 7. Then go to the github and create pull request for your changes add Thakursachin05 as reviewers, and once your PR got approved by him, then merge your changes to master
-
-<!-- IMPORTANT NOTE  -->
-
---> BEFORE WORKING ON ANY NEW CODE OR CHANGES FIRSTLY YOU SHOULD CHECK YOUR BRANCH BY USING THE COMMAND  git branch 
-
-
---> THE BRANCH SHOULD BE MASTER, IF IT IS NOT THEN CHANGE YOUR BRANCH TO MASTER USING COMMAND git checkout master 
-
---> AND PULL THE LATEST CHANGES FROM REMOTE USING COMMAND git pull origin master
-
---> THEN YOU CAN FOLLOW FROM STEP 1, BY CREATING YOUR NEW BRANCH FROM MASTER BRANCH
