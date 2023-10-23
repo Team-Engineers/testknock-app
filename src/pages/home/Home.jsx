@@ -1,10 +1,13 @@
 import React from 'react'
+import Header from '../../component/header/Header'
+import Banner from '../../component/banner/Banner'
 
 const Home = () => {
   return (
-    <section className=''>
-        hello from home
-    </section>
+    <>
+        <Header/>
+        <Banner/>
+    </>
   )
 }
 
