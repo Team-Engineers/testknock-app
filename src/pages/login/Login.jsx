@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './login.css';
 import MobileLogin from './MobileLogin';
+import Logo from '../../assets/images/logo.png'
 
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -43,9 +44,10 @@ const Login = () => {
             <div className="col-md-6">
               <div className="form-container sign-up-container">
                 <form action="#">
-                  <h1>Create Account</h1>
+                  <img src = {Logo} alt = "tiet-logo" className='img-fluid' style={{height:"120px"}}/>
+                  <h1>Sign Up</h1>
   
-                  <span>use your email for registration</span>
+                  {/* <span>use your email for registration</span> */}
                   <input type="text" placeholder="Name" />
                   <input type="email" placeholder="Email" />
                   <input type="password" placeholder="Password" />
@@ -56,11 +58,12 @@ const Login = () => {
             <div className="col-md-6">
             <div className="form-container sign-in-container">
               <form action="#">
+              <img src = {Logo} alt = "tiet-logo" className='img-fluid' style={{height:"120px"}}/>
                 <h1>Sign in</h1>
-                <span>use your account</span>
+                {/* <span>use your account</span> */}
                 <input type="email" placeholder="Email" />
                 <input type="password" placeholder="Password" />
-                <a href="#">Forgot your password?</a>
+                <h6 className='my-3'>Forgot your password?</h6>
                 <button>Sign In</button>
               </form>
             </div>
