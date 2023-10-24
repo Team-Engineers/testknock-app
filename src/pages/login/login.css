@@ -11,9 +11,10 @@
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
 }
+
+
 
 .login h1 {
 	font-weight: bold;
