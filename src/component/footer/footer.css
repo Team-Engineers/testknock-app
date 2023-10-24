@@ -47,7 +47,6 @@
 
 .termsConditions {
     background: #000;
-    height: 33px;
 }
 
 .termsConditions .condition {
@@ -59,4 +58,16 @@
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
+}
+
+@media (max-width : 800px){
+    .footerContent {
+        padding: 2rem;
+    }
+    .paddingLeft5rem {
+        padding-left: 0rem;
+    }
+    .col-md-3{
+        margin : 20px 0px;
+    }
 }
