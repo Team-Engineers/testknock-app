@@ -43,7 +43,7 @@ const Login = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="form-container sign-up-container">
-                <form action="#" className='flex items-center justify-center'>
+                <form action="#" className='d-flex align-items-center justify-content-center'>
                   <img src = {Logo} alt = "tiet-logo" className='img-fluid' style={{height:"120px"}}/>
                   <h1 className='mt-3'>Sign Up</h1>
   

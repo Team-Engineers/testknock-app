@@ -16,7 +16,7 @@ const MobileLogin = () => {
        (
         <div className="h-100">
           <form action="#">
-          <div className="flex items-center justify-between flex-col">
+          <div className="d-flex align-items-center justify-content-between flex-column">
             <img src = {Logo} alt = "tiet-logo" className='img-fluid' style={{height:"120px"}}/>
               <h1 className='mt-3'>Sign Up</h1>
               {/* <span>use your email for registration</span> */}
@@ -30,7 +30,7 @@ const MobileLogin = () => {
         </div>
       ) : (
         <form action="#">
-          <div className="flex items-center justify-between flex-col">
+          <div className="d-flex align-items-center justify-content-between flex-column">
           <img src = {Logo} alt = "tiet-logo" className='img-fluid' style={{height:"120px"}}/>
           <h1 className='mt-3'>Sign in</h1>
           {/* <span>use your account</span> */}
