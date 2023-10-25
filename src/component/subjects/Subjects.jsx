@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components"; // Import styled-components
 
+
 const TopicCard = styled.button`
   height: 8rem;
   padding: 1rem;
@@ -9,6 +10,11 @@ const TopicCard = styled.button`
   box-shadow: 1px 1px 2px 1px #8d8d8d;
   width: 15rem;
   border-radius: 20px;
+  display : flex;
+  justify-content : center;
+  align-items:center;
+  gap : 0.5rem;
+  font-size : 1rem;
 
   &:hover {
     background: blueviolet;
@@ -45,6 +51,7 @@ const Subjects = ({setSelectedTopic}) => {
                     aria-selected="true"
                     onClick={() => changeTopic('QUANT')}
                   >
+                    <i class="fa-solid fa-calculator"></i>
                     QUANTITATIVE APTITUDE
                   </TopicCard>
                 </li>
@@ -60,6 +67,8 @@ const Subjects = ({setSelectedTopic}) => {
                     aria-selected="false"
                     onClick={() => changeTopic('DI')}
                   >
+                    <i class="fa-solid fa-chart-line"></i>
+
                     DATA INTERPRETATION
                   </TopicCard>
                 </li>
@@ -75,6 +84,8 @@ const Subjects = ({setSelectedTopic}) => {
                     aria-selected="false"
                     onClick={() => changeTopic('LR')}
                   >
+                    <i class="fa-solid fa-gear"></i>
+
                     LOGICAL REASONING
                   </TopicCard>
                 </li>
@@ -90,6 +101,7 @@ const Subjects = ({setSelectedTopic}) => {
                     aria-selected="false"
                     onClick={() => changeTopic('VARC')}
                   >
+<i class="fa-solid fa-book"></i>
                     VERBAL ABILITY & READING COMPREHENSION
                   </TopicCard>
                 </li>

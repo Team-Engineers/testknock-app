@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Logo from '../../assets/images/logo.png'
+import { Link } from 'react-router-dom';
 
 
 const MobileLogin = () => {
@@ -24,7 +25,7 @@ const MobileLogin = () => {
               <input type="email" placeholder="Email" />
               <input type="password" placeholder="Password" />
               <button>Sign Up</button>
-            <h6 className='mt-5' >Already have an account? <span className='text-primary' onClick={handleToggleForm}>Sign In</span></h6>
+            <h6 className='mt-5' >Already have an account? <Link className='text-primary' onClick={handleToggleForm}>Sign In</Link></h6>
           </div>
           </form>
         </div>
@@ -37,8 +38,8 @@ const MobileLogin = () => {
           <input type="email" placeholder="Email" />
           <input type="password" placeholder="Password" />
           <button>Sign in</button>
-          <h6 className='mt-5' >Forgot your password? <span className='text-primary'>Click Here</span></h6>
-          <h6 className='mt-2' >Don't have an account? <span className='text-primary'  onClick={handleToggleForm}>Sign Up</span></h6>
+          <h6 className='mt-5' >Forgot your password? <Link to ="" className='text-primary'>Click Here</Link></h6>
+          <h6 className='mt-2' >Don't have an account? <Link className='text-primary'  onClick={handleToggleForm}>Sign Up</Link></h6>
           </div>
         </form>
       )}

@@ -1,8 +1,5 @@
 import React from "react";
 import tietLogo from "../../assets/images/white-tietLogo.png";
-import Facebook from "../../assets/images/facebook-logo.svg";
-import Instagram from "../../assets/images/insta-logo.svg";
-import Pinterest from "../../assets/images/pinterest-logo.svg";
 import "./footer.css";
 const Footer = () => {
   return (
@@ -14,8 +11,8 @@ const Footer = () => {
               <div class="logo pcLogo pb-3">
                 <img src={tietLogo} alt="Thapar-Logo" className="img-fluid" />
               </div>
-              <div class="description text-white pt-2 width90 pb-3">
-                <h6>
+              <div class=" text-white pt-2 width90 pb-3">
+                <h6 className="liWrapper">
                   Thapar Institute of Engineering and Technology in Patiala,
                   India, is a distinguished technical university renowned for
                   its quality education, research, and innovation in engineering
@@ -24,27 +21,17 @@ const Footer = () => {
               </div>
               <div class="social">
                 <h6 className="text-white">Follow us</h6>
-                <div class="icons d-flex align-items-start">
+                <div class="icons  d-flex align-items-start gap-3">
                   <a href="https://www.facebook.com/officialTIET">
-                    <img
-                      src={Facebook}
-                      alt="facebook-tiet"
-                      className="img-fluid"
-                    />
+                  <i class="fa-brands fa-facebook-f"></i>
                   </a>
                   <a href="https://www.instagram.com/tietofficial/">
-                    <img
-                      src={Instagram}
-                      alt="instagram-tiet"
-                      className="img-fluid"
-                    />
+
+                    <i class="fa-brands fa-instagram"></i>
                   </a>
                   <a href="https://in.pinterest.com/pin/1061160730921621150/">
-                    <img
-                      src={Pinterest}
-                      alt="pinterest-tiet"
-                      className="img-fluid"
-                    />
+
+                    <i class="fa-brands fa-pinterest"></i>
                   </a>
                 </div>
               </div>
@@ -53,49 +40,71 @@ const Footer = () => {
             <div class="col-md-3">
               <div class="contactContent text-white  pe-md-2">
                 <div class="quickHeading fw-bold">Contact</div>
-                <div class="contact pt-5 d-flex flex-column gap-4">
-                  <h6 class="locationHeading">
-                    Thapar Institute of Engineering
-                  </h6>
-                  <h6 class="address">
-                    P.O. Box 32, Bhadson Road, Patiala, Punjab, Pin -147004,
-                    India
-                  </h6>
-                  <div class="email">
-                    <h6 class="mb-0">admissions@thapar.edu</h6>
+                <div class=" pt-5 d-flex flex-column gap-4">
+                  <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
+                    <i class="fa-solid fa-building"></i>
+                    <h6>Thapar Institute of Engineering</h6>
                   </div>
-                  <h6 class="contactNumber"> 18002024100</h6>
+                  <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <h6>
+                      P.O. Box 32, Bhadson Road, Patiala, Punjab, Pin -147004,
+                      India
+                    </h6>
+                  </div>
+                  <div class=" ">
+                    <h6 class="liWrapper mb-0 d-flex justify-content-start  align-items-center gap-3">
+                      <i class="fa-solid fa-paper-plane"></i>
+                      <h6>admissions@thapar.edu</h6>
+                    </h6>
+                  </div>
+                  <h6 class="liWrapper d-flex justify-content-start align-items-center gap-3">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    18002024100
+                  </h6>
                 </div>
               </div>
             </div>
             <div class="col-md-3 ">
-              <div class="quickLink text-white paddingLeft5rem">
+              <div class=" text-white ps-md-3">
                 <div class="fw-bolder quickHeading">
                   <span>Categories</span>
                 </div>
-                <div class="links pt-5 d-flex flex-column gap-4">
-                  <h6 class="link1">Quantitative Aptitude</h6>
-                  <h6>Data Interpretation</h6>
-                  <h6>Logical Reasoning</h6>
-                  <h6>Verbal Ability & Reading Comprehension</h6>
+                <div class=" pt-5 d-flex flex-column gap-4">
+                  <h6 className="liWrapper">Quantitative Aptitude</h6>
+                  <h6 className="liWrapper">Data Interpretation</h6>
+                  <h6 className="liWrapper">Logical Reasoning</h6>
+                  <h6 className="liWrapper">Verbal Ability &amp; Reading Comprehension</h6>
                 </div>
               </div>
             </div>
             <div class="col-md-3">
-              <div class="contactContent text-white  pe-md-2">
-                <div class="quickHeading fw-bold">Any Technical Issue</div>
-                <div class="contact pt-5 d-flex flex-column gap-4">
-                  <h6 class="locationHeading">Temple Of Learning</h6>
-                  <h6 class="address">
-                    Head Office L-3, Kanchanjunga Building Barakhamba Road,
-                    Connaught Place New Delhi - 110001
-                  </h6>
-                  <div class="email">
-                    <h6 class="mb-0">info@templeoflearning.com</h6>
+              <div class=" text-white  pe-md-2">
+                <div class=" fw-bold">Any Technical Issue?</div>
+                <div class=" pt-5 d-flex flex-column gap-4">
+                  <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
+                    <i class="fa-solid fa-building"></i>
+                    <h6>Temple Of Learning</h6>
                   </div>
-                  <h6 class="contactNumber">
-                    +91- 98100 33495<br></br> 011-45 019 365
-                  </h6>
+                  <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <h6>
+                      Head Office L-3, Kanchanjunga Building Barakhamba Road,
+                      Connaught Place New Delhi - 110001
+                    </h6>
+                  </div>
+                  <div class=" ">
+                    <div class=" liWrapper mb-0 d-flex justify-content-start  align-items-center gap-3">
+                      <i class="fa-solid fa-paper-plane"></i>
+                      <h6>info@templeoflearning.com</h6>
+                    </div>
+                  </div>
+                  <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    <h6 className="d-flex justify-content-center align-items-center">
+                      +91- 98100 33495<br></br> 011-45 019 365
+                    </h6>
+                  </div>
                 </div>
               </div>
             </div>
@@ -106,8 +115,7 @@ const Footer = () => {
       <section class="row-11 termsConditions mt-1 familyMont">
         <div class="container">
           <div class="row  text-white">
-            <div class="col-md-1"></div>
-            <div class="col-md-10 ">
+            <div class="col-md-12 ">
               <div class="row">
                 <div class="col-md-4 order-3 order-md-1">
                   <h6 class="condition mb-0">
@@ -145,7 +153,6 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-1"></div>
           </div>
         </div>
       </section>
