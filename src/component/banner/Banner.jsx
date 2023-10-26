@@ -15,13 +15,7 @@ const BannerSection = styled.section`
 `;
 
 const Banner = () => {
-  const navigate = useNavigate(); // Initialize navigate
-
-  const handleStartQuiz = () => {
-    // Redirect to the questions route when the button is clicked
-    navigate('/question');
-  };
-
+  const navigate = useNavigate();
   return (
     <BannerSection>
       <div className="container-fluid">
