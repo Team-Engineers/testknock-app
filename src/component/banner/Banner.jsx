@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components"; // Import styled-components
 import './banner.css'
 
@@ -14,6 +15,13 @@ const BannerSection = styled.section`
 `;
 
 const Banner = () => {
+  const navigate = useNavigate(); // Initialize navigate
+
+  const handleStartQuiz = () => {
+    // Redirect to the questions route when the button is clicked
+    navigate('/question');
+  };
+
   return (
     <BannerSection>
       <div className="container-fluid">
@@ -26,9 +34,9 @@ const Banner = () => {
                   Master Aptitude: Elevate Your Skills, Ace Tests, and Achieve
                   Academic Excellence Today!
                 </h6>
-                <button className="btn btn-dark">
-                  Start Quiz <i className="fa-solid fa-arrow-right"></i>
-                </button>
+                <button className="btn btn-dark" onClick={() => navigate('/question')}>
+        Start Quiz <i className="fa-solid fa-arrow-right"></i>
+      </button>
               </div>
             </div>
           </div>

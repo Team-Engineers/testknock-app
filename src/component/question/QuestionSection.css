@@ -1,0 +1,90 @@
+.mcq-section,
+.mcq-container,
+.mcq-container h2,
+.question-number,
+.mcq-container ul li {
+    font-family: 'Roboto', sans-serif;
+}
+
+.mcq-section {
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.mcq-container {
+    background: linear-gradient(to right, #2e2b2b, #000);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 20px;
+    border: 2px solid #2e2b2b;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    width: 100%;
+    max-width: 700px;
+}
+
+.mcq-container ul li.correct,
+.mcq-container ul li.incorrect {
+    color: inherit;
+}
+
+.question-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.question-number {
+    font-weight: bold;
+    font-size: 24px;
+    color: white;
+    margin-right: 10px;
+}
+
+.mcq-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+
+.mcq-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.mcq-container ul li {
+    display: flex;
+    align-items: center;
+}
+
+.mcq-container ul li:hover {
+    font-weight: bold;
+}
+
+.mcq-container ul li.correct::after {
+    content: '\2713';
+    color: green;
+    padding-left: 5px;
+}
+
+.mcq-container ul li.incorrect::after {
+    content: '\2717';
+    color: red;
+    padding-left: 5px;
+}
+
+.alphabet {
+    font-weight: bold;
+}
+
+.mcq-container ul li.correct {
+    color: green;
+    font-weight: bold;
+}
+
+.mcq-container ul li.incorrect {
+    color: red;
+    font-weight: bold;
+}
