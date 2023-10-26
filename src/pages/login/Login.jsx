@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './login.css';
 import MobileLogin from './MobileLogin';
 import Logo from '../../assets/images/logo.png'
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -65,7 +66,7 @@ const Login = () => {
                 {/* <span>use your account</span> */}
                 <input type="email" placeholder="Email" />
                 <input type="password" placeholder="Password" />
-                <h6 className='my-3'>Forgot your password?</h6>
+                <Link to = "/forgotpassword"><h6 className='my-3'>Forgot your password?</h6></Link>
                 <button>Sign In</button>
               </form>
             </div>

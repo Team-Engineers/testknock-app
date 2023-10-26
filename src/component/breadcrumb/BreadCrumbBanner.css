@@ -1,0 +1,48 @@
+.breadcrumb-banner{
+    background-image: url('../../assets/images/subTopic-banner.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 15rem;
+    height: 15rem;
+    position: relative;
+    z-index: 1;
+
+    /* filter: brightness(50%); */
+}
+
+.breadcrumb-banner::after{
+    content: '';
+    position: absolute;
+    top:0;
+    left : 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.breadcrumb-banner .breadcrumb-item a{
+    font-size: 1.2rem;
+    color: white;
+}
+
+.breadcrumb-banner h2{
+    /* text-transform: capitalize; */
+    color: #fff;
+    font-size: 2rem;
+    display: block;
+
+}
+
+.breadcrumb-banner .breadcrumb-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.breadcrumb-banner .breadcrumb-item+.breadcrumb-item::before {
+    content: "\f101"; /* Use the Unicode or character code for the angle-right icon */
+    font-family: "FontAwesome"; /* Specify the Font Awesome font family */
+    color: white;
+    padding: 0 0.5rem; /* Add some padding if needed */
+}
