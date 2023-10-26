@@ -1,6 +1,5 @@
 import React from "react";
 import { Breadcrumb } from "react-bootstrap";
-import styled from "styled-components";
 import "./BreadCrumbBanner.css";
 import { useParams } from "react-router-dom";
 
