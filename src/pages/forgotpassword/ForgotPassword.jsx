@@ -27,7 +27,7 @@ const ForgotPassword = () => {
             <h1 className="mt-3">Forgot Password</h1>
             {/* <span>use your email for registration</span> */}
             <input type="email" placeholder="Email" />
-            <button>Sign Up</button>
+            <button>Reset Password</button>
             <h6 className="mt-5">
               Already have an account?{" "}
               <Link to ='/login' className="text-primary">Sign In</Link>
