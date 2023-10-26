@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const TopicCard = styled.li`
@@ -6,24 +7,26 @@ const TopicCard = styled.li`
   padding: 1rem;
   margin: 1rem;
   background-color: white;
-  // box-shadow: 1px 1px 2px 1px #8d8d8d;
   width: 15rem;
   border-radius: 20px;
-  display : flex;
-  justify-content : center;
+  display: flex;
+  justify-content: center;
   align-items: center;
-  border:dashed;
-  
+  border: dashed;
+  text-align: center;
 
   &:hover {
     background: blueviolet;
     color: white;
   }
+  &:hover a {
+    color: white;
+  }
 `;
 
 const MarginTop = styled.div`
-  margin-top : 7rem;
-`
+  margin-top: 7rem;
+`;
 
 const SubTopics = (props) => {
   // Define an object that maps topics to their respective subtopics
@@ -35,6 +38,11 @@ const SubTopics = (props) => {
       "PROFIT AND LOSS",
       "S.I AND C.I",
       "PARTNERSHIP",
+      "RATIO & PROPORTION",
+      "TIME AND WORK",
+      "TIME, SPEED AND DISTANCE",
+      "PROBABILITY",
+      "PERMUTATION AND COMBINATION",
     ],
     LR: ["PARTNERSHIP"],
     VARC: ["NUMBER SYSTEM "],
@@ -51,8 +59,10 @@ const SubTopics = (props) => {
           <MarginTop>
             <h2 className="fs-5 fw-bolder mb-5">Subtopics</h2>
             <ul>
-              {selectedSubTopics.map((topic, index) => (
-                <TopicCard key={index}>{topic}</TopicCard>
+              {selectedSubTopics.map((subtopic, index) => (
+                <TopicCard key={index}>
+                  <Link to={`/${props.topic}/${subtopic}`}>{subtopic}</Link>
+                </TopicCard>
               ))}
             </ul>
           </MarginTop>

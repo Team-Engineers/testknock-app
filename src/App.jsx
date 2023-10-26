@@ -4,6 +4,7 @@ import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import ForgotPassword from './pages/forgotpassword/ForgotPassword';
 import QuestionSection from './component/question/QuestionSection'; 
+import SubTopicQuestion from './pages/subtopicQuestion/SubTopicQuestion';
 const App = () => {
   return (
     <BrowserRouter>
@@ -12,6 +13,7 @@ const App = () => {
           <Route path="/login" element= {  <Login/> }/>
           <Route path="/forgotpassword" element= {  <ForgotPassword/> }/>
           <Route path="/question" element={<QuestionSection />} />
+          <Route path="/:topic/:subTopic" element= {  <SubTopicQuestion/> }/>
 
 
       </Routes>

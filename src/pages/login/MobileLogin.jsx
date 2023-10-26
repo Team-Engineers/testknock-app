@@ -38,7 +38,7 @@ const MobileLogin = () => {
           <input type="email" placeholder="Email" />
           <input type="password" placeholder="Password" />
           <button>Sign in</button>
-          <h6 className='mt-5' >Forgot your password? <Link to ="" className='text-primary'>Click Here</Link></h6>
+          <h6 className='mt-5' >Forgot your password? <Link to ="/forgotpassword" className='text-primary'>Click Here</Link></h6>
           <h6 className='mt-2' >Don't have an account? <Link className='text-primary'  onClick={handleToggleForm}>Sign Up</Link></h6>
           </div>
         </form>
