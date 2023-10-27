@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 import './UserProfile.css'
+// import { useDispatch } from "react-redux";
+// import {setName} from '../../utils/userSlice'
+import Header from "../../component/header/Header";
+// import UserProfile from "../../assets/images/user-profile.jpg";
 
 const UserProfile = () => {
+
   const [email,setEmail] = useState('');
-  const [name,setName] = useState('Ashutosh');
+  const [name,setUserName] = useState('Ashutosh');
   const [profilePic,setProfilePic] = useState('');
   const [branch,setBranch] = useState('');
   const [year,setYear] = useState('');
   const [contact,setContact] = useState('');
   const [institute,setInstitute] = useState('');
   
+  // const dispatch = useDispatch();
+
+  // const handleUserName = ()=>{
+  //   dispatch(setName('Ashutosh'))
+
+  // }
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -20,10 +31,16 @@ const UserProfile = () => {
     alert("form submitted");
   };
 
+  // useEffect(()=>{
+  //   handleUserName();
+  //   console.log('usereffect is call from userprofile ')
+  // },[])
+
 
 
   return (
     <section className="userProfile">
+      <Header/>
       <div class="container">
         <div class="main-body">
           <div class="row">
@@ -94,7 +111,7 @@ const UserProfile = () => {
                         type="text"
                         class="form-control"
                         value={name}
-                        onChange={(e)=>{setName(e.target.value)}}
+                        onChange={(e)=>{setUserName(e.target.value)}}
                       />
                     </div>
                   </div>

@@ -4,18 +4,18 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
     name : "user",
     initialState:{
-        name : "",
-        profilePic : "",
+        userName : "",
+        userPic : "",
     },
     reducers : {
-        setName: (state,action) =>{
-            state.name = action.payload
+        setName: (state, action) => {
+            state.userName = action.payload; // Fix the assignment here
         },
-        setProfilePic : (state,action) =>{
-            state.profilePic = action.payload
+        setProfilePic: (state, action) => {
+            state.userPic = action.payload; // Fix the assignment here
         },
         clearValue : (state,action) =>{
-            return {name: "",profilePic : ""};
+            return {userName: "",userPic : ""};
         },
     },
 });

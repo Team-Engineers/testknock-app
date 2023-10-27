@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-
+import userReducer from './userSlice'
 
 const appStore = configureStore({
     reducer : {
@@ -7,3 +7,5 @@ const appStore = configureStore({
         
     }
 })
+
+export default appStore

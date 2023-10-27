@@ -7,21 +7,24 @@ import SubTopicQuestion from "./pages/subtopicQuestion/SubTopicQuestion";
 import SubTopicsList from "./pages/subtopicslist/SubTopicsList";
 import UserProfile from "./pages/user/UserProfile";
 import ScrollToTop from "./component/scrolltotop/ScrollToTop";
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
 
 const App = () => {
   return (
-    <BrowserRouter>
-    <ScrollToTop/>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/:topic/:subTopic" element={<SubTopicQuestion />} />
-        <Route path="/:topic" element={<SubTopicsList />} />
-        <Route path="/user" element={<UserProfile />} />
-
-      </Routes>
-    </BrowserRouter>
+    <Provider store={appStore}>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/:topic/:subTopic" element={<SubTopicQuestion />} />
+          <Route path="/:topic" element={<SubTopicsList />} />
+          <Route path="/user" element={<UserProfile />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 };
 
