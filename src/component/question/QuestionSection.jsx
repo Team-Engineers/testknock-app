@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './QuestionSection.css';
+import commentsImage from './comment.png';
 
 const MCQSection = () => {
   // Sample data
@@ -8,26 +9,37 @@ const MCQSection = () => {
       question: 'What is the capital of France?',
       options: ['London', 'Madrid', 'Paris', 'Berlin'],
       correctAnswer: 'Paris',
+      explanation: 'Paris is the capital of France.',
     },
     {
       question: 'Which planet is known as the Red Planet?',
       options: ['Earth', 'Mars', 'Venus', 'Jupiter'],
       correctAnswer: 'Mars',
+      explanation: 'Mars is often referred to as the Red Planet due to its reddish appearance.',
     },
-    
   ];
 
   const [selectedOptions, setSelectedOptions] = useState(
     Array(staticData.length).fill(null)
   );
 
-  //handle option selection
+  const [explanationVisible, setExplanationVisible] = useState(
+    Array(staticData.length).fill(false)
+  );
+
+  // Handle option selection
   const handleOptionSelect = (questionIndex, optionIndex) => {
     const updatedSelectedOptions = [...selectedOptions];
     updatedSelectedOptions[questionIndex] = optionIndex;
     setSelectedOptions(updatedSelectedOptions);
   };
 
+  // Handle explanation visibility toggle
+  const handleExplanationToggle = (questionIndex) => {
+    const updatedExplanationVisible = [...explanationVisible];
+    updatedExplanationVisible[questionIndex] = !updatedExplanationVisible[questionIndex];
+    setExplanationVisible(updatedExplanationVisible);
+  };
 
   const getAlphabet = (index) => String.fromCharCode(65 + index);
 
@@ -57,6 +69,24 @@ const MCQSection = () => {
               </li>
             ))}
           </ul>
+          
+          <button
+  className="explanation-button"
+  onClick={() => handleExplanationToggle(questionIndex)}
+>
+  {explanationVisible[questionIndex] ? 'Hide Explanation' : 'Show Explanation'}
+  <img
+  src={commentsImage}
+  alt="Explanation"
+  className="explanation-icon"
+/>
+</button>
+
+          {explanationVisible[questionIndex] && (
+            <div className="explanation">
+              {questionData.explanation}
+            </div>
+          )}
         </div>
       ))}
     </div>
@@ -64,3 +94,5 @@ const MCQSection = () => {
 };
 
 export default MCQSection;
+
+
