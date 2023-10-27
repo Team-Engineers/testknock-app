@@ -9,13 +9,15 @@ import styled from "styled-components";
 const SubTopicsWrapper = styled.div`
   position: absolute;
   top: 15rem;
-  // bottom : 0px;
   left: 0;
   right: 0;
 `;
 
 const Home = () => {
+  
   const [topic, setSelectedTopic] = useState("QUANT");
+
+
   return (
     <>
       <Header />

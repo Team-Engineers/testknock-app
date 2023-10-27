@@ -1,6 +1,7 @@
 import React from "react";
 import tietLogo from "../../assets/images/white-tietLogo.png";
 import "./footer.css";
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
@@ -71,10 +72,10 @@ const Footer = () => {
                   <span>Categories</span>
                 </div>
                 <div class=" pt-5 d-flex flex-column gap-4">
-                  <h6 className="liWrapper">Quantitative Aptitude</h6>
-                  <h6 className="liWrapper">Data Interpretation</h6>
-                  <h6 className="liWrapper">Logical Reasoning</h6>
-                  <h6 className="liWrapper">Verbal Ability &amp; Reading Comprehension</h6>
+                  <Link to = "/QUANT"><h6 className="liWrapper">Quantitative Aptitude</h6></Link>
+                  <Link to = "/DI"><h6 className="liWrapper">Data Interpretation</h6></Link>
+                  <Link to = "/LR"><h6 className="liWrapper">Logical Reasoning</h6></Link>
+                  <Link to = "/VARC"><h6 className="liWrapper">Verbal Ability &amp; Reading Comprehension</h6></Link>
                 </div>
               </div>
             </div>
