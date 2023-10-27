@@ -60,9 +60,9 @@ const SubTopics = (props) => {
             <h2 className="fs-5 fw-bolder mb-5">Subtopics</h2>
             <ul>
               {selectedSubTopics.map((subtopic, index) => (
-                <TopicCard key={index}>
-                  <Link to={`/${props.topic}/${subtopic}`}>{subtopic}</Link>
-                </TopicCard>
+                <Link to={`/${props.topic}/${subtopic}`}>
+                  <TopicCard key={index}>{subtopic}</TopicCard>
+                </Link>
               ))}
             </ul>
           </MarginTop>
