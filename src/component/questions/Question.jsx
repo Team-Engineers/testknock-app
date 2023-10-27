@@ -68,17 +68,17 @@ const Question = ({
                     class="accordion-button"
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne"
+                    data-bs-target={`#collapse${questionNumber}`}
                     aria-expanded="true"
-                    aria-controls="collapseOne"
+                    aria-controls={`collapse${questionNumber}`}
                   >
                     Explain It
                   </button>
                 </h2>
                 <div
-                  id="collapseOne"
+                  id={`collapse${questionNumber}`}
                   class="accordion-collapse collapse show"
-                  aria-labelledby="headingOne"
+                  //   aria-labelledby="headingOne"
                   data-bs-parent="#accordionExample"
                 >
                   <div class="accordion-body">
