@@ -28,6 +28,8 @@ const Header = () => {
     setIsDarkTheme(!isDarkTheme);
   };
 
+  // const userName = useSelector
+
   return (
     <HeaderSection darkTheme={isDarkTheme}>
       <div className="container-fluid">
