@@ -1,25 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import {PORFILEPIC_URL} from './constants'
 
 const userSlice = createSlice({
     name : "user",
     initialState:{
-        userName : "",
-        userPic : "",
+        user : null,
+        userName : "Login",
+        userPic : PORFILEPIC_URL,
     },
     reducers : {
+        setUser: (state,action)=>{
+            state.user = action.payload;
+        },
         setName: (state, action) => {
             state.userName = action.payload; // Fix the assignment here
         },
-        setProfilePic: (state, action) => {
+        setProfilePicUrl: (state, action) => {
             state.userPic = action.payload; // Fix the assignment here
         },
-        clearValue : (state,action) =>{
-            return {userName: "",userPic : ""};
+        logoutUser : (state) =>{
+            state.user = null;
         },
     },
 });
 
-export const {setName, setProfilePic, clearValue} = userSlice.actions;
+export const {setUser, setName, setProfilePicUrl, logoutUser} = userSlice.actions;
 
 export default userSlice.reducer;

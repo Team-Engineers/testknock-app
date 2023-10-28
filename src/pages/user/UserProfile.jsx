@@ -1,46 +1,58 @@
 import React, { useState } from "react";
-import './UserProfile.css'
-// import { useDispatch } from "react-redux";
-// import {setName} from '../../utils/userSlice'
+import "./UserProfile.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setName } from "../../utils/userSlice";
+import { setProfilePicUrl } from "../../utils/userSlice";
+
 import Header from "../../component/header/Header";
-// import UserProfile from "../../assets/images/user-profile.jpg";
 
 const UserProfile = () => {
+  const [email, setEmail] = useState("");
+  const [name, setUserName] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
+  const [branch, setBranch] = useState("");
+  const [year, setYear] = useState("");
+  const [contact, setContact] = useState("");
+  const [institute, setInstitute] = useState("");
+  // const [profilePicName, setProfilePicName] = useState('');
 
-  const [email,setEmail] = useState('');
-  const [name,setUserName] = useState('Ashutosh');
-  const [profilePic,setProfilePic] = useState('');
-  const [branch,setBranch] = useState('');
-  const [year,setYear] = useState('');
-  const [contact,setContact] = useState('');
-  const [institute,setInstitute] = useState('');
-  
-  // const dispatch = useDispatch();
-
-  // const handleUserName = ()=>{
-  //   dispatch(setName('Ashutosh'))
-
-  // }
+  const dispatch = useDispatch();
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
+    console.log("profilePic",selectedFile.name)
     setProfilePic(selectedFile);
+    // setProfilePicName(selectedFile.name); // Set the file name
   };
   const handleFormSubmit = (event) => {
     event.preventDefault();
+
+    const handleUserName = () => {
+      dispatch(setName(name));
+    };
+
+    const handleProfile = () => {
+      dispatch(setProfilePicUrl(URL.createObjectURL(profilePic))); // Save the file as URL
+    };
+
+    handleUserName();
+    handleProfile();
+
     alert("form submitted");
   };
+
+  const username = useSelector((state) => state.user.userName);
+
+  const profile_url = useSelector((state) => state.user.userPic);
 
   // useEffect(()=>{
   //   handleUserName();
   //   console.log('usereffect is call from userprofile ')
   // },[])
 
-
-
   return (
     <section className="userProfile">
-      <Header/>
+      <Header />
       <div class="container">
         <div class="main-body">
           <div class="row">
@@ -49,13 +61,13 @@ const UserProfile = () => {
                 <div class="card-body">
                   <div class="d-flex flex-column align-items-center text-center">
                     <img
-                      src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                      src={profile_url}
                       alt="Admin"
                       class="rounded-circle p-1 bg-primary"
                       width="110"
                     />
                     <div class="mt-3">
-                      <h4>{name}</h4>
+                      <h4>{username}</h4>
                     </div>
                   </div>
                   <hr class="my-4" />
@@ -69,28 +81,28 @@ const UserProfile = () => {
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                       <h6 class="mb-0">
-                      <i class="fa-brands me-2 fa-github"></i>
+                        <i class="fa-brands me-2 fa-github"></i>
                         Github
                       </h6>
                       <span class="text-secondary">bootdey</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                       <h6 class="mb-0">
-                      <i class="fa-brands me-2 fa-x-twitter"></i>
+                        <i class="fa-brands me-2 fa-x-twitter"></i>
                         Twitter
                       </h6>
                       <span class="text-secondary">@bootdey</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                       <h6 class="mb-0">
-                      <i class="fa-brands me-2 fa-instagram"></i>
+                        <i class="fa-brands me-2 fa-instagram"></i>
                         Instagram
                       </h6>
                       <span class="text-secondary">bootdey</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                       <h6 class="mb-0">
-                      <i class="fa-brands me-2 fa-facebook-f"></i>
+                        <i class="fa-brands me-2 fa-facebook-f"></i>
                         Facebook
                       </h6>
                       <span class="text-secondary">bootdey</span>
@@ -111,7 +123,9 @@ const UserProfile = () => {
                         type="text"
                         class="form-control"
                         value={name}
-                        onChange={(e)=>{setUserName(e.target.value)}}
+                        onChange={(e) => {
+                          setUserName(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -124,7 +138,9 @@ const UserProfile = () => {
                         type="text"
                         class="form-control"
                         value={email}
-                        onChange={(e)=>{setEmail(e.target.value)}}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -136,7 +152,7 @@ const UserProfile = () => {
                       <input
                         type="file"
                         class="form-control"
-                        value = {profilePic}
+                        // value={profilePic}
                         onChange={handleFileChange}
                       />
                     </div>
@@ -150,9 +166,10 @@ const UserProfile = () => {
                       <input
                         type="text"
                         class="form-control"
-                       
                         value={branch}
-                        onChange={(e)=>{setBranch(e.target.value)}}
+                        onChange={(e) => {
+                          setBranch(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -164,9 +181,10 @@ const UserProfile = () => {
                       <input
                         type="number"
                         class="form-control"
-                       
                         value={year}
-                        onChange={(e)=>{setYear(e.target.value)}}
+                        onChange={(e) => {
+                          setYear(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -179,7 +197,9 @@ const UserProfile = () => {
                         type="text"
                         class="form-control"
                         value={institute}
-                        onChange={(e)=>{setInstitute(e.target.value)}}
+                        onChange={(e) => {
+                          setInstitute(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -193,7 +213,9 @@ const UserProfile = () => {
                         type="text"
                         class="form-control"
                         value={contact}
-                        onChange={(e)=>{setContact(e.target.value)}}
+                        onChange={(e) => {
+                          setContact(e.target.value);
+                        }}
                       />
                     </div>
                   </div>
@@ -214,59 +236,46 @@ const UserProfile = () => {
                 <div class="col-sm-12">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="d-flex align-items-center mb-3">
-                        Project Status
-                      </h5>
-                      <p>Web Design</p>
-                      <div class="progress mb-3" style={{height: "5px"}}>
-                        <div
-                          class="progress-bar bg-primary"
-                          role="progressbar"
-                          style={{width: "80%"}}
-                          aria-valuenow="80"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                      <p>Website Markup</p>
-                      <div class="progress mb-3" style={{height: "5px"}}>
+                      <h5 class="d-flex align-items-center mb-3">Progress</h5>
+                      <p>Quantitative Aptitude</p>
+                      <div class="progress mb-3" style={{ height: "5px" }}>
                         <div
                           class="progress-bar bg-danger"
                           role="progressbar"
-                          style={{width: "72%"}}
+                          style={{ width: "72%" }}
                           aria-valuenow="72"
                           aria-valuemin="0"
                           aria-valuemax="100"
                         ></div>
                       </div>
-                      <p>One Page</p>
-                      <div class="progress mb-3" style={{height: "5px"}}>
+                      <p>Data Interpretation</p>
+                      <div class="progress mb-3" style={{ height: "5px" }}>
                         <div
                           class="progress-bar bg-success"
                           role="progressbar"
-                          style={{width: "89%"}}
+                          style={{ width: "89%" }}
                           aria-valuenow="89"
                           aria-valuemin="0"
                           aria-valuemax="100"
                         ></div>
                       </div>
-                      <p>Mobile Template</p>
-                      <div class="progress mb-3" style={{height: "5px"}}>
+                      <p>Logical Reasoning</p>
+                      <div class="progress mb-3" style={{ height: "5px" }}>
                         <div
                           class="progress-bar bg-warning"
                           role="progressbar"
-                          style={{width: "55%"}}
+                          style={{ width: "55%" }}
                           aria-valuenow="55"
                           aria-valuemin="0"
                           aria-valuemax="100"
                         ></div>
                       </div>
-                      <p>Backend API</p>
-                      <div class="progress" style={{height: "5px"}}>
+                      <p>Verbal Ability & Reading Comprehension</p>
+                      <div class="progress" style={{ height: "5px" }}>
                         <div
                           class="progress-bar bg-info"
                           role="progressbar"
-                          style={{width: "66%"}}
+                          style={{ width: "66%" }}
                           aria-valuenow="66"
                           aria-valuemin="0"
                           aria-valuemax="100"
