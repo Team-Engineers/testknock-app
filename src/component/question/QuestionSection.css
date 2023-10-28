@@ -22,7 +22,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-size: 20px;
     width: 100%;
-    max-width: 900px;
+    max-width: 800px;
 }
 
 .mcq-container ul li.correct,
@@ -98,39 +98,31 @@
     color: white;
     border: none;
     padding: 5px 10px;
-    /* Adjust the padding to make the button smaller */
     cursor: pointer;
-    margin: 10px auto;
-    /* Center-align horizontally */
+    margin: 10px 0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     border-radius: 10px;
-    /* Rounded corners */
+    font-size: 14px;
 }
 
 .explanation-icon {
     margin-left: 5px;
-    /* Add some spacing between the image and text */
-    width: 20px;
-    /* Adjust the width of the image as needed */
-    height: 20px;
-    /* Adjust the height of the image as needed */
+    width: 14px;
+    height: 14px;
 }
 
 .explanation {
     background-color: transparent;
-    /* Clear background color */
     border: 1px solid white;
-    /* White border */
     border-radius: 10px;
     padding: 10px;
     margin-top: 10px;
-    margin: 10px auto;
-    /* Center-align horizontally */
+    margin: 10px 0;
     display: block;
-    /* Make it a block-level element for centering */
     width: fit-content;
+    text-align: left;
 }
 
 .explanation.active {
