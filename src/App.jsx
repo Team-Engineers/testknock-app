@@ -9,6 +9,7 @@ import UserProfile from "./pages/user/UserProfile";
 import ScrollToTop from "./component/scrolltotop/ScrollToTop";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
+import QuestionSeries from "./component/questions/QuestionSeries";
 
 const App = () => {
   return (
@@ -22,6 +23,8 @@ const App = () => {
           <Route path="/:topic/:subTopic" element={<SubTopicQuestion />} />
           <Route path="/:topic" element={<SubTopicsList />} />
           <Route path="/user" element={<UserProfile />} />
+        <Route path="/questionpractice" element={<QuestionSeries />} />"
+            
         </Routes>
       </BrowserRouter>
     </Provider>

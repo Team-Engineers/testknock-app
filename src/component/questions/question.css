@@ -1,0 +1,126 @@
+.question-container {
+  border: 2px solid #333;
+  padding: 10px;
+  margin: 10px;
+  background-color: white;
+  border-radius: 15px;
+  text-align: left;
+  position: relative;
+  width: 150%;
+}
+
+.question-box {
+  background-color: transparent;
+  color: #333;
+  padding: 15px;
+  margin: 10px 50px;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.question-number {
+  font-size: 18px;
+  font-weight: bold;
+  /* position: absolute;
+  top: 0;
+  left: 0; */
+  height: 30px;
+  width: 30px;
+  border: 1px solid;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: -1px;
+  background: antiquewhite;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-box {
+  background-color: transparent;
+  border: 1px solid #333;
+  color: #333;
+  padding: 15px;
+  margin: 14px 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 85%;
+}
+.options-grid .incorrect {
+  border: 2px solid red !important;
+}
+.options-grid .correct {
+  border: 2px solid green !important;
+}
+
+.correct .option-alphabet {
+  background-color: green;
+  color: white;
+}
+.incorrect .option-alphabet {
+  background-color: red;
+  color: white;
+}
+
+.option-alphabet {
+  font-weight: bold;
+  color: #111;
+  margin-right: 15px;
+  border: 1px solid gray;
+  border-radius: 100%;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.correct-answer {
+  margin-left: auto;
+}
+
+.incorrect-answer {
+  margin-left: auto;
+}
+
+@media screen and (max-width: 1024px) {
+  .question-container {
+    max-width: 60%;
+  }
+
+  .question-box {
+    width: 100%;
+  }
+
+  .option-box {
+    width: 70%;
+  }
+
+  .options-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+
+.question-image{
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
