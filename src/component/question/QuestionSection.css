@@ -6,12 +6,12 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.mcq-section {
+.mcq-section , .question-section {
     margin: 20px auto;
     max-width: 150%;
 }
 
-.mcq-container {
+.mcq-container , .question-container {
     background: linear-gradient(to right, #2e2b2b, #000);
     color: white;
     padding: 30px;
@@ -30,13 +30,13 @@
     color: inherit;
 }
 
-.question-header {
+.question-header, .para-header {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.question-number {
+.question-number, .para-number {
     font-weight: bold;
     font-size: 24px;
     color: white;
@@ -62,7 +62,7 @@
 }
 
 .mcq-container ul li:hover {
-    font-weight: bold;
+    /* font-weight: bold; */
     cursor: pointer;
 }
 
@@ -127,4 +127,38 @@
 
 .explanation.active {
     display: block;
+}
+
+.images-container {
+
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+    gap: 20px;
+}
+
+.images-container img{
+    height: 100px;
+    width : 100px;
+    border-radius: 10px;
+}
+.option-container {
+
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.option-container img{
+    height: 100px;
+    width : 100px;
+    border-radius: 10px;
+}
+
+.option-section{
+    display: flex;
 }
