@@ -22,9 +22,9 @@
 .question-number {
   font-size: 18px;
   font-weight: bold;
-  position: absolute;
+  /* position: absolute;
   top: 0;
-  left: 0;
+  left: 0; */
   height: 30px;
   width: 30px;
   border: 1px solid;
@@ -112,4 +112,15 @@
   .options-container {
     grid-template-columns: repeat(1, 1fr);
   }
+}
+
+
+.question-image{
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
