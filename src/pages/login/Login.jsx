@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './login.css';
 import MobileLogin from './MobileLogin';
 import Logo from '../../assets/images/logo.png'
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../utils/userSlice';
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
@@ -33,6 +34,20 @@ const Login = () => {
     }
   },[])
 
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
+
+  const handleLogin = () =>{
+    const userData  = {
+      "name" : "Ashutosh",
+      "email" : "aashutoshmishra296@gmail.com",
+      "password" : "1234",
+    }
+    dispatch(setUser(userData));
+    alert("login successfully")
+    Navigate('/');
+  }
+
 
   return (
     <section className="login">
@@ -52,7 +67,7 @@ const Login = () => {
                   <input type="text" placeholder="Name" />
                   <input type="email" placeholder="Email" />
                   <input type="password" placeholder="Password" />
-                  <button>Sign Up</button>
+                  <button onClick={handleLogin}>Sign Up</button>
                 </form>
               </div>
             </div>
@@ -67,7 +82,7 @@ const Login = () => {
                 <input type="email" placeholder="Email" />
                 <input type="password" placeholder="Password" />
                 <Link to = "/forgotpassword"><h6 className='my-3'>Forgot your password?</h6></Link>
-                <button>Sign In</button>
+                <button onClick={handleLogin}>Sign In</button>
               </form>
             </div>
           </div>
