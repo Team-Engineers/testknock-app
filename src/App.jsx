@@ -1,30 +1,73 @@
 import React from "react";
-import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom";
+import { Provider, useSelector } from "react-redux";
+import appStore from "./utils/appStore";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import ForgotPassword from "./pages/forgotpassword/ForgotPassword";
 import SubTopicQuestion from "./pages/subtopicQuestion/SubTopicQuestion";
 import SubTopicsList from "./pages/subtopicslist/SubTopicsList";
 import UserProfile from "./pages/user/UserProfile";
-import ScrollToTop from "./component/scrolltotop/ScrollToTop";
-import { Provider } from "react-redux";
-import appStore from "./utils/appStore";
-import QuestionSeries from "./component/questions/QuestionSeries";
+import Question from "./component/questions/Question";
+
+// Define a custom PrivateRoute component to check authentication
+function PrivateRoute({ element }) {
+  const user = useSelector((state) => state.user.user);
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return element;
+}
 
 const App = () => {
   return (
     <Provider store={appStore}>
       <BrowserRouter>
-        <ScrollToTop />
         <Routes>
-          <Route exact path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/:topic/:subTopic" element={<SubTopicQuestion />} />
-          <Route path="/:topic" element={<SubTopicsList />} />
-          <Route path="/user" element={<UserProfile />} />
-        <Route path="/questionpractice" element={<QuestionSeries />} />"
-            
+          <Route
+            path="/"
+            element={
+              <PrivateRoute
+                element={<Home />}
+              />
+            }
+          />
+          <Route
+            path="/:topic/:subTopic"
+            element={
+              <PrivateRoute
+                element={<SubTopicQuestion />}
+              />
+            }
+          />
+          <Route
+            path="/:topic"
+            element={
+              <PrivateRoute
+                element={<SubTopicsList />}
+              />
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <PrivateRoute
+                element={<UserProfile />}
+              />
+            }
+          />
+          <Route
+            path="/questionpractice"
+            element={
+              <PrivateRoute
+                element={<Question />}
+              />
+            }
+          />
         </Routes>
       </BrowserRouter>
     </Provider>
