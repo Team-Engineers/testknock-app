@@ -1,4 +1,4 @@
-.question-container {
+.question-practice .question-container {
   border: 2px solid #333;
   padding: 10px;
   margin: 10px;
@@ -9,7 +9,7 @@
   width: 150%;
 }
 
-.question-box {
+.question-practice .question-box {
   background-color: transparent;
   color: #333;
   padding: 15px;
@@ -19,7 +19,7 @@
   font-weight: bold;
 }
 
-.question-number {
+.question-practice .question-number {
   font-size: 18px;
   font-weight: bold;
   /* position: absolute;
@@ -36,17 +36,17 @@
   background: antiquewhite;
 }
 
-.options-container {
+.question-practice .options-container {
   display: flex;
   flex-direction: column;
 }
 
-.options-grid {
+.question-practice .options-grid {
   display: flex;
   flex-direction: column;
 }
 
-.option-box {
+.question-practice .option-box {
   background-color: transparent;
   border: 1px solid #333;
   color: #333;
@@ -59,23 +59,23 @@
   transition: background-color 0.3s;
   width: 85%;
 }
-.options-grid .incorrect {
+.question-practice .options-grid .incorrect {
   border: 2px solid red !important;
 }
-.options-grid .correct {
+.question-practice .options-grid .correct {
   border: 2px solid green !important;
 }
 
-.correct .option-alphabet {
+.question-practice .correct .option-alphabet {
   background-color: green;
   color: white;
 }
-.incorrect .option-alphabet {
+.question-practice .incorrect .option-alphabet {
   background-color: red;
   color: white;
 }
 
-.option-alphabet {
+.question-practice .option-alphabet {
   font-weight: bold;
   color: #111;
   margin-right: 15px;
@@ -88,34 +88,34 @@
   align-items: center;
 }
 
-.correct-answer {
+.question-practice .correct-answer {
   margin-left: auto;
 }
 
-.incorrect-answer {
+.question-practice .incorrect-answer {
   margin-left: auto;
 }
 
 @media screen and (max-width: 1024px) {
-  .question-container {
+  .question-practice .question-container {
     max-width: 60%;
   }
 
-  .question-box {
+  .question-practice .question-box {
     width: 100%;
   }
 
-  .option-box {
+  .question-practice .option-box {
     width: 70%;
   }
 
-  .options-container {
+  .question-practice .options-container {
     grid-template-columns: repeat(1, 1fr);
   }
 }
 
 
-.question-image{
+.question-practice .question-image{
   height: 100px;
   width: 100px;
   object-fit: cover;

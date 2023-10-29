@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom";
 import { Provider, useSelector } from "react-redux";
@@ -9,6 +10,8 @@ import SubTopicQuestion from "./pages/subtopicQuestion/SubTopicQuestion";
 import SubTopicsList from "./pages/subtopicslist/SubTopicsList";
 import UserProfile from "./pages/user/UserProfile";
 import Question from "./component/questions/Question";
+import QuestionSection from './component/question/QuestionSection'; 
+
 
 // Define a custom PrivateRoute component to check authentication
 function PrivateRoute({ element }) {
@@ -65,6 +68,14 @@ const App = () => {
             element={
               <PrivateRoute
                 element={<Question />}
+              />
+            }
+          />
+          <Route
+            path="/quizquestion"
+            element={
+              <PrivateRoute
+                element={<QuestionSection />}
               />
             }
           />

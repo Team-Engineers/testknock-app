@@ -163,154 +163,163 @@ const Question = () => {
     setSelectedOption(optionIndex);
   };
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6">
-          {data.map((item, index) => (
-            <div key={index} className="question-container">
-              <div className="question-box">
-                <div className="d-flex justify-content-start align-items-center gap-3">
-                  <span className="question-number">{`P${index + 1} `}</span>
-                  <span className="question-text">{item.paragraph}</span>
+    <section className="question-practice">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6">
+            {data.map((item, index) => (
+              <div key={index} className="question-container">
+                <div className="question-box">
+                  <div className="d-flex justify-content-start align-items-center gap-3">
+                    <span className="question-number">{`P${index + 1} `}</span>
+                    <span className="question-text">{item.paragraph}</span>
+                  </div>
+                  <div className="d-flex justify-content-center align-items-center gap-3">
+                    {item.images &&
+                      item.images.map((image, imageIndex) => (
+                        <img
+                          className="question-image"
+                          key={imageIndex}
+                          src={image}
+                          alt={`Img ${imageIndex + 1}`}
+                        />
+                      ))}
+                  </div>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-3">
-                  {item.images &&
-                    item.images.map((image, imageIndex) => (
-                      <img
-                        className="question-image"
-                        key={imageIndex}
-                        src={image}
-                        alt={`Img ${imageIndex + 1}`}
-                      />
-                    ))}
-                </div>
-              </div>
-              <div className="options-container">
-                {item.questions.map((question, questionIndex) => (
-                  <div key={questionIndex} className="options-grid">
-                    <div className="question-box">
-                      <div className="d-flex justify-content-start align-items-center gap-3">
-                        <span className="question-number">{`${
-                          questionIndex + 1
-                        } `}</span>
-                        <span className="question-text">{question.text}</span>
-                      </div>
-                      <div className="d-flex justify-content-center align-items-center gap-3">
-                        {question.image &&
-                          question.image.map((image, imageIndex) => (
-                            <img
-                              className="question-image"
-                              key={imageIndex}
-                              src={image}
-                              alt={`Img ${imageIndex + 1}`}
-                            />
-                          ))}
-                      </div>
-                    </div>
-                    {question.options.map((option, optionIndex) => (
-                      <div
-                        key={optionIndex}
-                        className={`option-box ${
-                          selectedOption !== null &&
-                          selectedOption === optionIndex
-                            ? question.correctOptionIndex === optionIndex
-                              ? "correct"
-                              : "incorrect"
-                            : ""
-                        }`}
-                        onClick={() => handleOptionClick(optionIndex)}
-                      >
-                        <span className="option-alphabet">
-                          {alphabets[optionIndex]}
-                        </span>
-                        <div className="d-flex justify-content-start gap-3 w-100 align-items-center ">
-                          {option.text}
-                          {option.image ? (
-                            <img
-                              className="question-image"
-                              src={option.image}
-                              alt={`Img ${optionIndex + 1}`}
-                            />
-                          ) : (
-                            ""
-                          )}
+                <div className="options-container">
+                  {item.questions.map((question, questionIndex) => (
+                    <div key={questionIndex} className="options-grid">
+                      <div className="question-box">
+                        <div className="d-flex justify-content-start align-items-center gap-3">
+                          <span className="question-number">{`${
+                            questionIndex + 1
+                          } `}</span>
+                          <span className="question-text">{question.text}</span>
                         </div>
-                        <div className="d-flex">
-                          {question.correctOptionIndex === optionIndex &&
-                            selectedOption === optionIndex && (
-                              <span className="correct-answer">
-                                <i className="fa-solid fa-check"></i>
-                              </span>
-                            )}
-                          {selectedOption !== null &&
-                            selectedOption === optionIndex &&
-                            question.correctOptionIndex !== optionIndex && (
-                              <span className="incorrect-answer">
-                                <i className="fa-solid fa-xmark"></i>
-                              </span>
-                            )}
+                        <div className="d-flex justify-content-center align-items-center gap-3">
+                          {question.image &&
+                            question.image.map((image, imageIndex) => (
+                              <img
+                                className="question-image"
+                                key={imageIndex}
+                                src={image}
+                                alt={`Img ${imageIndex + 1}`}
+                              />
+                            ))}
                         </div>
                       </div>
-                    ))}
-                    <div class="accordion" id={`accordionExample`}>
-                      <div class="accordion-item">
-                        <h2 class="accordion-header">
-                          <button
-                            class="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target={`#collapse${questionIndex}`}
-                            aria-expanded="true"
-                            aria-controls={`collapse${questionIndex}`}
-                          >
-                            Explain It
-                          </button>
-                        </h2>
+                      {question.options.map((option, optionIndex) => (
                         <div
-                          id={`collapse${questionIndex}`}
-                          class="accordion-collapse collapse"
-                          //   aria-labelledby={`heading${index}`}
-                          data-bs-parent={`#accordionExample-${questionIndex}`}
+                          key={optionIndex}
+                          className={`option-box ${
+                            selectedOption !== null &&
+                            selectedOption === optionIndex
+                              ? question.correctOptionIndex === optionIndex
+                                ? "correct"
+                                : "incorrect"
+                              : ""
+                          }`}
+                          onClick={() => handleOptionClick(optionIndex)}
                         >
-                          <div class="accordion-body">
-                            <strong>
-                              This is the explanation for this question.
-                            </strong>
-                            {item.questions[questionIndex].explanation.text.map(
-                              (explanationText, explanationIndex) => (
-                                <p key={explanationIndex}>{explanationText}</p>
-                              )
+                          <span className="option-alphabet">
+                            {alphabets[optionIndex]}
+                          </span>
+                          <div className="d-flex justify-content-start gap-3 w-100 align-items-center ">
+                            {option.text}
+                            {option.image ? (
+                              <img
+                                className="question-image"
+                                src={option.image}
+                                alt={`Img ${optionIndex + 1}`}
+                              />
+                            ) : (
+                              ""
                             )}
-                            <div className="d-flex justify-content-center align-items-center gap-3">
-                              {item.questions[questionIndex].explanation
-                                .image &&
-                                item.questions[
-                                  questionIndex
-                                ].explanation.image.map(
-                                  (explanationImage, explanationImageIndex) => (
-                                    <img
-                                      className="question-image"
-                                      key={explanationImageIndex}
-                                      src={explanationImage}
-                                      alt={`Explanation Img ${
-                                        explanationImageIndex + 1
-                                      }`}
-                                    />
-                                  )
-                                )}
+                          </div>
+                          <div className="d-flex">
+                            {question.correctOptionIndex === optionIndex &&
+                              selectedOption === optionIndex && (
+                                <span className="correct-answer">
+                                  <i className="fa-solid fa-check"></i>
+                                </span>
+                              )}
+                            {selectedOption !== null &&
+                              selectedOption === optionIndex &&
+                              question.correctOptionIndex !== optionIndex && (
+                                <span className="incorrect-answer">
+                                  <i className="fa-solid fa-xmark"></i>
+                                </span>
+                              )}
+                          </div>
+                        </div>
+                      ))}
+                      <div class="accordion" id={`accordionExample`}>
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button
+                              class="accordion-button collapsed"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target={`#collapse${questionIndex}`}
+                              aria-expanded="true"
+                              aria-controls={`collapse${questionIndex}`}
+                            >
+                              Explain It
+                            </button>
+                          </h2>
+                          <div
+                            id={`collapse${questionIndex}`}
+                            class="accordion-collapse collapse"
+                            //   aria-labelledby={`heading${index}`}
+                            data-bs-parent={`#accordionExample-${questionIndex}`}
+                          >
+                            <div class="accordion-body">
+                              <strong>
+                                This is the explanation for this question.
+                              </strong>
+                              {item.questions[
+                                questionIndex
+                              ].explanation.text.map(
+                                (explanationText, explanationIndex) => (
+                                  <p key={explanationIndex}>
+                                    {explanationText}
+                                  </p>
+                                )
+                              )}
+                              <div className="d-flex justify-content-center align-items-center gap-3">
+                                {item.questions[questionIndex].explanation
+                                  .image &&
+                                  item.questions[
+                                    questionIndex
+                                  ].explanation.image.map(
+                                    (
+                                      explanationImage,
+                                      explanationImageIndex
+                                    ) => (
+                                      <img
+                                        className="question-image"
+                                        key={explanationImageIndex}
+                                        src={explanationImage}
+                                        alt={`Explanation Img ${
+                                          explanationImageIndex + 1
+                                        }`}
+                                      />
+                                    )
+                                  )}
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
