@@ -27,7 +27,7 @@ const Banner = () => {
                   Master Aptitude: Elevate Your Skills, Ace Tests, and Achieve
                   Academic Excellence Today!
                 </h6>
-               <Link to='/question'> <button className="btn btn-dark" >
+               <Link to='/quizquestion'> <button className="btn btn-dark" >
         Start Quiz <i className="fa-solid fa-arrow-right"></i>
       </button> </Link>
               </div>

@@ -181,107 +181,113 @@ const MCQSection = () => {
   const getAlphabet = (index) => String.fromCharCode(65 + index);
 
   return (
-    <div className="mcq-section">
-      {data.map((item, index) => (
-        <div key={index} className="mcq-container">
-          <div className="para-header">
-            <span className="para-number">{`Para ${index + 1}:`}</span>
-            <h2>{item.paragraph}</h2>
-          </div>
-          <div className="images-container">
-            {item.images.map((image, imageIndex) => (
-              <img
-                key={imageIndex}
-                src={image}
-                alt={`Img ${imageIndex + 1}`}
-                className="para-images"
-              />
-            ))}
-          </div>
-          <div className="question-section">
-            {item.questions.map((question, questionIndex) => (
-              <div key={questionIndex} className="question-container">
-                <div className="question-header">
-                  <span className="question-number">{`Q ${
-                    questionIndex + 1
-                  }:`}</span>
-                  <h2>{question.text}</h2>
-                </div>
-                <div className="images-container">
-                  {question.image.map((image, imageIndex) => (
-                    <img
-                      key={imageIndex}
-                      src={image}
-                      alt={`Img ${imageIndex + 1}`}
-                      className="para-images"
-                    />
-                  ))}
-                </div>
-                <ul>
-                  {question.options.map((option, optionIndex) => (
-                    <li
-                      key={optionIndex}
-                      className={
-                        selectedOptions[questionIndex] === optionIndex
-                          ? optionIndex === question.correctOptionIndex
-                            ? "correct"
-                            : "incorrect"
-                          : ""
-                      }
-                      onClick={() => handleOptionSelect(questionIndex, optionIndex)}
-                    >
-                      <div className="option-section">
-                        <span className="alphabet">
-                          {getAlphabet(optionIndex)}.{" "}
-                        </span>
-                        <div className="option-container">
-                          <div className="option-text">{option.text}</div>
-                          <img
-                            src={option.image}
-                            alt={`Img ${optionIndex + 1}`}
-                            className="option-image"
-                          />
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  className="explanation-button"
-                  onClick={() => handleExplanationToggle(questionIndex)}
-                >
-                  {explanationVisible[questionIndex]
-                    ? "Hide Explanation"
-                    : "Show Explanation"}
-                  <img
-                    src={commentsImage}
-                    alt="Explanation"
-                    className="explanation-icon"
-                  />
-                </button>
-                {explanationVisible[questionIndex] && (
-                  <div className="explanation">
-                    {question.explanation.text.map((explanationText, index) => (
-                      <p key={index}>{explanationText}</p>
-                    ))}
-                    <div className="images-container">
-                      {question.explanation.image.map((image, imageIndex) => (
-                        <img
-                          key={imageIndex}
-                          src={image}
-                          alt={`Explanation Img ${imageIndex + 1}`}
-                          className="para-images"
-                        />
-                ))}
-                    </div>
+    <section className="quiz-section">
+      <div className="mcq-section">
+        {data.map((item, index) => (
+          <div key={index} className="mcq-container">
+            <div className="para-header">
+              <span className="para-number">{`Para ${index + 1}:`}</span>
+              <h2>{item.paragraph}</h2>
+            </div>
+            <div className="images-container">
+              {item.images.map((image, imageIndex) => (
+                <img
+                  key={imageIndex}
+                  src={image}
+                  alt={`Img ${imageIndex + 1}`}
+                  className="para-images"
+                />
+              ))}
+            </div>
+            <div className="question-section">
+              {item.questions.map((question, questionIndex) => (
+                <div key={questionIndex} className="question-container">
+                  <div className="question-header">
+                    <span className="question-number">{`Q ${
+                      questionIndex + 1
+                    }:`}</span>
+                    <h2>{question.text}</h2>
                   </div>
-                )}
-              </div>
-            ))}
+                  <div className="images-container">
+                    {question.image.map((image, imageIndex) => (
+                      <img
+                        key={imageIndex}
+                        src={image}
+                        alt={`Img ${imageIndex + 1}`}
+                        className="para-images"
+                      />
+                    ))}
+                  </div>
+                  <ul>
+                    {question.options.map((option, optionIndex) => (
+                      <li
+                        key={optionIndex}
+                        className={
+                          selectedOptions[questionIndex] === optionIndex
+                            ? optionIndex === question.correctOptionIndex
+                              ? "correct"
+                              : "incorrect"
+                            : ""
+                        }
+                        onClick={() =>
+                          handleOptionSelect(questionIndex, optionIndex)
+                        }
+                      >
+                        <div className="option-section">
+                          <span className="alphabet">
+                            {getAlphabet(optionIndex)}.{" "}
+                          </span>
+                          <div className="option-container">
+                            <div className="option-text">{option.text}</div>
+                            <img
+                              src={option.image}
+                              alt={`Img ${optionIndex + 1}`}
+                              className="option-image"
+                            />
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    className="explanation-button"
+                    onClick={() => handleExplanationToggle(questionIndex)}
+                  >
+                    {explanationVisible[questionIndex]
+                      ? "Hide Explanation"
+                      : "Show Explanation"}
+                    <img
+                      src={commentsImage}
+                      alt="Explanation"
+                      className="explanation-icon"
+                    />
+                  </button>
+                  {explanationVisible[questionIndex] && (
+                    <div className="explanation">
+                      {question.explanation.text.map(
+                        (explanationText, index) => (
+                          <p key={index}>{explanationText}</p>
+                        )
+                      )}
+                      <div className="images-container">
+                        {question.explanation.image.map((image, imageIndex) => (
+                          <img
+                            key={imageIndex}
+                            src={image}
+                            alt={`Explanation Img ${imageIndex + 1}`}
+                            className="para-images"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </section>
   );
 };
 
