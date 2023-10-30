@@ -5,7 +5,7 @@ import styled from "styled-components";
 const TopicCard = styled.li`
   height: 4rem;
   padding: 1rem;
-  margin: 1rem;
+  margin: 1rem 0;
   background-color: white;
   width: 15rem;
   border-radius: 20px;
@@ -58,7 +58,7 @@ const SubTopics = (props) => {
         <div className="col-md-8">
           <MarginTop>
             <h2 className="fs-5 fw-bolder mb-5">Subtopics</h2>
-            <ul>
+            <ul style = {{width : "fit-content"}}> 
               {selectedSubTopics.map((subtopic, index) => (
                 <Link to={`/${props.topic}/${subtopic}`}>
                   <TopicCard key={index}>{subtopic}</TopicCard>
