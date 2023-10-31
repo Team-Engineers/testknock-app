@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -43,7 +43,7 @@ const UserProfile = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     const storedUserData = JSON.parse(localStorage.getItem("user")); // Parse the JSON string to get the object
-    console.log("localstorage data", storedUserData);
+    // console.log("localstorage data", storedUserData);
     if (storedUserData._id) {
       const userData = {
         email: email || sliceEmail,
@@ -56,7 +56,7 @@ const UserProfile = () => {
       };
 
       const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
-      console.log("accesstoken", accessToken);
+      // console.log("accesstoken", accessToken);
       if (accessToken) {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
@@ -73,17 +73,15 @@ const UserProfile = () => {
           .then((response) => {
             if (response.status === 200) {
               const user = response.data;
-              console.log("yeh kya ho rha hai ",user);
               localStorage.setItem("user", JSON.stringify(user));
               setDetails();
               alert("User data updated successfully");
 
             } else {
-              alert("Failed to update user data");
+              alert("Failed to update user data, Email is in use");
             }
           })
           .catch((error) => {
-            console.error("Error:", error);
             alert("Failed to update user data");
           });
       } else {
@@ -93,27 +91,42 @@ const UserProfile = () => {
   };
   const setDetails = () => {
     const storedUserData = JSON.parse(localStorage.getItem("user"));
-    // console.log("it;s time to remove",storedUserData)
     if (storedUserData) {
       dispatch(setSliceName(storedUserData.name || sliceName));
       dispatch(setSliceEmail(storedUserData.email || sliceEmail));
+
       dispatch(
         setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL)
       );
+      // setName(storedUserData.name || sliceName)
+
       dispatch(setSliceBranch(storedUserData.branch || sliceBranch));
+
       dispatch(setSliceYear(storedUserData.year || sliceYear));
+
       dispatch(setSliceInstitute(storedUserData.institute || sliceInstitute));
+
       dispatch(setSliceContact(storedUserData.contact || sliceContact));
+      
     } 
     else {
-      // User data is not present in localStorage
-      // Clear the access token
-      // console.log("i'm soory bye bye")
       localStorage.removeItem("accessToken");
-      // Redirect to the login page
       Navigate("/login");
     }
   };
+
+  useEffect(()=>{
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
+    // console.log("data browser",storedUserData)
+    setName(storedUserData.name)
+    setEmail(storedUserData.email )
+    setBranch(storedUserData.branch)
+    // console.log("branch",storedUserData.branch)
+    setYear(storedUserData.year)
+    setInstitute(storedUserData.institute)
+    setContact(storedUserData.contact);
+
+  },[])
 
   return (
     <section className="userProfile">
@@ -182,7 +195,7 @@ const UserProfile = () => {
                 <div class="card-body">
                   <div class="row mb-3">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Full Name</h6>
+                      <h6 class="mb-0">Name</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
                       <input
