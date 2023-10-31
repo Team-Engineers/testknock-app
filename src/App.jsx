@@ -17,14 +17,16 @@ function PrivateRoute({ element }) {
     return tokenData && new Date().getTime() < tokenData.expiry;
   };
 
-  if (!isUserSignedIn() && (element.type.name === "Login" || element.type.name === "ForgotPassword")) {
-    return element;
+  if (!isUserSignedIn()) {
+    return <Navigate to = "/login"/>;
   } else if (isUserSignedIn() && (element.type.name === "Login" || element.type.name === "ForgotPassword")) {
     return <Navigate to="/" />;
   }
-   else if(!isUserSignedIn()  && (element.type.name !== "Login" || element.type.name !== "ForgotPassword")){
-    return <Navigate to="/login" />;
-  }else{
+  //  else if(!isUserSignedIn()  && (element.type.name !== "Login" || element.type.name !== "ForgotPassword")){
+  //   return <Navigate to="/login" />;
+  // }
+  
+  else{
     return element
   }
 }
