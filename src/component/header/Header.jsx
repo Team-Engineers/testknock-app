@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TietLogo from "../../assets/images/logo.png";
-// import UserProfile from "../../assets/images/user-profile.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../utils/userSlice";
+import {
+  setSliceEmail,
+  setSliceName,
+  setSliceProfilePic,
+  setSliceBranch,
+  setSliceYear,
+  setSliceContact,
+  setSliceInstitute,
+} from "../../utils/userSlice";
+import { PROFILEPIC_URL } from "../../utils/constants";
 const HeaderSection = styled.section`
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -23,21 +32,89 @@ const HeaderSection = styled.section`
   }
 `;
 
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  display: ${(props) => (props.isOpen ? "block" : "none")};
+
+  ul  {
+    text-decoration : none;
+    list-style : none;
+    margin-right: 15px;
+    padding-left: 15px;
+  }
+`;
+
 const Header = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
+  // const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    // Remove the access token from local storage
+    localStorage.removeItem("accessToken");
+  
+    // Dispatch the logout action
+    dispatch(logoutUser());
+    navigate('/login')
   };
+  
 
-  const userName = useSelector((state) => state.user.userName);
+  // const toggleTheme = () => {
+  //   setIsDarkTheme(!isDarkTheme);
+  // };
 
-  const profilePic = useSelector((state) => state.user.userPic);
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+  const Navigate = useNavigate();
+
+
+  useEffect(() => {
+    const setDetails = () => {
+      const storedUserData = JSON.parse(localStorage.getItem("user"));
+
+      if (storedUserData) {
+        // User data is present in localStorage
+        dispatch(setSliceName(storedUserData.name));
+        dispatch(setSliceEmail(storedUserData.email));
+        dispatch(
+          setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL)
+        );
+        dispatch(setSliceBranch(storedUserData.branch));
+        dispatch(setSliceYear(storedUserData.year));
+        dispatch(setSliceInstitute(storedUserData.institute));
+        dispatch(setSliceContact(storedUserData.contact));
+      } else {
+        // User data is not present in localStorage
+        // Clear the access token
+        localStorage.removeItem("accessToken");
+        // Redirect to the login page
+        Navigate("/login");
+      }
+    };
+
+    setDetails();
+  }, [Navigate,dispatch]);
+
+
+
+  const userName = useSelector((state) => state.user.name);
+  const firstName = userName && userName.split(" ")[0];
+  const profilePic = useSelector((state) => state.user.profilePic);
+  
 
   // const profilePic = useSelector((store)=>store[userSlice.name].userProfile)
 
   return (
-    <HeaderSection darkTheme={isDarkTheme}>
+    <HeaderSection
+    //  darkTheme={isDarkTheme}
+     >
       <div className="container-fluid">
         <div className="row">
           <div className="col">
@@ -46,7 +123,7 @@ const Header = () => {
                 <img src={TietLogo} alt="tietLogo" className="w-25" />
               </Link>
               <div className="user-data d-flex justify-content-between gap-3 align-items-center">
-                <div
+                {/* <div
                   className={isDarkTheme ? "light-theme" : "dark-theme"}
                   onClick={toggleTheme}
                 >
@@ -55,22 +132,49 @@ const Header = () => {
                       isDarkTheme ? "fa-solid fa-sun" : "fa-solid fa-moon"
                     }
                   ></i>
-                </div>
+                </div> */}
                 <Link to="/user">
                   <div
                     className="name"
-                    style={{ color: isDarkTheme ? "#fff" : "inherit" }}
+                    // style={{ color: isDarkTheme ? "#fff" : "inherit" }}
                   >
-                    {userName}
+                    {firstName}
                   </div>
                 </Link>
-                <Link to="/user">
+                {/* <Link to="/user">
                   <img
                     src={profilePic}
                     alt="userLogo"
-                    style={{ borderRadius: "50%", width: "2rem" }}
+                    width="40"
+                    height="40"
+                    class="rounded-circle"
                   />
                 </Link>
+                <Link to="/login">
+                  <button className="btn btn-primary" onClick={handleLogOut}>Log Out</button>
+                </Link> */}
+                 <div
+                  className="profile-pic"
+                  onClick={handleDropdownToggle}
+                >
+                  <img
+                    src={profilePic}
+                    alt="userLogo"
+                    width="40"
+                    height="40"
+                    className="rounded-circle"
+                  />
+                  <DropdownMenu isOpen={isDropdownOpen}>
+                    <ul>
+                      <li>
+                        <Link to="/user">Profile</Link>
+                      </li>
+                      <li>
+                        <button className="btn p-0 text-primary"  onClick={handleLogOut}>Log Out</button>
+                      </li>
+                    </ul>
+                  </DropdownMenu>
+                </div>
               </div>
             </div>
           </div>

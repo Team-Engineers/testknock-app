@@ -21,6 +21,8 @@
   } */
 
   .bgColor{
+    margin-top: 10px;
+    color: white;
     min-height: 20rem;
     height : 20rem;
     width : 100%;
