@@ -11,11 +11,11 @@ import UserProfile from "./pages/user/UserProfile";
 import Question from "./component/questions/Question";
 import QuestionSection from "./component/question/QuestionSection";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import Nopage from "./pages/nopage/Nopage";
 
 const App = () => {
   const isUserSignedIn = () => {
     const tokenData = JSON.parse(localStorage.getItem("accessToken"));
-    console.log("whtat value",tokenData)
     return tokenData && new Date().getTime() < tokenData.expiry;
   };
   return (
@@ -23,22 +23,21 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route element={<PrivateRoutes />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/:topic/:subTopic" element={<SubTopicQuestion />} />
-            <Route path="/:topic" element={<SubTopicsList />} />
-            <Route path="/user" element={<UserProfile />} />
-            <Route path="/questionpractice" element={<Question />} />
-            <Route path="/quizquestion" element={<QuestionSection />} />
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/:topic/:subTopic" element={<SubTopicQuestion />} />
+            <Route exact path="/:topic" element={<SubTopicsList />} />
+            <Route exact path="/user" element={<UserProfile />} />
+            <Route exact path="/questionpractice" element={<Question />} />
+            <Route exact path="/quizquestion" element={<QuestionSection />} />
           </Route>
-
           {
             isUserSignedIn() ? (
-            <Route path="/" element={<Home />} />
+            <Route exact path="/" element={<Home />} />
             )
               :
-              <Route path="/login" element={<Login />} />
+              <Route exact path="/login" element={<Login />} />
           }
-          {/* <Route path="/forgotpassword" element={<ForgotPassword />} /> */}
+          <Route path="*" element={<Nopage />} />
         </Routes>
       </BrowserRouter>
     </Provider>
