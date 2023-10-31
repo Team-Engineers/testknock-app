@@ -43,7 +43,7 @@ const UserProfile = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     const storedUserData = JSON.parse(localStorage.getItem("user")); // Parse the JSON string to get the object
-    console.log("localstorage data", storedUserData);
+    // console.log("localstorage data", storedUserData);
     if (storedUserData._id) {
       const userData = {
         email: email || sliceEmail,
@@ -56,7 +56,7 @@ const UserProfile = () => {
       };
 
       const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
-      console.log("accesstoken", accessToken);
+      // console.log("accesstoken", accessToken);
       if (accessToken) {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
@@ -73,7 +73,6 @@ const UserProfile = () => {
           .then((response) => {
             if (response.status === 200) {
               const user = response.data;
-              console.log("yeh kya ho rha hai ",user);
               localStorage.setItem("user", JSON.stringify(user));
               setDetails();
               alert("User data updated successfully");
@@ -83,7 +82,7 @@ const UserProfile = () => {
             }
           })
           .catch((error) => {
-            console.error("Error:", error);
+            // console.error("Error:", error);
             alert("Failed to update user data");
           });
       } else {

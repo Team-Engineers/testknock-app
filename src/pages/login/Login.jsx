@@ -34,6 +34,7 @@ const Login = () => {
   };
 
   useEffect(() => {
+
     const checkIsMobileView = () => {
       if (window.innerWidth < 768) {
         setIsMobileView(true);
@@ -51,28 +52,6 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-
-  // const fetchUserDetails = async (userId) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://ourntamockpapers.onrender.com/api/users/find/${userId}`
-  //     );
-  //     if (response.status === 200) {
-  //       const userDetails = response.data;
-  //       // Store the fetched user details in your Redux store
-  //       dispatch(setSliceEmail(userDetails.email));
-  //       dispatch(setSliceName(userDetails.name));
-  //       dispatch(setSliceProfilePic(userDetails.profilePic));
-  //       // ... (other dispatch actions)
-  //     } else {
-  //       // Handle the error when fetching user details
-  //       console.error("Failed to fetch user details");
-  //     }
-  //   } catch (error) {
-  //     // Handle any API request errors
-  //     console.error("Error:", error);
-  //   }
-  // };
 
   const validateEmail = (email) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -101,14 +80,14 @@ const Login = () => {
         userData
       );
       if (response.status === 200) {
-        console.log(response);
+        // console.log(response);
         alert("Signup successful");
         setIsRightPanelActive(false);
       } else {
         alert("Signup failed");
       }
     } catch (error) {
-      console.error("Error:", error);
+      // console.error("Error:", error);
       alert("Signup failed");
     } finally {
       setIsLoading(false);
@@ -151,18 +130,18 @@ const Login = () => {
         }
         Navigate("/");
       } else {
-        console.warn("Unexpected status code:", response.status);
+        // console.warn("Unexpected status code:", response.status);
         setIsLoading(false);
 
         alert("Signin failed, email or username is wrong");
       }
     } catch (error) {
-      console.error("Error:", error);
+      // console.error("Error:", error);
 
       if (error.response) {
         alert("Signin failed, email or username is wrong");
 
-        console.error("Response data:", error.response.data);
+        // console.error("Response data:", error.response.data);
       }
 
       alert("Signin failed");

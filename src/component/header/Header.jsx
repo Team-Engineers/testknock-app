@@ -54,14 +54,12 @@ const Header = () => {
   // const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const handleLogOut = () => {
-    // Remove the access token from local storage
     localStorage.removeItem("accessToken");
   
-    // Dispatch the logout action
     dispatch(logoutUser());
-    navigate('/login')
+    // navigate('/login')
+    window.location.reload();
   };
   
 
