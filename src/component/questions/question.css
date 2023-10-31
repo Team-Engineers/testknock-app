@@ -1,29 +1,56 @@
 .question-practice .question-container {
-  border: 2px solid #333;
+  /* border: 2px solid #333; */
   padding: 10px;
-  margin: 10px;
+  margin: 0px 50px;
   background-color: white;
   border-radius: 15px;
   text-align: left;
   position: relative;
-  width: 150%;
+  width: 91%;
+  justify-content: center;
+  align-items: center;
 }
 
 .question-practice .question-box {
   background-color: transparent;
   color: #333;
   padding: 15px;
-  margin: 10px 50px;
+  /* border: 1px solid #333; */
+  margin: 10px 60px;
   border-radius: 15px;
   font-size: 20px;
   font-weight: bold;
+}
+.question-practice {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .question-practice .question-number {
   font-size: 18px;
   font-weight: bold;
   /* position: absolute;
-  top: 0;
+  top: 10px;
+  left: 0; */
+  height: 30px;
+  width: 30px;
+  border: 1px solid;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: -1px;
+  background: antiquewhite;
+}
+
+.question-practice .question-box .question-number {
+  font-size: 18px;
+  font-weight: bold;
+  /* position: absolute;
+  top: 10px;
   left: 0; */
   height: 30px;
   width: 30px;
@@ -44,6 +71,9 @@
 .question-practice .options-grid {
   display: flex;
   flex-direction: column;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 10px 0px;
 }
 
 .question-practice .option-box {
@@ -51,7 +81,7 @@
   border: 1px solid #333;
   color: #333;
   padding: 15px;
-  margin: 14px 60px;
+  margin: 14px 110px;
   border-radius: 15px;
   display: flex;
   align-items: center;
@@ -114,8 +144,7 @@
   }
 }
 
-
-.question-practice .question-image{
+.question-practice .question-image {
   height: 100px;
   width: 100px;
   object-fit: cover;
@@ -123,4 +152,44 @@
   justify-content: center;
   align-items: center;
   display: flex;
+}
+
+.question-text {
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.accordion {
+  margin: 14px 10px;
+  width: 98%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 220px;
+  padding: 5px;
+  height: 80px;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 68%;
+}
+.pagination .page-button {
+  margin: 2px;
+  border-radius: 5px;
+}
+.pagination .page-button:hover {
+  background-color: #9fe9a3;
+  color: rgb(15, 15, 15);
+}
+.button {
+  margin: 2px;
+}
+.p {
+  justify-content: baseline;
+  align-items: baseline;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0px;
 }

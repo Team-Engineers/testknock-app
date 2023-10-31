@@ -183,10 +183,10 @@ const MCQSection = () => {
   return (
     <section className="quiz-section">
       <div className="mcq-section">
-        {data.map((item, index) => (
-          <div key={index} className="mcq-container">
+        {data.map((item, paraIndex) => (
+          <div key={paraIndex} className="para-container">
             <div className="para-header">
-              <span className="para-number">{`Para ${index + 1}:`}</span>
+              <span className="para-number">{`Para ${paraIndex + 1}:`}</span>
               <h2>{item.paragraph}</h2>
             </div>
             <div className="images-container">
@@ -239,11 +239,13 @@ const MCQSection = () => {
                           </span>
                           <div className="option-container">
                             <div className="option-text">{option.text}</div>
-                            <img
-                              src={option.image}
-                              alt={`Img ${optionIndex + 1}`}
-                              className="option-image"
-                            />
+                            {option.image && (
+                              <img
+                                src={option.image}
+                                alt={`Img ${optionIndex + 1}`}
+                                className="option-image"
+                              />
+                            )}
                           </div>
                         </div>
                       </li>
@@ -269,16 +271,20 @@ const MCQSection = () => {
                           <p key={index}>{explanationText}</p>
                         )
                       )}
-                      <div className="images-container">
-                        {question.explanation.image.map((image, imageIndex) => (
-                          <img
-                            key={imageIndex}
-                            src={image}
-                            alt={`Explanation Img ${imageIndex + 1}`}
-                            className="para-images"
-                          />
-                        ))}
-                      </div>
+                      {question.explanation.image && (
+                        <div className="images-container">
+                          {question.explanation.image.map(
+                            (image, imageIndex) => (
+                              <img
+                                key={imageIndex}
+                                src={image}
+                                alt={`Explanation Img ${imageIndex + 1}`}
+                                className="para-images"
+                              />
+                            )
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
