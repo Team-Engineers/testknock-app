@@ -72,7 +72,7 @@ const App = () => {
             }
           />
           <Route
-            path="/quizquestion"
+            path="/quiz/:topic"
             element={
               <PrivateRoute
                 element={<QuestionSection />}
