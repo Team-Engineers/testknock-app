@@ -117,11 +117,11 @@ const UserProfile = () => {
 
   useEffect(()=>{
     const storedUserData = JSON.parse(localStorage.getItem("user"));
-    console.log("data browser",storedUserData)
+    // console.log("data browser",storedUserData)
     setName(storedUserData.name)
     setEmail(storedUserData.email )
     setBranch(storedUserData.branch)
-    console.log("branch",storedUserData.branch)
+    // console.log("branch",storedUserData.branch)
     setYear(storedUserData.year)
     setInstitute(storedUserData.institute)
     setContact(storedUserData.contact);
