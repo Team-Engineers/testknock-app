@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
@@ -11,21 +11,22 @@ import UserProfile from "./pages/user/UserProfile";
 import Question from "./component/questions/Question";
 import QuestionSection from "./component/question/QuestionSection";
 
-// Define a custom PrivateRoute component to check authentication
 function PrivateRoute({ element }) {
-  // Function to check if the access token is expired
-  const isAccessTokenValid = () => {
+  const isUserSignedIn = () => {
     const tokenData = JSON.parse(localStorage.getItem("accessToken"));
-    // console.log("browser tokendata", tokenData);
     return tokenData && new Date().getTime() < tokenData.expiry;
   };
 
-
-  if (!isAccessTokenValid()) {
-    return <Navigate to="/login" />;
+  if (!isUserSignedIn() && (element.type.name === "Login" || element.type.name === "ForgotPassword")) {
+    return element;
+  } else if (isUserSignedIn() && (element.type.name === "Login" || element.type.name === "ForgotPassword")) {
+    return <Navigate to="/" />;
   }
-
-  return element;
+   else if(!isUserSignedIn()  && (element.type.name !== "Login" || element.type.name !== "ForgotPassword")){
+    return <Navigate to="/login" />;
+  }else{
+    return element
+  }
 }
 
 const App = () => {
@@ -33,8 +34,12 @@ const App = () => {
     <Provider store={appStore}>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/login"
+          element={<PrivateRoute element={<Login />} />}
+          />
+          <Route path="/forgotpassword"
+           element={<PrivateRoute element={<ForgotPassword />} />}
+           />
           <Route path="/" element={<PrivateRoute element={<Home />} />} />
           <Route
             path="/:topic/:subTopic"

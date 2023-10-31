@@ -12,6 +12,8 @@ import {
 } from "../../utils/userSlice";
 import Header from "../../component/header/Header";
 import axios from "axios"; // Import Axios
+import { useNavigate } from "react-router-dom";
+import { PROFILEPIC_URL } from "../../utils/constants";
 
 const UserProfile = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +24,8 @@ const UserProfile = () => {
   const [contact, setContact] = useState("");
   const [institute, setInstitute] = useState("");
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
 
   const sliceName = useSelector((state) => state.user.name);
   const profile_url = useSelector((state) => state.user.profilePic);
@@ -32,7 +35,6 @@ const UserProfile = () => {
   const sliceContact = useSelector((state) => state.user.contact);
   const sliceInstitute = useSelector((state) => state.user.institute);
 
-
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setProfilePic(selectedFile);
@@ -40,10 +42,9 @@ const UserProfile = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    const userId = localStorage.getItem("userId");
-    console.log("saved user id", userId);
-  
-    if (userId) {
+    const storedUserData = JSON.parse(localStorage.getItem("user")); // Parse the JSON string to get the object
+    console.log("localstorage data", storedUserData);
+    if (storedUserData._id) {
       const userData = {
         email: email || sliceEmail,
         name: name || sliceName,
@@ -51,28 +52,33 @@ const UserProfile = () => {
         year: year || sliceYear,
         contact: contact || sliceContact,
         institute: institute || sliceInstitute,
+        profilePic: profilePic,
       };
-  
-      // Retrieve the access token from local storage
+
       const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
-      console.log("accesstoken",accessToken)
-      // Check if the access token is available
+      console.log("accesstoken", accessToken);
       if (accessToken) {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
         };
-  
+
         axios
-          .put(`https://ourntamockpapers.onrender.com/api/users/${userId}`, userData, {
-            headers: headers,
-          })
+          .put(
+            `https://ourntamockpapers.onrender.com/api/users/${storedUserData._id}`,
+            userData,
+            {
+              headers: headers,
+            }
+          )
           .then((response) => {
             if (response.status === 200) {
-              // Handle successful update response here
-              console.log(response);
+              const user = response.data;
+              console.log("yeh kya ho rha hai ",user);
+              localStorage.setItem("user", JSON.stringify(user));
+              setDetails();
               alert("User data updated successfully");
+
             } else {
-              // Handle error response here
               alert("Failed to update user data");
             }
           })
@@ -85,12 +91,29 @@ const UserProfile = () => {
       }
     }
   };
-  
-
-  // useEffect(()=>{
-  //   handleUserName();
-  //   console.log('usereffect is call from userprofile ')
-  // },[])
+  const setDetails = () => {
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
+    // console.log("it;s time to remove",storedUserData)
+    if (storedUserData) {
+      dispatch(setSliceName(storedUserData.name || sliceName));
+      dispatch(setSliceEmail(storedUserData.email || sliceEmail));
+      dispatch(
+        setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL)
+      );
+      dispatch(setSliceBranch(storedUserData.branch || sliceBranch));
+      dispatch(setSliceYear(storedUserData.year || sliceYear));
+      dispatch(setSliceInstitute(storedUserData.institute || sliceInstitute));
+      dispatch(setSliceContact(storedUserData.contact || sliceContact));
+    } 
+    else {
+      // User data is not present in localStorage
+      // Clear the access token
+      // console.log("i'm soory bye bye")
+      localStorage.removeItem("accessToken");
+      // Redirect to the login page
+      Navigate("/login");
+    }
+  };
 
   return (
     <section className="userProfile">

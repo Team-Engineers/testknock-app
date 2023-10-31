@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TietLogo from "../../assets/images/logo.png";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../utils/userSlice";
-
+import {
+  setSliceEmail,
+  setSliceName,
+  setSliceProfilePic,
+  setSliceBranch,
+  setSliceYear,
+  setSliceContact,
+  setSliceInstitute,
+} from "../../utils/userSlice";
+import { PROFILEPIC_URL } from "../../utils/constants";
 const HeaderSection = styled.section`
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -42,7 +51,7 @@ const DropdownMenu = styled.div`
 `;
 
 const Header = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  // const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,24 +65,56 @@ const Header = () => {
   };
   
 
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-  };
+  // const toggleTheme = () => {
+  //   setIsDarkTheme(!isDarkTheme);
+  // };
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+  const Navigate = useNavigate();
+
+
+  useEffect(() => {
+    const setDetails = () => {
+      const storedUserData = JSON.parse(localStorage.getItem("user"));
+
+      if (storedUserData) {
+        // User data is present in localStorage
+        dispatch(setSliceName(storedUserData.name));
+        dispatch(setSliceEmail(storedUserData.email));
+        dispatch(
+          setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL)
+        );
+        dispatch(setSliceBranch(storedUserData.branch));
+        dispatch(setSliceYear(storedUserData.year));
+        dispatch(setSliceInstitute(storedUserData.institute));
+        dispatch(setSliceContact(storedUserData.contact));
+      } else {
+        // User data is not present in localStorage
+        // Clear the access token
+        localStorage.removeItem("accessToken");
+        // Redirect to the login page
+        Navigate("/login");
+      }
+    };
+
+    setDetails();
+  }, [Navigate,dispatch]);
 
 
 
   const userName = useSelector((state) => state.user.name);
-  const firstName = userName.split(" ")[0]; // Split by space and get the first part
+  const firstName = userName && userName.split(" ")[0];
   const profilePic = useSelector((state) => state.user.profilePic);
+  
 
   // const profilePic = useSelector((store)=>store[userSlice.name].userProfile)
 
   return (
-    <HeaderSection darkTheme={isDarkTheme}>
+    <HeaderSection
+    //  darkTheme={isDarkTheme}
+     >
       <div className="container-fluid">
         <div className="row">
           <div className="col">
@@ -95,7 +136,7 @@ const Header = () => {
                 <Link to="/user">
                   <div
                     className="name"
-                    style={{ color: isDarkTheme ? "#fff" : "inherit" }}
+                    // style={{ color: isDarkTheme ? "#fff" : "inherit" }}
                   >
                     {firstName}
                   </div>

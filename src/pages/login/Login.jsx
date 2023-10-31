@@ -5,14 +5,14 @@ import Logo from "../../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
-  setSliceEmail,
+  // setSliceEmail,
   setSliceName,
   setSliceProfilePic,
-  setSliceBranch,
-  setSliceYear,
-  setSliceContact,
-  setSliceInstitute,
-  setSliceUserId
+  // setSliceBranch,
+  // setSliceYear,
+  // setSliceContact,
+  // setSliceInstitute,
+  // setSliceUserId,
 } from "../../utils/userSlice";
 import axios from "axios";
 
@@ -24,7 +24,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
-  const [emailError, setEmailError] = useState(""); // Add state for email validation error
 
   const handleSignUpClick = () => {
     setIsRightPanelActive(true);
@@ -85,14 +84,11 @@ const Login = () => {
     setDisableButton(true); // Disable the button
 
     if (!validateEmail(email)) {
-      setEmailError("Invalid email format");
       setIsLoading(false);
       setDisableButton(false);
       return;
-    } else {
-      setEmailError(""); // Clear the email error
     }
-    
+
     const userData = {
       name: name,
       email: email,
@@ -105,18 +101,15 @@ const Login = () => {
         userData
       );
       if (response.status === 200) {
-        // Handle successful signup response here
         console.log(response);
-        // alert("Signup successful");
+        alert("Signup successful");
         setIsRightPanelActive(false);
-        // Navigate("/login");
       } else {
-        // Handle error response here
-        // alert("Signup failed");
+        alert("Signup failed");
       }
     } catch (error) {
       console.error("Error:", error);
-      // alert("Signup failed");
+      alert("Signup failed");
     } finally {
       setIsLoading(false);
       setDisableButton(false); // Enable the button
@@ -129,12 +122,9 @@ const Login = () => {
     setDisableButton(true); // Disable the button
 
     if (!validateEmail(email)) {
-      setEmailError("Invalid email format");
       setIsLoading(false);
       setDisableButton(false);
       return;
-    } else {
-      setEmailError(""); // Clear the email error
     }
     const userData = {
       email: email,
@@ -148,49 +138,34 @@ const Login = () => {
       );
       if (response.status === 200) {
         const user = response.data;
-        console.log(user);
-        localStorage.setItem("user",user)
-        // const userId = user._id;
-        // Store the access token in local storage
+        localStorage.setItem("user", JSON.stringify(user));
         const tokenExpiry = new Date().getTime() + 5 * 24 * 60 * 60 * 1000; // 5 days
         const tokenData = {
           token: user.accessToken,
           expiry: tokenExpiry,
         };
         localStorage.setItem("accessToken", JSON.stringify(tokenData));
-        // console.log("accesstoken ",user.accessToken)
-        // Handle successful signin response here
-        // console.log(response);
-        // alert("Signin successful");
         dispatch(setSliceName(user.name));
-        // dispatch(setSliceUserId(userId));
-        // Set profilePic if it's not an empty string
         if (user.profilePic !== "") {
           dispatch(setSliceProfilePic(user.profilePic));
         }
-        // Store the user ID in local storage
-        // localStorage.setItem("userId", userId);
-
-        // Fetch additional user details using the user ID
-        // await fetchUserDetails(userId);
         Navigate("/");
       } else {
-
-        // Handle unexpected status codes here
         console.warn("Unexpected status code:", response.status);
+        setIsLoading(false);
+
         alert("Signin failed, email or username is wrong");
       }
     } catch (error) {
       console.error("Error:", error);
 
-      // Log the response data if available
       if (error.response) {
         alert("Signin failed, email or username is wrong");
 
         console.error("Response data:", error.response.data);
       }
 
-      // alert("Signin failed");
+      alert("Signin failed");
     } finally {
       setIsLoading(false);
       setDisableButton(false); // Enable the button
@@ -229,12 +204,11 @@ const Login = () => {
                       setName(e.target.value);
                     }}
                   />
-                   <input
+                  <input
                     type="email"
                     placeholder="Email"
                     onChange={(e) => {
                       setEmail(e.target.value);
-                      setEmailError(""); // Clear email error on change
                     }}
                   />
                   {/* {emailError && <p className="text-danger">{emailError}</p>} */}
@@ -245,7 +219,10 @@ const Login = () => {
                       setPassword(e.target.value);
                     }}
                   />
-                  <button onClick={handleSignUp} disabled={isLoading || disableButton}>
+                  <button
+                    onClick={handleSignUp}
+                    disabled={isLoading || disableButton}
+                  >
                     Sign Up
                   </button>
                   {isLoading && (
@@ -274,7 +251,6 @@ const Login = () => {
                     placeholder="Email"
                     onChange={(e) => {
                       setEmail(e.target.value);
-                      setEmailError(""); // Clear email error on change
                     }}
                   />
                   {/* {emailError && <p className="text-danger">{emailError}</p>} */}
@@ -288,7 +264,10 @@ const Login = () => {
                   <Link to="/forgotpassword">
                     <h6 className="my-3">Forgot your password?</h6>
                   </Link>
-                  <button onClick={handleSignIn} disabled={isLoading || disableButton}>
+                  <button
+                    onClick={handleSignIn}
+                    disabled={isLoading || disableButton}
+                  >
                     Sign In
                   </button>
                   {isLoading && (
