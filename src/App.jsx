@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Login from "./pages/login/Login";
@@ -17,16 +17,14 @@ function PrivateRoute({ element }) {
     return tokenData && new Date().getTime() < tokenData.expiry;
   };
 
-  if (!isUserSignedIn()) {
-    return <Navigate to = "/login"/>;
+  if (!isUserSignedIn() && (element.type.name === "Login" || element.type.name === "ForgotPassword")) {
+    return element;
   } else if (isUserSignedIn() && (element.type.name === "Login" || element.type.name === "ForgotPassword")) {
-    return <Navigate to="/" />;
+    return <Home/>;
   }
-  //  else if(!isUserSignedIn()  && (element.type.name !== "Login" || element.type.name !== "ForgotPassword")){
-  //   return <Navigate to="/login" />;
-  // }
-  
-  else{
+   else if(!isUserSignedIn()  && (element.type.name !== "Login" || element.type.name !== "ForgotPassword")){
+    return <Login/>;
+  }else{
     return element
   }
 }
