@@ -52,12 +52,14 @@ const Box2 = styled.h6`
   width: 12rem;
   margin-bottom: 0px;
   text-transform: uppercase;
+  overflow-wrap: break-word;
+
 `;
 
 const SubTopics = (props) => {
   // Define an object that maps topics to their respective subtopics
   const subtopicsData = {
-    "QUANTITATIVE APTITUDE": [
+    "QUANTITATIVE_APTITUDE": [
       "NUMBER SYSTEM",
       "AVERAGE",
       "PERCENTAGE",
@@ -70,7 +72,7 @@ const SubTopics = (props) => {
       "PROBABILITY",
       "PERMUTATION AND COMBINATION",
     ],
-    "LOGICAL REASONING": [
+    "LOGICAL_REASONING": [
       "CODING AND DECODING",
       "FAMILY TREE / BLOOD RELATIONS",
       "DIRECTIONS",
@@ -81,24 +83,23 @@ const SubTopics = (props) => {
       "MISCELLANEOUS",
       "ARRANGEMENTS",
     ],
-    "VERBAL ABILITY AND READING COMPREHENSION": [
-      "Sentence correction",
-      "Reading comprehension",
-      "Critical reasoning",
-      "Sentence completion",
-      " Syllogisms(verbal reasoning)",
-      "Vocabulary ",
-      "Analogy ",
+    "VERBAL_ABILITY_AND_READING_COMPREHENSION": [
+      "SENTENCE CORRECTION",
+      "READING COMPREHENSION",
+      "CRITICAL REASONING",
+      "SENTENCE COMPLETION",
+      " SYLLOGISMS(VERBAL REASONING)",
+      "VOCABULARY ",
+      "ANALOGY ",
     ],
-    "DATA INTERPRETATION": [
-      "Bar chart",
-      "Pie chart ",
-      "Table chart",
-      "Line chart",
+    "DATA_INTERPRETATION": [
+      "BAR CHART",
+      "PIE CHART ",
+      "TABLE CHART",
+      "LINE CHART",
     ],
   };
 
-  // Get the subtopics based on the selected topic
   const selectedSubTopics = subtopicsData[props.topic] || [];
 
   return (
@@ -109,7 +110,7 @@ const SubTopics = (props) => {
             <h2 className="fs-5 fw-bolder mb-5">Subtopics</h2>
             <Wrapper>
               {selectedSubTopics.map((subtopic, index) => (
-                <Link to={`/${props.topic}/${subtopic}`}>
+                <Link to={`/${props.topic}/${subtopic}`} key = {index}>
                   <TopicCard>
                     <Box>
                       <Box1>

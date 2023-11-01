@@ -167,10 +167,10 @@ const Question = () => {
     <section className="question-practice">
       <div className="container">
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-3">
             <RecommendedSubTopics/>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-9">
             {data.map((item, index) => (
               <div key={index} className="question-container">
                 <div className="question-box">

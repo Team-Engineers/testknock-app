@@ -11,8 +11,8 @@ const TopicCard = styled.li`
   align-items: center;
   border: dashed;
   text-align: center;
-  background:  ${(props) => (props.isCurrentTopic ? "blueviolet" : "inherit")} ;
-  color:  ${(props) => (props.isCurrentTopic ? "white" : "inherit")};
+  background: ${(props) => (props.isCurrentTopic ? "blueviolet" : "inherit")};
+  color: ${(props) => (props.isCurrentTopic ? "white" : "inherit")};
   &:hover {
     background: blueviolet;
     color: white;
@@ -53,13 +53,12 @@ const Box2 = styled.h6`
   margin-bottom: 0px;
   text-transform: uppercase;
   font-weight: ${(props) => (props.isCurrentTopic ? "bolder" : "normal")};
-
-
+  overflow-wrap: break-word;
 `;
 
 const RecommendedSubTopics = () => {
   const subtopicsData = {
-    "QUANTITATIVE APTITUDE": [
+    QUANTITATIVE_APTITUDE: [
       "NUMBER SYSTEM",
       "AVERAGE",
       "PERCENTAGE",
@@ -72,7 +71,7 @@ const RecommendedSubTopics = () => {
       "PROBABILITY",
       "PERMUTATION AND COMBINATION",
     ],
-    "LOGICAL REASONING": [
+    LOGICAL_REASONING: [
       "CODING AND DECODING",
       "FAMILY TREE / BLOOD RELATIONS",
       "DIRECTIONS",
@@ -83,53 +82,49 @@ const RecommendedSubTopics = () => {
       "MISCELLANEOUS",
       "ARRANGEMENTS",
     ],
-    "VERBAL ABILITY AND READING COMPREHENSION": [
-      "Sentence correction",
-      "Reading comprehension",
-      "Critical reasoning",
-      "Sentence completion",
-      " Syllogisms(verbal reasoning)",
-      "Vocabulary ",
-      "Analogy ",
+    VERBAL_ABILITY_AND_READING_COMPREHENSION: [
+      "SENTENCE CORRECTION",
+      "READING COMPREHENSION",
+      "CRITICAL REASONING",
+      "SENTENCE COMPLETION",
+      " SYLLOGISMS(VERBAL REASONING)",
+      "VOCABULARY ",
+      "ANALOGY ",
     ],
-    "DATA INTERPRETATION": [
-      "Bar chart",
-      "Pie chart ",
-      "Table chart",
-      "Line chart",
+    DATA_INTERPRETATION: [
+      "BAR CHART",
+      "PIE CHART ",
+      "TABLE CHART",
+      "LINE CHART",
     ],
   };
-
   const { topic, subTopic } = useParams();
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-4">
-          <MarginTop>
-            <Wrapper>
-              <h4>List of Subtopics</h4>
-              {subtopicsData[topic].map((currentTopic, subIndex) => (
-                <Link to={`/${topic}/${currentTopic}`} key={subIndex}>
-                  <TopicCard isCurrentTopic={subTopic === currentTopic}>
-                    <Box>
-                      <Box1>
-                        <img src={logo} className="img-fluid" alt="Logo" />
-                      </Box1>
-                      <Box2
-                        isCurrentTopic={currentTopic === subTopic}
-                      >
-                        {currentTopic}
-                      </Box2>
-                    </Box>
-                  </TopicCard>
-                </Link>
-              ))}
-            </Wrapper>
-          </MarginTop>
-        </div>
-      </div>
-    </div>
+    <MarginTop>
+      <Wrapper>
+        <h4>List of Subtopics</h4>
+        {subtopicsData[topic].map((currentTopic, subIndex) => (
+          <Link
+            to={`/${topic.split(" ").join("_")}/${currentTopic
+              .split(" ")
+              .join("_")}`}
+            key={subIndex}
+          >
+            <TopicCard isCurrentTopic={subTopic === currentTopic}>
+              <Box>
+                <Box1>
+                  <img src={logo} className="img-fluid" alt="Logo" />
+                </Box1>
+                <Box2 isCurrentTopic={currentTopic === subTopic}>
+                  {currentTopic}
+                </Box2>
+              </Box>
+            </TopicCard>
+          </Link>
+        ))}
+      </Wrapper>
+    </MarginTop>
   );
 };
 

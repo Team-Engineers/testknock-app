@@ -17,9 +17,6 @@ const BannerSection = styled.section`
 const Banner = () => {
   return (
     <BannerSection>
-      <div className="container-fluid">
-        <div className="row ">
-          <div className="col-12">
             <div className="banner-text bgColor">
               <div className="p-md-5 text-center">
                 <h1 className="fw-bold">TIET CTD</h1>
@@ -32,13 +29,6 @@ const Banner = () => {
                 </Link>
               </div>
             </div>
-          </div>
-
-          {/* <div className="banner-image">
-                  
-                </div> */}
-        </div>
-      </div>
     </BannerSection>
   );
 };

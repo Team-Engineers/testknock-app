@@ -56,7 +56,7 @@ const Box2 = styled.h6`
 
 const NewHome = () => {
   const subtopicsData = {
-    "QUANTITATIVE APTITUDE": [
+    "QUANTITATIVE_APTITUDE": [
       "NUMBER SYSTEM",
       "AVERAGE",
       "PERCENTAGE",
@@ -69,7 +69,7 @@ const NewHome = () => {
       "PROBABILITY",
       "PERMUTATION AND COMBINATION",
     ],
-    "LOGICAL REASONING": [
+    "LOGICAL_REASONING": [
       "CODING AND DECODING",
       "FAMILY TREE / BLOOD RELATIONS",
       "DIRECTIONS",
@@ -80,18 +80,22 @@ const NewHome = () => {
       "MISCELLANEOUS",
       "ARRANGEMENTS",
     ],
-    "VERBAL ABILITY AND READING COMPREHENSION": [
-      "Sentence correction",
-      "Reading comprehension",
-      "Critical reasoning",
-      "Sentence completion",
-      " Syllogisms(verbal reasoning)",
-      "Vocabulary ",
-      "Analogy ",
+    "VERBAL_ABILITY_AND_READING_COMPREHENSION": [
+      "SENTENCE CORRECTION",
+      "READING COMPREHENSION",
+      "CRITICAL REASONING",
+      "SENTENCE COMPLETION",
+      " SYLLOGISMS(VERBAL REASONING)",
+      "VOCABULARY ",
+      "ANALOGY ",
     ],
-    "DATA INTERPRETATION": ["Bar chart", "Pie chart ", "Table chart", "Line chart"],
+    "DATA_INTERPRETATION": [
+      "BAR CHART",
+      "PIE CHART ",
+      "TABLE CHART",
+      "LINE CHART",
+    ],
   };
-
   return (
     <div className="container">
       <div className="row">
@@ -100,18 +104,25 @@ const NewHome = () => {
             {/* <h2 className="fs-5 fw-bolder mb-5">Subtopics</h2> */}
             {Object.keys(subtopicsData).map((topic, index) => (
               <div key={index}>
-                <h4 className="mt-4 mb-4">
-                  {topic}
-
+                <h4
+                  className="mt-4 mb-4"
+                  style={{ overflowWrap: "break-word" }}
+                >
+                  {topic.split("_").join(" ")}
                   <hr></hr>
                 </h4>
+
                 <Wrapper>
                   {subtopicsData[topic].map((subtopic, subIndex) => (
-                    <Link to={`/${topic}/${subtopic}`} key={subIndex}>
+                    <Link to={`/${topic}/${subtopic.split(" ").join("_")}`} key={subIndex}>
                       <TopicCard>
                         <Box>
                           <Box1>
-                            <img src={logo} alt = "subtopic-logo" className="img-fluid" />
+                            <img
+                              src={logo}
+                              alt="subtopic-logo"
+                              className="img-fluid"
+                            />
                           </Box1>
                           <Box2>{subtopic}</Box2>
                         </Box>

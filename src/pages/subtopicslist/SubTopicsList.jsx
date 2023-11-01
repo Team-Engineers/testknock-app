@@ -12,7 +12,7 @@ const SubTopicsList = () => {
   if(topic.includes(notAllowed)){
     return <Navigate to = "/"/>
   }
-  const allowedTopics = ["QUANTITATIVE APTITUDE", "DATA INTERPRETATION", "LOGICAL REASONING", "VERBAL ABILITY AND READING COMPREHENSION"];
+  const allowedTopics = ["QUANTITATIVE_APTITUDE", "DATA_INTERPRETATION", "LOGICAL_REASONING", "VERBAL_ABILITY_AND_READING_COMPREHENSION"];
 
   // const allowedTopics = ["QUANT", "DI", "LR", "VARC"];
   if (!allowedTopics.includes(topic)) {

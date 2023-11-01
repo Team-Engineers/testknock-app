@@ -5,7 +5,9 @@ import { Link, useParams } from "react-router-dom";
 
 const BreadCrumbBanner = () => {
   const { topic, subTopic } = useParams();
-  
+console.log("topic",topic)
+console.log("subtopic",subTopic)
+
   return (
     <section className="breadcrumb-banner">
       <div className="container h-100">
@@ -15,11 +17,11 @@ const BreadCrumbBanner = () => {
               <Breadcrumb.Item>
                 <Link to="/">Home</Link>
               </Breadcrumb.Item>
-              <Breadcrumb.Item>
-                <Link to={`/${topic}`}>{topic}</Link>
+              <Breadcrumb.Item style={{ whiteSpace: "normal" }}>
+                <Link to={`/${topic.split(" ").join("_")}`}>{topic.split("_").join(" ")}</Link>
               </Breadcrumb.Item>
             </Breadcrumb>
-            <h2 className="">{subTopic}</h2>
+            <h2 className="" style = {{textTransform:"uppercase"}}>{subTopic ? subTopic.split("_").join(" ") : ""}</h2>
           </div>
         </div>
       </div>
