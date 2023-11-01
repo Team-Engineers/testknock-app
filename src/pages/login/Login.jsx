@@ -4,17 +4,9 @@ import MobileLogin from "./MobileLogin";
 import Logo from "../../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  // setSliceEmail,
-  setSliceName,
-  setSliceProfilePic,
-  // setSliceBranch,
-  // setSliceYear,
-  // setSliceContact,
-  // setSliceInstitute,
-  // setSliceUserId,
-} from "../../utils/userSlice";
+import { setSliceName, setSliceProfilePic } from "../../utils/userSlice";
 import axios from "axios";
+import { API } from "../../utils/constants";
 
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -34,7 +26,6 @@ const Login = () => {
   };
 
   useEffect(() => {
-
     const checkIsMobileView = () => {
       if (window.innerWidth < 768) {
         setIsMobileView(true);
@@ -76,18 +67,16 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://ourntamockpapers.onrender.com/api/auth/signup",
+        `${API}/auth/signup`,
         userData
       );
       if (response.status === 200) {
-        // console.log(response);
         alert("Signup successful");
         setIsRightPanelActive(false);
       } else {
         alert("Signup failed");
       }
     } catch (error) {
-      // console.error("Error:", error);
       alert("Signup failed");
     } finally {
       setIsLoading(false);
@@ -112,7 +101,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://ourntamockpapers.onrender.com/api/auth/signin",
+        `${API}/auth/signin`,
         userData
       );
       if (response.status === 200) {
@@ -130,24 +119,18 @@ const Login = () => {
         }
         Navigate("/");
       } else {
-        // console.warn("Unexpected status code:", response.status);
         setIsLoading(false);
-
         alert("Signin failed, email or username is wrong");
       }
     } catch (error) {
-      // console.error("Error:", error);
-
       if (error.response) {
         alert("Signin failed, email or username is wrong");
-
-        // console.error("Response data:", error.response.data);
       }
 
       alert("Signin failed");
     } finally {
       setIsLoading(false);
-      setDisableButton(false); // Enable the button
+      setDisableButton(false);
     }
   };
 
@@ -190,7 +173,6 @@ const Login = () => {
                       setEmail(e.target.value);
                     }}
                   />
-                  {/* {emailError && <p className="text-danger">{emailError}</p>} */}
                   <input
                     type="password"
                     placeholder="Password"
@@ -232,7 +214,6 @@ const Login = () => {
                       setEmail(e.target.value);
                     }}
                   />
-                  {/* {emailError && <p className="text-danger">{emailError}</p>} */}
                   <input
                     type="password"
                     placeholder="Password"

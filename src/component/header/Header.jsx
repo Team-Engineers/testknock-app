@@ -14,6 +14,8 @@ import {
   setSliceInstitute,
 } from "../../utils/userSlice";
 import { PROFILEPIC_URL } from "../../utils/constants";
+
+
 const HeaderSection = styled.section`
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -58,7 +60,6 @@ const Header = () => {
     localStorage.removeItem("accessToken");
   
     dispatch(logoutUser());
-    // navigate('/login')
     window.location.reload();
   };
   
@@ -89,10 +90,7 @@ const Header = () => {
         dispatch(setSliceInstitute(storedUserData.institute));
         dispatch(setSliceContact(storedUserData.contact));
       } else {
-        // User data is not present in localStorage
-        // Clear the access token
         localStorage.removeItem("accessToken");
-        // Redirect to the login page
         Navigate("/login");
       }
     };
@@ -107,7 +105,6 @@ const Header = () => {
   const profilePic = useSelector((state) => state.user.profilePic);
   
 
-  // const profilePic = useSelector((store)=>store[userSlice.name].userProfile)
 
   return (
     <HeaderSection
@@ -139,18 +136,6 @@ const Header = () => {
                     {firstName}
                   </div>
                 </Link>
-                {/* <Link to="/user">
-                  <img
-                    src={profilePic}
-                    alt="userLogo"
-                    width="40"
-                    height="40"
-                    class="rounded-circle"
-                  />
-                </Link>
-                <Link to="/login">
-                  <button className="btn btn-primary" onClick={handleLogOut}>Log Out</button>
-                </Link> */}
                  <div
                   className="profile-pic"
                   onClick={handleDropdownToggle}

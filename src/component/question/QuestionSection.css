@@ -12,7 +12,19 @@
     max-width: 150%;
 }
 
-.quiz-section .mcq-container, .quiz-section .question-container {
+.quiz-section .mcq-container {
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+    font-size: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.quiz-section .question-container {
     background: linear-gradient(to right, #2e2b2b, #000);
     color: white;
     padding: 30px;
@@ -162,4 +174,11 @@
 
 .quiz-section .option-section{
     display: flex;
+}
+
+.quiz-section .boxShadow{
+    padding: 15px;
+    box-shadow: 1px 1px 5px rgb(227 219 219 / 15%);
+    border-radius: 15px;
+    background: linear-gradient(to right, #2e2b2b, #000)
 }
