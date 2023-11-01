@@ -1,24 +1,18 @@
 .question-practice .question-container {
-  padding: 10px;
   margin: 10px;
-  background-color: white;
-  border-radius: 15px;
-  text-align: left;
-  position: relative;
-  width: 100%;
-  max-width: 800px;
 }
 
 .question-practice .question-box {
-    background-color: transparent;
-    color: #333;
-    padding: 15px;
-    margin: 10px 50px;
-    border-radius: 15px;
-    font-size: 20px;
-    font-weight: bold;
-
+  background-color: transparent;
+  color: #333;
+  padding: 15px;
+  margin: 10px 50px;
+  border-radius: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid black;
 }
+
 .question-practice .question-number {
   font-size: 18px;
   font-weight: bold;
@@ -57,7 +51,7 @@
   align-items: center;
   cursor: pointer;
   transition: background-color 0.3s;
-  width: 85%;
+  /* width: 85%; */
 }
 .question-practice .options-grid .incorrect {
   border: 2px solid red !important;
@@ -98,15 +92,17 @@
 
 @media screen and (max-width: 1024px) {
   .question-practice .question-container {
-    max-width: 60%;
+    /* max-width: 60%; */
   }
 
   .question-practice .question-box {
     width: 100%;
+    margin: 10px 0;
   }
 
   .question-practice .option-box {
-    width: 70%;
+    /* width: 70%; */
+    margin: 10px 0;
   }
 
   .question-practice .options-container {
