@@ -111,6 +111,7 @@
 .notfound .notfound-404 {
     height: 210px;
     line-height: 210px;
+    color: #79090b;
 }
 
 .notfound .notfound-404 h1 {
@@ -126,13 +127,14 @@
     font-size: 42px;
     font-weight: 700;
     margin: 0;
+    color: #79090b;
     text-transform: uppercase;
     letter-spacing: 1.6px;
 }
 
 .notfound p {
     font-family: lato,sans-serif;
-    color: #000;
+    color: #79090b;
     font-weight: 400;
     margin-top: 20px;
     margin-bottom: 25px;
@@ -142,11 +144,11 @@
     font-family: lato,sans-serif;
     padding: 10px 30px;
     display: inline-block;
-    color: #000;
+    color: #79090b;
     font-weight: 400;
     text-transform: uppercase;
-    -webkit-box-shadow: 0 0 0 2px #000, 2px 2px 0 2px #00ffc0;
-    box-shadow: 0 0 0 2px #000, 2px 2px 0 2px #00ffc0;
+    -webkit-box-shadow: 0 0 0 2px #79090b, 2px 2px 0 2px #00ffc0;
+    box-shadow: 0 0 0 2px #79090b, 2px 2px 0 2px #00ffc0;
     text-decoration: none;
     -webkit-transition: .2s all;
     transition: .2s all;
@@ -175,12 +177,14 @@
 
 .notfound-social>a:hover {
     background-color: #00ffc0;
-    -webkit-box-shadow: 0 0 0 0 #000, 0 0 0 2px #00ffc0;
-    box-shadow: 0 0 0 0 #000, 0 0 0 2px #00ffc0;
+    -webkit-box-shadow: 0 0 0 0 #79090b, 0 0 0 2px #00ffc0;
+    box-shadow: 0 0 0 0 #79090b, 0 0 0 2px #00ffc0;
 }
 
 .notfound a:hover {
-    background-color: #00ffc0;
-    -webkit-box-shadow: 0 0 0 0 #000, 0 0 0 2px #00ffc0;
-    box-shadow: 0 0 0 0 #000, 0 0 0 2px #00ffc0;
+    
+    background-color: #79090b;
+    color: white;
+    -webkit-box-shadow: 0 0 0 0 #79090b, 0 0 0 2px #00ffc0;
+    box-shadow: 0 0 0 0 #79090b, 0 0 0 2px #00ffc0;
 }
