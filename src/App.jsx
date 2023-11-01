@@ -14,6 +14,10 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import Nopage from "./pages/nopage/Nopage";
 
 const App = () => {
+  const isUserSignedIn = () => {
+    const tokenData = JSON.parse(localStorage.getItem("accessToken"));
+    return tokenData && new Date().getTime() < tokenData.expiry;
+  };
   return (
     <Provider store={appStore}>
       <BrowserRouter>
