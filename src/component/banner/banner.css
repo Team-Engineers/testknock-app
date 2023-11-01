@@ -23,11 +23,13 @@
   .bgColor{
     margin-top: 10px;
     color: white;
-    min-height: 20rem;
-    height : 20rem;
-    width : 100%;
     object-fit : contain;
     border-radius: 10px;
     background-image:url('../../assets/images/home-banner.jpg');
-    background-repeat : no-repeat
+    background-repeat : no-repeat;
+    background-color: rgba(0, 0, 0, 0);
+    background-size: cover;
+    /* background-position: center 50px; */
+    width: 100%;
+    height: 100%;
   }

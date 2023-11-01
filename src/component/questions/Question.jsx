@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./question.css";
+import RecommendedSubTopics from "../recommendedSubTopics/RecommendedSubTopics";
 
 const Question = () => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -166,6 +167,9 @@ const Question = () => {
     <section className="question-practice">
       <div className="container">
         <div className="row">
+          <div className="col-md-4">
+            <RecommendedSubTopics/>
+          </div>
           <div className="col-md-6">
             {data.map((item, index) => (
               <div key={index} className="question-container">

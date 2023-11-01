@@ -1,18 +1,18 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/images/subtopic-logo.png";
 const TopicCard = styled.li`
-  height: 3rem;
+  height: 6rem;
   background-color: white;
-  // border-radius: 20px;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   border: dashed;
   text-align: center;
-  background:  ${(props) => (props.isCurrentTopic ? "blueviolet" : "inherit")} ;
-  color:  ${(props) => (props.isCurrentTopic ? "white" : "inherit")};
+  width: 18rem;
+
   &:hover {
     background: blueviolet;
     color: white;
@@ -52,12 +52,9 @@ const Box2 = styled.h6`
   width: 12rem;
   margin-bottom: 0px;
   text-transform: uppercase;
-  font-weight: ${(props) => (props.isCurrentTopic ? "bolder" : "normal")};
-
-
 `;
 
-const RecommendedSubTopics = () => {
+const NewHome = () => {
   const subtopicsData = {
     "QUANTITATIVE APTITUDE": [
       "NUMBER SYSTEM",
@@ -92,41 +89,38 @@ const RecommendedSubTopics = () => {
       "Vocabulary ",
       "Analogy ",
     ],
-    "DATA INTERPRETATION": [
-      "Bar chart",
-      "Pie chart ",
-      "Table chart",
-      "Line chart",
-    ],
+    "DATA INTERPRETATION": ["Bar chart", "Pie chart ", "Table chart", "Line chart"],
   };
 
-  const { topic, subTopic } = useParams();
-  console.log("topic:", topic);
-  console.log("subTopic:", subTopic);
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-4">
+        <div className="col-md-12">
           <MarginTop>
-            <Wrapper>
-              <h4>List of Subtopics</h4>
-              {subtopicsData[topic].map((currentTopic, subIndex) => (
-                <Link to={`/${topic}/${currentTopic}`} key={subIndex}>
-                  <TopicCard isCurrentTopic={subTopic === currentTopic}>
-                    <Box>
-                      <Box1>
-                        <img src={logo} className="img-fluid" alt="Logo" />
-                      </Box1>
-                      <Box2
-                        isCurrentTopic={currentTopic === subTopic}
-                      >
-                        {currentTopic}
-                      </Box2>
-                    </Box>
-                  </TopicCard>
-                </Link>
-              ))}
-            </Wrapper>
+            {/* <h2 className="fs-5 fw-bolder mb-5">Subtopics</h2> */}
+            {Object.keys(subtopicsData).map((topic, index) => (
+              <div key={index}>
+                <h4 className="mt-4 mb-4">
+                  {topic}
+
+                  <hr></hr>
+                </h4>
+                <Wrapper>
+                  {subtopicsData[topic].map((subtopic, subIndex) => (
+                    <Link to={`/${topic}/${subtopic}`} key={subIndex}>
+                      <TopicCard>
+                        <Box>
+                          <Box1>
+                            <img src={logo} alt = "subtopic-logo" className="img-fluid" />
+                          </Box1>
+                          <Box2>{subtopic}</Box2>
+                        </Box>
+                      </TopicCard>
+                    </Link>
+                  ))}
+                </Wrapper>
+              </div>
+            ))}
           </MarginTop>
         </div>
       </div>
@@ -134,4 +128,4 @@ const RecommendedSubTopics = () => {
   );
 };
 
-export default RecommendedSubTopics;
+export default NewHome;
