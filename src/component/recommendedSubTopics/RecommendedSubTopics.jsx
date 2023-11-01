@@ -101,8 +101,7 @@ const RecommendedSubTopics = () => {
   };
 
   const { topic, subTopic } = useParams();
-  console.log("topic:", topic);
-  console.log("subTopic:", subTopic);
+
   return (
     <div className="container">
       <div className="row">
