@@ -185,6 +185,9 @@ const MCQSection = () => {
       <div className="mcq-section">
         {data.map((item, index) => (
           <div key={index} className="mcq-container">
+          <div className="boxShadow">
+
+
             <div className="para-header">
               <span className="para-number">{`Para ${index + 1}:`}</span>
               <h2>{item.paragraph}</h2>
@@ -199,6 +202,8 @@ const MCQSection = () => {
                 />
               ))}
             </div>
+          </div>
+
             <div className="question-section">
               {item.questions.map((question, questionIndex) => (
                 <div key={questionIndex} className="question-container">

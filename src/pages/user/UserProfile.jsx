@@ -1,54 +1,131 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setName } from "../../utils/userSlice";
-import { setProfilePicUrl } from "../../utils/userSlice";
-
+import {
+  setSliceEmail,
+  setSliceName,
+  setSliceProfilePic,
+  setSliceBranch,
+  setSliceYear,
+  setSliceContact,
+  setSliceInstitute,
+} from "../../utils/userSlice";
 import Header from "../../component/header/Header";
+import axios from "axios"; // Import Axios
+import { useNavigate } from "react-router-dom";
+import { API, PROFILEPIC_URL } from "../../utils/constants";
 
 const UserProfile = () => {
   const [email, setEmail] = useState("");
-  const [name, setUserName] = useState("");
+  const [name, setName] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const [branch, setBranch] = useState("");
   const [year, setYear] = useState("");
   const [contact, setContact] = useState("");
   const [institute, setInstitute] = useState("");
-  // const [profilePicName, setProfilePicName] = useState('');
 
   const dispatch = useDispatch();
+  const Navigate = useNavigate();
+
+  const sliceName = useSelector((state) => state.user.name);
+  const profile_url = useSelector((state) => state.user.profilePic);
+  const sliceEmail = useSelector((state) => state.user.email);
+  const sliceBranch = useSelector((state) => state.user.branch);
+  const sliceYear = useSelector((state) => state.user.year);
+  const sliceContact = useSelector((state) => state.user.contact);
+  const sliceInstitute = useSelector((state) => state.user.institute);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
-    console.log("profilePic",selectedFile.name)
     setProfilePic(selectedFile);
-    // setProfilePicName(selectedFile.name); // Set the file name
   };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    const storedUserData = JSON.parse(localStorage.getItem("user")); // Parse the JSON string to get the object
+    // console.log("localstorage data", storedUserData);
+    if (storedUserData._id) {
+      const userData = {
+        email: email || sliceEmail,
+        name: name || sliceName,
+        branch: branch || sliceBranch,
+        year: year || sliceYear,
+        contact: contact || sliceContact,
+        institute: institute || sliceInstitute,
+        profilePic: profilePic,
+      };
 
-    const handleUserName = () => {
-      dispatch(setName(name));
-    };
+      const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
+      // console.log("accesstoken", accessToken);
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
 
-    const handleProfile = () => {
-      dispatch(setProfilePicUrl(URL.createObjectURL(profilePic))); // Save the file as URL
-    };
+        axios
+          .put(
+            `${API}/users/${storedUserData._id}`,
+            userData,
+            {
+              headers: headers,
+            }
+          )
+          .then((response) => {
+            if (response.status === 200) {
+              const user = response.data;
+              localStorage.setItem("user", JSON.stringify(user));
+              setDetails();
+              alert("User data updated successfully");
 
-    handleUserName();
-    handleProfile();
+            } else {
+              alert("Failed to update user data, Email is in use");
+            }
+          })
+          .catch((error) => {
+            alert("Failed to update user data");
+          });
+      } else {
+        alert("Access token not found in local storage");
+      }
+    }
+  };
+  const setDetails = () => {
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
+    if (storedUserData) {
+      dispatch(setSliceName(storedUserData.name || sliceName));
+      dispatch(setSliceEmail(storedUserData.email || sliceEmail));
 
-    alert("form submitted");
+      dispatch(
+        setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL)
+      );
+
+      dispatch(setSliceBranch(storedUserData.branch || sliceBranch));
+
+      dispatch(setSliceYear(storedUserData.year || sliceYear));
+
+      dispatch(setSliceInstitute(storedUserData.institute || sliceInstitute));
+
+      dispatch(setSliceContact(storedUserData.contact || sliceContact));
+      
+    } 
+    else {
+      localStorage.removeItem("accessToken");
+      Navigate("/login");
+    }
   };
 
-  const username = useSelector((state) => state.user.userName);
+  useEffect(()=>{
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
+    // console.log("data browser",storedUserData)
+    setName(storedUserData.name)
+    setEmail(storedUserData.email )
+    setBranch(storedUserData.branch)
+    // console.log("branch",storedUserData.branch)
+    setYear(storedUserData.year)
+    setInstitute(storedUserData.institute)
+    setContact(storedUserData.contact);
 
-  const profile_url = useSelector((state) => state.user.userPic);
-
-  // useEffect(()=>{
-  //   handleUserName();
-  //   console.log('usereffect is call from userprofile ')
-  // },[])
+  },[])
 
   return (
     <section className="userProfile">
@@ -62,12 +139,13 @@ const UserProfile = () => {
                   <div class="d-flex flex-column align-items-center text-center">
                     <img
                       src={profile_url}
-                      alt="Admin"
+                      alt="user"
                       class="rounded-circle p-1 bg-primary"
                       width="110"
+                      height="110"
                     />
                     <div class="mt-3">
-                      <h4>{username}</h4>
+                      <h4>{sliceName}</h4>
                     </div>
                   </div>
                   <hr class="my-4" />
@@ -116,7 +194,7 @@ const UserProfile = () => {
                 <div class="card-body">
                   <div class="row mb-3">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Full Name</h6>
+                      <h6 class="mb-0">Name</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
                       <input
@@ -124,7 +202,7 @@ const UserProfile = () => {
                         class="form-control"
                         value={name}
                         onChange={(e) => {
-                          setUserName(e.target.value);
+                          setName(e.target.value);
                         }}
                       />
                     </div>
