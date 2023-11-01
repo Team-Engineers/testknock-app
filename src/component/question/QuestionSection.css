@@ -1,4 +1,8 @@
-.quiz-section,
+/* src/component/question/QuestionSection.css */
+
+
+/* Global styles */
+
 .mcq-section,
 .mcq-container,
 .mcq-container h2,
@@ -14,7 +18,8 @@
 }
 
 .quiz-section .mcq-container,
-.quiz-section .question-container {
+.quiz-section .question-container,
+.quiz-section .para-header-container {
     background: linear-gradient(to right, #2e2b2b, #000);
     color: white;
     padding: 30px;
@@ -48,6 +53,11 @@
     margin-right: 10px;
 }
 
+.option-section {
+    border: white;
+    border-width: 1px;
+}
+
 .quiz-section .mcq-container h2 {
     font-size: 24px;
     font-weight: bold;
@@ -58,12 +68,14 @@
 .quiz-section .mcq-container ul {
     list-style-type: none;
     padding: 0;
+    border: 1px solid white;
 }
 
 .quiz-section .mcq-container ul li {
     display: flex;
     align-items: center;
     padding-left: 25px;
+    border: 1px solid white;
 }
 
 .quiz-section .mcq-container ul li:hover {
@@ -125,7 +137,7 @@
     padding: 10px;
     margin-top: 10px;
     margin: 10px 0;
-    display: block;
+    display: inline-block;
     width: fit-content;
     text-align: left;
 }
@@ -269,4 +281,14 @@
 .orange-text {
     color: orange;
     font-weight: bold;
+}
+
+
+/* Your nesting styles */
+
+.parent {
+    background-color: #ccc;
+    .child {
+        color: #333;
+    }
 }
