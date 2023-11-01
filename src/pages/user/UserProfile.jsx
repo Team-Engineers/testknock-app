@@ -13,7 +13,7 @@ import {
 import Header from "../../component/header/Header";
 import axios from "axios"; // Import Axios
 import { useNavigate } from "react-router-dom";
-import { PROFILEPIC_URL } from "../../utils/constants";
+import { API, PROFILEPIC_URL } from "../../utils/constants";
 
 const UserProfile = () => {
   const [email, setEmail] = useState("");
@@ -64,7 +64,7 @@ const UserProfile = () => {
 
         axios
           .put(
-            `https://ourntamockpapers.onrender.com/api/users/${storedUserData._id}`,
+            `${API}/users/${storedUserData._id}`,
             userData,
             {
               headers: headers,
@@ -98,7 +98,6 @@ const UserProfile = () => {
       dispatch(
         setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL)
       );
-      // setName(storedUserData.name || sliceName)
 
       dispatch(setSliceBranch(storedUserData.branch || sliceBranch));
 
