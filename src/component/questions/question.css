@@ -1,5 +1,9 @@
 .question-practice .question-container {
   margin: 10px;
+  background-color: white;
+  border-radius: 15px;
+  text-align: left;
+  position: relative;
 }
 
 .question-practice .question-box {

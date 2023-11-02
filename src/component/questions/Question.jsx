@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./question.css";
+import RecommendedSubTopics from "../recommendedSubTopics/RecommendedSubTopics";
 
 const Question = () => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
