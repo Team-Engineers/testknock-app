@@ -9,7 +9,7 @@ const TopicCard = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: dashed;
+  border: 1px solid;
   text-align: center;
   background: ${(props) => (props.isCurrentTopic ? "blueviolet" : "inherit")};
   color: ${(props) => (props.isCurrentTopic ? "white" : "inherit")};
@@ -73,9 +73,9 @@ const RecommendedSubTopics = () => {
     ],
     LOGICAL_REASONING: [
       "CODING AND DECODING",
-      "FAMILY TREE / BLOOD RELATIONS",
+      "FAMILY TREE || BLOOD RELATIONS",
       "DIRECTIONS",
-      "NUMBER/ALPHABET SERIES",
+      "NUMBER || ALPHABET SERIES",
       "PUZZLES",
       "CRITICAL REASONING",
       "SITUTATION TEST",
@@ -111,12 +111,12 @@ const RecommendedSubTopics = () => {
               .join("_")}`}
             key={subIndex}
           >
-            <TopicCard isCurrentTopic={subTopic === currentTopic}>
+            <TopicCard isCurrentTopic={subTopic.split("_").join(" ") === currentTopic}>
               <Box>
                 <Box1>
                   <img src={logo} className="img-fluid" alt="Logo" />
                 </Box1>
-                <Box2 isCurrentTopic={currentTopic === subTopic}>
+                <Box2 isCurrentTopic={currentTopic === subTopic.split("_").join(" ")}>
                   {currentTopic}
                 </Box2>
               </Box>

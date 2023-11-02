@@ -225,7 +225,7 @@ const MCQSection = () => {
               <div
                 className={`d-flex justify-content-center align-items-start flex-column ${
                   testSubmitted ? "d-block" : "d-none"
-                }`}
+                }`} style = {{padding:"10px"}}
               >
                 <button
                   className="toggle-explanation-btn"
@@ -255,7 +255,7 @@ const MCQSection = () => {
 
       {testSubmitted ? (
         <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
-          Retake Test
+          Take New Test
         </button>
       ) : (
         <button className="submit-button btn  mb-4" onClick={handleSubmit}>
@@ -291,7 +291,7 @@ const MCQSection = () => {
       >
         <Modal.Body>
           <img src={gif} alt="Your GIF" className="gif-image" />
-          <p className="score">Your Score: {yourScore}</p>
+          <h6 className="score">Your Score: {yourScore}</h6>
           <p
             className={`correct-answers ${
               correctAnswers > 0 ? "green-text" : ""
