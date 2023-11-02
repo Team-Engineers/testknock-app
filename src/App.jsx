@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -31,7 +32,7 @@ const App = () => {
             <Route exact path="/:topic" element={<SubTopicsList />} />
             <Route exact path="/user" element={<UserProfile />} />
             <Route exact path="/questionpractice" element={<Question />} />
-            <Route exact path="/quizquestion" element={<QuestionSection />} />
+            <Route exact path="/quiz/:topic" element={<QuestionSection />} />
           </Route>
           {isUserSignedIn() ? (
             <Route exact path="/" element={<Home />} />
