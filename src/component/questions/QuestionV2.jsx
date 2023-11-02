@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import "./question.css";
 
@@ -216,4 +215,3 @@ const QuestionV2 = () => {
 };
 
 export default QuestionV2;
-
