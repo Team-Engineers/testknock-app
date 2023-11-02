@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import "./QuestionSection.css";
 import { Modal, Button } from "react-bootstrap";
@@ -207,6 +208,7 @@ const MCQSection = () => {
   return (
     <section className="quiz-section">
       <div className="mcq-section">
+
         <div className="question-section">
           {data.map((question, questionIndex) => (
             <div key={questionIndex} className="question-container">

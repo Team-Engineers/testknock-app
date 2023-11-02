@@ -2,9 +2,10 @@ import React from "react";
 import Header from "../../component/header/Header";
 import Footer from "../../component/footer/Footer";
 import BreadCrumbBanner from "../../component/breadcrumb/BreadCrumbBanner";
-import Question from "../../component/questions/Question";
+// import Question from "../../component/questions/Question";
 import { Navigate, useParams } from "react-router-dom";
 import Nopage from "../nopage/Nopage";
+import QuestionV2 from "../../component/questions/QuestionV2";
 
 const SubTopicQuestion = () => {
   const { topic } = useParams();
@@ -22,7 +23,7 @@ const SubTopicQuestion = () => {
     <div>
       <Header />
       <BreadCrumbBanner />
-      <Question />
+      <QuestionV2 />
       <Footer />
     </div>
   );
