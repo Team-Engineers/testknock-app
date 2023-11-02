@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -7,11 +8,13 @@ import Home from "./pages/home/Home";
 import SubTopicQuestion from "./pages/subtopicQuestion/SubTopicQuestion";
 import SubTopicsList from "./pages/subtopicslist/SubTopicsList";
 import UserProfile from "./pages/user/UserProfile";
-import Question from "./component/questions/Question";
+// import Question from "./component/questions/Question";
+// import QuestionV2 from "./component/questions/QuestionV2";
 import QuestionSection from "./component/question/QuestionSection";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import Nopage from "./pages/nopage/Nopage";
 import ScrollToTop from "./component/scrolltotop/ScrollToTop";
+import QuestionV2 from "./component/questions/QuestionV2";
 const App = () => {
   const isUserSignedIn = () => {
     const tokenData = JSON.parse(localStorage.getItem("accessToken"));
@@ -30,8 +33,8 @@ const App = () => {
             />
             <Route exact path="/:topic" element={<SubTopicsList />} />
             <Route exact path="/user" element={<UserProfile />} />
-            <Route exact path="/questionpractice" element={<Question />} />
-            <Route exact path="/quizquestion" element={<QuestionSection />} />
+            <Route exact path="/questionpractice" element={<QuestionV2 />} />
+            <Route exact path="/quiz/:topic" element={<QuestionSection />} />
           </Route>
           {isUserSignedIn() ? (
             <Route exact path="/" element={<Home />} />
