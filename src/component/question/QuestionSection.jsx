@@ -10,8 +10,17 @@ const MCQSection = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
   const [unattemptedAnswers, setUnattemptedAnswers] = useState(0);
+  const [explanationsVisible, setExplanationsVisible] = useState(
+    Array(10).fill(false)
+  );
+  const [testSubmitted, setTestSubmitted] = useState(false);
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [showSubmissionModal, setShowSubmissionModal] = useState(false);
+  const [optionsUI, setOptionsUI] = useState(Array(10).fill(""));
+  const [yourScore, setYourScore] = useState(null);
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
-  const [setExplanationVisible] = useState(Array(10).fill(false));
+  // correctOptionIndex in api, is 1 index numbering, so reduce it by 1 , whenever in use
 
   useEffect(() => {
     // Fetch data from the API here
@@ -21,28 +30,31 @@ const MCQSection = () => {
       .then((response) => response.json())
       .then((resData) => {
         setData(resData);
-        console.log("resdata",resData)
-        if (data) {
+        console.log("resdata", resData);
+        if (resData) {
           setSelectedOptions(Array(10).fill(null));
-          setExplanationVisible(Array(10).fill(false));
+          setExplanationsVisible(Array(10).fill(false));
         }
         // Update the state with the fetched data
-        console.log("taking data", resData, data);
+        // console.log("taking data", resData, data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  },[]);
+  }, []);
 
-  const [optionsUI, setOptionsUI] = useState(Array(10).fill(""));
   const handleOptionSelect = (questionIndex, optionIndex) => {
     const updatedSelectedOptions = [...selectedOptions];
     updatedSelectedOptions[questionIndex] = optionIndex;
     setSelectedOptions(updatedSelectedOptions);
 
-    const isCorrect = (optionIndex === data[questionIndex].correctOptionIndex);
+    // const isCorrect =
+    //   optionIndex + 1 === data[questionIndex].correctOptionIndex;
     const updatedOptionsUI = [...optionsUI];
-    updatedOptionsUI[questionIndex] = isCorrect ? "correct" : "incorrect";
+
+    // updatedOptionsUI[questionIndex] = isCorrect ? "correct" : "incorrect";
+    updatedOptionsUI[questionIndex] = optionIndex;
+
     setOptionsUI(updatedOptionsUI);
   };
 
@@ -73,7 +85,9 @@ const MCQSection = () => {
       if (userAnswerIndex === null) {
         unattempted++;
       } else if (
-        userAnswerIndex === data[0].questions[index].correctOptionIndex
+        userAnswerIndex ===
+        data[index].correctOptionIndex - 1
+        // userAnswerIndex === question.correctOptionIndex
       ) {
         correct++;
       } else {
@@ -82,8 +96,6 @@ const MCQSection = () => {
     });
     return { correct, wrong, unattempted };
   };
-  const [showWarningModal, setShowWarningModal] = useState(false);
-  const [showSubmissionModal, setShowSubmissionModal] = useState(false);
 
   const handleCloseWarningModal = () => {
     setShowWarningModal(false);
@@ -98,46 +110,98 @@ const MCQSection = () => {
   };
 
   const handleShowSubmissionModal = () => {
+    calculateScore();
     setShowSubmissionModal(true);
+    setTestSubmitted(true);
+    setShowWarningModal(false);
+    setShowCorrectAnswer(true);
   };
 
-  const [yourScore, setYourScore] = useState(null);
-
   const calculateScore = () => {
-    // Fetch user's selected answers and correct answers from your API
-    // For demonstration, I'm assuming you have userAnswers and correctAnswers arrays.
-
     let correctAnswers = 0;
     let wrongAnswers = 0;
     let unattemptedAnswers = 0;
 
-    const score = data.reduce((totalScore, para) => {
-      para.questions.forEach((question, index) => {
-        const userAnswerIndex = selectedOptions[index];
-        if (userAnswerIndex !== null) {
-          if (userAnswerIndex === question.correctOptionIndex) {
-            correctAnswers++; // Increase the count for each correct answer
-          } else {
-            wrongAnswers++; // Increase the count for each wrong answer
-          }
+    // const score = data.reduce((totalScore, para) => {
+    //   para.questions.forEach((question, index) => {
+    //     const userAnswerIndex = selectedOptions[index];
+    //     if (userAnswerIndex !== null) {
+    //       if (userAnswerIndex === question.correctOptionIndex) {
+    //         correctAnswers++; // Increase the count for each correct answer
+    //       } else {
+    //         wrongAnswers++; // Increase the count for each wrong answer
+    //       }
+    //     } else {
+    //       unattemptedAnswers++; // Increase the count for unattempted questions
+    //     }
+    //     if (
+    //       userAnswerIndex !== null &&
+    //       userAnswerIndex === question.correctOptionIndex
+    //     ) {
+    //       totalScore++; // Increase the score for each correct answer
+    //     }
+    //   });
+    //   return totalScore;
+    // }, 0);
+
+    const score2 = data.forEach((question, index) => {
+      const correctOptionIndex = question.correctOptionIndex - 1;
+      const userAnswerIndex = selectedOptions[index];
+
+      if (userAnswerIndex !== null) {
+        if (userAnswerIndex === correctOptionIndex) {
+          correctAnswers++;
         } else {
-          unattemptedAnswers++; // Increase the count for unattempted questions
+          wrongAnswers++;
         }
-        if (
-          userAnswerIndex !== null &&
-          userAnswerIndex === question.correctOptionIndex
-        ) {
-          totalScore++; // Increase the score for each correct answer
-        }
-      });
-      return totalScore;
-    }, 0);
+      } else {
+        unattemptedAnswers++;
+      }
+    });
 
     setCorrectAnswers(correctAnswers); // Set the correct answer count
     setWrongAnswers(wrongAnswers); // Set the wrong answer count
     setUnattemptedAnswers(unattemptedAnswers); // Set the unattempted answer count
 
-    return score;
+    return score2;
+  };
+
+  const toggleExplanationVisibility = (questionIndex) => {
+    const updatedExplanationsVisible = [...explanationsVisible];
+    updatedExplanationsVisible[questionIndex] =
+      !updatedExplanationsVisible[questionIndex];
+    setExplanationsVisible(updatedExplanationsVisible);
+  };
+
+  // const logSelectedOptions = () => {
+  //   const selectedOptionsData = data.map((question, questionIndex) => {
+  //     const selectedOptionIndex = selectedOptions[questionIndex];
+  //     const selectedOption =
+  //       selectedOptionIndex !== null
+  //         ? question.options[selectedOptionIndex]
+  //         : null;
+
+  //     const isCorrect =
+  //       selectedOptionIndex !== null &&
+  //       selectedOptionIndex === question.correctOptionIndex - 1;
+  //     // correctoption is 4, but actual it should be 3
+  //     const correctOption = question.options[question.correctOptionIndex - 1];
+
+  //     return {
+  //       questionIndex: questionIndex,
+  //       selectedOptionIndex: selectedOptionIndex,
+  //       selectedOption: selectedOption,
+  //       isCorrect: isCorrect,
+  //       correctOption: correctOption,
+  //     };
+  //   });
+
+  //   console.log("Selected Options:", selectedOptionsData);
+  // };
+
+  const handleRetakeTest = () => {
+    // Reload the page to retake the test
+    window.location.reload();
   };
 
   return (
@@ -147,10 +211,8 @@ const MCQSection = () => {
           {data.map((question, questionIndex) => (
             <div key={questionIndex} className="question-container">
               <div className="question-header">
-                <span className="question-number">{`Q ${
-                  questionIndex + 1
-                }`}</span>
-                <h2>{question.text[0]}</h2>
+                <h6 className="question-number">{`${questionIndex + 1}`}</h6>
+                <h6>{question.text[0]}</h6>
               </div>
               <div className="images-container">
                 {question.images.map((image, imageIndex) => (
@@ -166,23 +228,33 @@ const MCQSection = () => {
                 {question.options.map((option, optionIndex) => (
                   <li
                     key={optionIndex}
-                    className={`${
-                      selectedOptions[questionIndex] === optionIndex
-                        ? optionsUI[questionIndex] === "correct"
-                          ? "correct"
-                          : "incorrect"
-                        : ""
-                    }`}
                     onClick={() =>
                       handleOptionSelect(questionIndex, optionIndex)
                     }
                   >
-                    <div className="option-section">
-                      <span className="alphabet">
-                        {String.fromCharCode(65 + optionIndex)}.{" "}
-                      </span>
+                    <div
+                      className={`option-section 
+                      ${
+                        
+                        showCorrectAnswer
+                          ? optionIndex === question.correctOptionIndex - 1
+                            ? ""
+                            : "incorrect"
+                          : ""
+                      }
+                      ${
+                        optionsUI[questionIndex] === optionIndex
+                          ? "selected-option"
+                          : "unselected-option"
+                      }
+
+                       `}
+                    >
+                      <h6 className="alphabet">
+                        {String.fromCharCode(65 + optionIndex)}{" "}
+                      </h6>
                       <div className="option-container">
-                        <div className="option-text">{option.text}</div>
+                        <h6 className="option-text">{option.text}</h6>
                         {option.image && (
                           <img
                             src={option.image}
@@ -191,17 +263,72 @@ const MCQSection = () => {
                           />
                         )}
                       </div>
+                      {showCorrectAnswer ? (
+                        optionIndex === optionsUI[questionIndex] ? (
+                          optionsUI[questionIndex] ===
+                          question.correctOptionIndex - 1 ? (
+                            <i class="fa-solid fa-check"></i>
+                          ) : (
+                            <i class="fa-solid fa-xmark"></i>
+                          )
+                        ) : (
+                          ""
+                        )
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </li>
                 ))}
               </ul>
+
+              <div
+                className={`d-flex justify-content-center align-items-start flex-column ${
+                  testSubmitted ? "d-block" : "d-none"
+                }`}
+              >
+                <button
+                  className="toggle-explanation-btn"
+                  onClick={() => toggleExplanationVisibility(questionIndex)}
+                >
+                  {explanationsVisible[questionIndex]
+                    ? "Hide Explanation"
+                    : "Show Explanation"}
+                </button>
+
+                <div className="explanation-wrapper ">
+                  {explanationsVisible[questionIndex] && (
+                    <div className="explanation">
+                      <p>
+                        {question.explanation.text.map((text, index) => (
+                          <h6 key={index}>{text}</h6>
+                        ))}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           ))}
         </div>
       </div>
-      <button className="submit-button" onClick={handleSubmit}>
-        Submit
-      </button>
+
+      {testSubmitted ? (
+        <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
+          Retake Test
+        </button>
+      ) : (
+        <button className="submit-button btn  mb-4" onClick={handleSubmit}>
+          Submit
+        </button>
+      )}
+      {/* 
+      <button
+        className="log-options-button btn mb-4"
+        onClick={logSelectedOptions}
+      >
+        Log Selected Options
+      </button> */}
 
       <Modal
         show={showWarningModal}
