@@ -66,6 +66,18 @@
   color: white;
 }
 
+
+.quiz-section .timer {
+  position: sticky;
+  top: 0;
+  height: 50px;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75px;
+}
+
 .quiz-section .mcq-container h2 {
   /* font-size: 24px; */
   font-weight: bold;

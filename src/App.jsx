@@ -8,9 +8,7 @@ import Home from "./pages/home/Home";
 import SubTopicQuestion from "./pages/subtopicQuestion/SubTopicQuestion";
 import SubTopicsList from "./pages/subtopicslist/SubTopicsList";
 import UserProfile from "./pages/user/UserProfile";
-// import Question from "./component/questions/Question";
-// import QuestionV2 from "./component/questions/QuestionV2";
-import QuestionSection from "./component/question/QuestionSection";
+import Quiz from './pages/quiz/Quiz'
 import PrivateRoutes from "./utils/PrivateRoutes";
 import Nopage from "./pages/nopage/Nopage";
 import ScrollToTop from "./component/scrolltotop/ScrollToTop";
@@ -34,7 +32,7 @@ const App = () => {
             <Route exact path="/:topic" element={<SubTopicsList />} />
             <Route exact path="/user" element={<UserProfile />} />
             <Route exact path="/questionpractice" element={<QuestionV2 />} />
-            <Route exact path="/quiz/:topic" element={<QuestionSection />} />
+            <Route exact path="/quiz/:topic" element={<Quiz/>} />
           </Route>
           {isUserSignedIn() ? (
             <Route exact path="/" element={<Home />} />

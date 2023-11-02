@@ -19,6 +19,8 @@ const MCQSection = () => {
   const [optionsUI, setOptionsUI] = useState(Array(10).fill(""));
   const [yourScore, setYourScore] = useState(null);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
+  const [timer, setTimer] = useState(600); // Initial timer value in seconds
+  const [timerActive, setTimerActive] = useState(true); // Whether the timer is active
 
   // correctOptionIndex in api, is 1 index numbering, so reduce it by 1 , whenever in use
 
@@ -39,7 +41,24 @@ const MCQSection = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+      // interval();
+
+  },[])
+
+  useEffect(()=>{
+    const interval = setInterval(() => {
+      if (timer > 0 && timerActive) {
+        setTimer(timer - 1); // Decrement the timer value
+      } else if (timer === 0) {
+        setTimerActive(false);
+        setTestSubmitted(true); // Show the scorecard
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval); // Clear the interval when the component unmounts
+    };
+  }, [timer, timerActive]);
 
   const handleOptionSelect = (questionIndex, optionIndex) => {
     const updatedSelectedOptions = [...selectedOptions];
@@ -148,6 +167,7 @@ const MCQSection = () => {
   return (
     <section className="quiz-section">
       <div className="mcq-section">
+      <div className={`timer ${testSubmitted ? "d-none" : ""}`}>Time Remaining: {Math.floor(timer / 60)}:{timer % 60}</div>
         <div className="question-section">
           {data.map((question, questionIndex) => (
             <div key={questionIndex} className="question-container">
