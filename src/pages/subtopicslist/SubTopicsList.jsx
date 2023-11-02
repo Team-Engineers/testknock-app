@@ -9,7 +9,7 @@ import Nopage from "../nopage/Nopage";
 const SubTopicsList = () => {
   const { topic } = useParams();
   const notAllowed = ["login","register","forgotpassword","signup"]
-  if(topic.includes(notAllowed)){
+  if(notAllowed.includes(topic)){
     return <Navigate to = "/"/>
   }
   const allowedTopics = ["QUANTITATIVE_APTITUDE", "DATA_INTERPRETATION", "LOGICAL_REASONING", "VERBAL_ABILITY_AND_READING_COMPREHENSION"];
