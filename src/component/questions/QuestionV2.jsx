@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./question.css";
-
+import RecommendedSubTopics from '../recommendedSubTopics/RecommendedSubTopics'
 const QuestionV2 = () => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [data, setData] = useState([]);
@@ -50,6 +50,9 @@ const QuestionV2 = () => {
     <section className="question-practice">
       <div className="container">
         <div className="row d-flex justify-content-center">
+          <div className="col-md-3">
+            <RecommendedSubTopics/>
+          </div>
           <div className="col-md-9">
             <div className="options-container">
               {data.map((question, questionIndex) => (
@@ -81,7 +84,7 @@ const QuestionV2 = () => {
                         key={optionIndex}
                         className={`option-box ${
                           selectedOption[questionIndex] === optionIndex
-                            ? question.correctOptionIndex === optionIndex
+                            ? question.correctOptionIndex-1 === optionIndex
                               ? "correct"
                               : "incorrect"
                             : ""
@@ -106,14 +109,14 @@ const QuestionV2 = () => {
                           )}
                         </div>
                         <div className="d-flex">
-                          {question.correctOptionIndex === optionIndex &&
+                          {question.correctOptionIndex-1 === optionIndex &&
                             selectedOption[questionIndex] === optionIndex && (
                               <span className="correct-answer">
                                 <i className="fa-solid fa-check"></i>
                               </span>
                             )}
                           {selectedOption[questionIndex] === optionIndex &&
-                            question.correctOptionIndex !== optionIndex && (
+                            question.correctOptionIndex-1 !== optionIndex && (
                               <span className="incorrect-answer">
                                 <i className="fa-solid fa-xmark"></i>
                               </span>
@@ -171,11 +174,9 @@ const QuestionV2 = () => {
                 </div>
               ))}
             </div>
+
           </div>
-        </div>
-      </div>
-      <div className="row d-flex justify-content-center">
-        <div className="col-md-9">
+          <div className="col-md-12">
           <div className="pagination">
             <button
               className={`page-button ${currentPage === 0 ? "disabled" : ""}`}
@@ -207,6 +208,7 @@ const QuestionV2 = () => {
             >
               Next
             </button>
+          </div>
           </div>
         </div>
       </div>
