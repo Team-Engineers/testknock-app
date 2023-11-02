@@ -18,7 +18,7 @@
   padding: 30px;
   border-radius: 10px;
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   font-size: 20px;
   width: 100%;
@@ -58,24 +58,23 @@
   font-size: 14px;
   color: white;
   margin-right: 10px;
-
 }
 
 .question-number {
-    /* font-size: 18px; */
-    font-weight: bold;
-    /* position: absolute; */
-    /* top: 0; */
-    /* left: 0; */
-    height: 30px;
-    width: 30px;
-    /* border: 1px solid; */
-    /* border-radius: 15px; */
-    display: flex;
-    justify-content: center;
-    /* align-items: center; */
-    margin: -1px;
-    /* background: antiquewhite; */
+  /* font-size: 18px; */
+  font-weight: bold;
+  /* position: absolute; */
+  /* top: 0; */
+  /* left: 0; */
+  height: 30px;
+  width: 30px;
+  /* border: 1px solid; */
+  /* border-radius: 15px; */
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  margin: -1px;
+  /* background: antiquewhite; */
 }
 
 .quiz-section .mcq-container h2 {
@@ -169,7 +168,7 @@
   align-items: center;
 
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .quiz-section .images-container img {
