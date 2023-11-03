@@ -33,10 +33,15 @@ const Wrapper = styled.ul`
   align-items: center;
   flex-wrap: wrap;
   gap: 2rem;
+  padding : 0px;
 `;
 
 const MarginTop = styled.div`
   margin-top: 7rem;
+  display : flex;
+  justify-content : center;
+  algin-items : center;
+  flex-direction : column;
 `;
 
 const Box = styled.div`
@@ -102,8 +107,9 @@ const RecommendedSubTopics = () => {
 
   return (
     <MarginTop>
-      <Wrapper>
         <h4>List of Subtopics</h4>
+
+      <Wrapper>
         {subtopicsData[topic].map((currentTopic, subIndex) => (
           <Link
             to={`/${topic.split(" ").join("_")}/${currentTopic

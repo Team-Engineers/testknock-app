@@ -46,9 +46,9 @@ const Question = () => {
 
   return (
     <section className="question-practice">
-      <div className="container">
+      <div className="container-fluid">
         <div className="row d-flex justify-content-center">
-          <div className="col-md-9">
+          <div className="col-md-8">
             {data.map((item, index) => (
               <div key={index} className="question-container">
                 <div className="question-box">
