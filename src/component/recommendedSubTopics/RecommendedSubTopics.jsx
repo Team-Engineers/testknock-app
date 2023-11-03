@@ -9,7 +9,7 @@ const TopicCard = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: dashed;
+  border: 1px solid;
   text-align: center;
   background: ${(props) => (props.isCurrentTopic ? "blueviolet" : "inherit")};
   color: ${(props) => (props.isCurrentTopic ? "white" : "inherit")};
@@ -33,10 +33,15 @@ const Wrapper = styled.ul`
   align-items: center;
   flex-wrap: wrap;
   gap: 2rem;
+  padding: 0px;
 `;
 
 const MarginTop = styled.div`
   margin-top: 7rem;
+  display: flex;
+  justify-content: center;
+  algin-items: center;
+  flex-direction: column;
 `;
 
 const Box = styled.div`
@@ -73,9 +78,9 @@ const RecommendedSubTopics = () => {
     ],
     LOGICAL_REASONING: [
       "CODING AND DECODING",
-      "FAMILY TREE / BLOOD RELATIONS",
+      "FAMILY TREE || BLOOD RELATIONS",
       "DIRECTIONS",
-      "NUMBER/ALPHABET SERIES",
+      "NUMBER || ALPHABET SERIES",
       "PUZZLES",
       "CRITICAL REASONING",
       "SITUTATION TEST",
@@ -102,8 +107,9 @@ const RecommendedSubTopics = () => {
 
   return (
     <MarginTop>
+      <h4>List of Subtopics</h4>
+
       <Wrapper>
-        <h4>List of Subtopics</h4>
         {subtopicsData[topic].map((currentTopic, subIndex) => (
           <Link
             to={`/${topic.split(" ").join("_")}/${currentTopic
@@ -111,12 +117,18 @@ const RecommendedSubTopics = () => {
               .join("_")}`}
             key={subIndex}
           >
-            <TopicCard isCurrentTopic={subTopic === currentTopic}>
+            <TopicCard
+              isCurrentTopic={subTopic.split("_").join(" ") === currentTopic}
+            >
               <Box>
                 <Box1>
                   <img src={logo} className="img-fluid" alt="Logo" />
                 </Box1>
-                <Box2 isCurrentTopic={currentTopic === subTopic}>
+                <Box2
+                  isCurrentTopic={
+                    currentTopic === subTopic.split("_").join(" ")
+                  }
+                >
                   {currentTopic}
                 </Box2>
               </Box>
