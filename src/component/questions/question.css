@@ -12,13 +12,17 @@
   padding: 15px;
   margin: 10px 50px;
   border-radius: 15px;
-  font-size: 20px;
+  font-size: 14px;
   font-weight: bolder;
   border: 1px solid black;
+  position: relative;
 }
 
 .question-practice .question-number {
-  font-size: 18px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 14px;
   font-weight: bold;
   height: 30px;
   width: 30px;
@@ -28,13 +32,17 @@
   justify-content: center;
   align-items: center;
   margin: -1px;
-  top: 10px;
-  background: antiquewhite;
+  background-color: #dfcfd0;
+  border: 1px solid #050505;
+}
+
+.question-practice .question {
+  margin-top: 10px;
 }
 
 .question-practice .question-text {
   text-align: justify;
-  /* margin: 15px; */
+  font-size: 14px;
 }
 
 .question-practice .options-container {
@@ -52,13 +60,14 @@
   border: 1px solid #333;
   color: #333;
   padding: 15px;
+  font-size: 14px;
   margin: 14px 27px;
   border-radius: 15px;
   display: flex;
   align-items: center;
   cursor: pointer;
   transition: background-color 0.3s;
-  width: 97%;
+  max-width: 800px;
   font-weight: 500;
 }
 .question-practice .options-grid .incorrect {
@@ -111,7 +120,6 @@
   .question-practice .options-container {
     grid-template-columns: repeat(1, 1fr);
   }
-
 }
 
 .question-practice .question-image {
@@ -169,22 +177,22 @@
 
 .accordion-body {
   font-weight: lighter;
+  font-size: 14px;
 }
 
-.question{
+.question {
   display: flex;
 }
 
-.question-number-container{
-  margin-top: 5px;
-  margin-right: 10px;
-}
-
-.question-text-container{
+.question-text-container {
   text-align: justify;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
-@media screen and (max-width : 700px) {
-  .page-button{
+@media screen and (max-width: 700px) {
+  .page-button {
     padding: 0.5rem;
+    justify-content: center;
   }
 }
