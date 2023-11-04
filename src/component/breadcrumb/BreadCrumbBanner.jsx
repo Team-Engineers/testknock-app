@@ -5,8 +5,8 @@ import { Link, useParams } from "react-router-dom";
 
 const BreadCrumbBanner = () => {
   const { topic, subTopic } = useParams();
-console.log("topic",topic)
-console.log("subtopic",subTopic)
+// console.log("topic",topic)
+// console.log("subtopic",subTopic)
 
   return (
     <section className="breadcrumb-banner">

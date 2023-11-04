@@ -18,7 +18,7 @@ const QuestionV2 = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data: ", error);
+        // console.error("Error fetching data: ", error);
       });
   }, []);
 
