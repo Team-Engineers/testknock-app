@@ -26,6 +26,11 @@ const BannerSection = styled.section`
     font-size: 20px;
     cursor: pointer;
   }
+  display : flex;
+  justify-content : center;
+  align-items : center;
+  flex-direction : column;
+  height : 100%
 `;
 const CustomModal = styled(Modal)`
   .modal-dialog {
@@ -34,10 +39,6 @@ const CustomModal = styled(Modal)`
     justify-content: center;
     padding-top: 50vh;
     height: 100px;
-  }
-  .modal-content {
-    width: 600px;
-    height: 500px;
   }
   .rounded-link {
     width: 320px;
@@ -67,15 +68,10 @@ const CustomModal = styled(Modal)`
 
 // New CSS class for styling links
 const StyledLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 500px;
-  height: 80px;
+  padding : 7px;
   margin: 9px;
   border: 1px solid #79090b;
   background-color: #79090b;
-  // background: linear-gradient(to right,#ec232b,#79090b);
   border-radius: 10px;
   text-align: center;
   display: flex;
@@ -83,7 +79,7 @@ const StyledLink = styled(Link)`
   justify-content: center;
   font-weight: bold;
   font-size: 20px;
-  color: #fff; /* Bold white text */
+  color: #fff; 
   text-decoration: none;
   .rounded-link:hover {
     color: #fff !important;
@@ -110,7 +106,7 @@ const Banner = () => {
   return (
     <BannerSection>
       <div className="banner-text bgColor">
-        <div className="p-md-5 text-center">
+        <div className="text-center h-100 d-flex flex-column align-items-center justify-content-center">
           <h1 className="fw-bold">TIET CTD</h1>
           <h3 className="mb-5">Presents the best test prep platform</h3>
           <button className="btn btn-dark" onClick={openModal}>
@@ -127,7 +123,7 @@ const Banner = () => {
           <Container>
             {links.map((link, index) => (
               <Row key={index}>
-                <Col xs={6}>
+                <Col xs={12}>
                   <StyledLink to={link.url}>{link.label}</StyledLink>
                 </Col>
               </Row>

@@ -14,12 +14,17 @@ const userSlice = createSlice({
     contact: "",
     institute: "",
     accessLevel: "",
-    userId : "",
+    userId: "",
     subject: {
       math: 0,
       lr: 0,
       varc: 0,
       di: 0,
+    },
+    social: {
+      portfolio: "",
+      github: "",
+      linkedin: "",
     },
   },
   reducers: {
@@ -29,9 +34,6 @@ const userSlice = createSlice({
     setSliceName: (state, action) => {
       state.name = action.payload; // Fix the assignment here
     },
-    // setSlicePassword: (state, action) => {
-    //     state.password = action.payload; // Fix the assignment here
-    // },
     setSliceProfilePic: (state, action) => {
       state.profilePic = action.payload; // Fix the assignment here
     },
@@ -54,8 +56,14 @@ const userSlice = createSlice({
       state.accessLevel = action.payload; // Fix the assignment here
     },
     setSliceUserId: (state, action) => {
-        state.userId = action.payload; // Fix the assignment here
-      },
+      state.userId = action.payload; // Fix the assignment here
+    },
+    setSliceSocial : (state,action) =>{
+      state.social.github = action.payload.github;
+      state.social.portfolio = action.payload.portfolio;
+      state.social.linkedin = action.payload.linkedin;
+
+    },
     logoutUser: (state) => {
       state.user = null;
     },
@@ -74,6 +82,7 @@ export const {
   setSliceAccessLevel,
   setSliceUserId,
   logoutUser,
+  setSliceSocial,
 } = userSlice.actions;
 
 export default userSlice.reducer;

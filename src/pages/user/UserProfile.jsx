@@ -9,10 +9,11 @@ import {
   setSliceYear,
   setSliceContact,
   setSliceInstitute,
+  setSliceSocial,
 } from "../../utils/userSlice";
 import Header from "../../component/header/Header";
 import axios from "axios"; // Import Axios
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { API, PROFILEPIC_URL } from "../../utils/constants";
 
 const UserProfile = () => {
@@ -23,6 +24,9 @@ const UserProfile = () => {
   const [year, setYear] = useState("");
   const [contact, setContact] = useState("");
   const [institute, setInstitute] = useState("");
+  const [github,setGithub] = useState("");
+  const [portfolio, setPortfolio] = useState("");
+  const [linkedin , setLinkedin] = useState("");
 
   const dispatch = useDispatch();
   const Navigate = useNavigate();
@@ -34,6 +38,7 @@ const UserProfile = () => {
   const sliceYear = useSelector((state) => state.user.year);
   const sliceContact = useSelector((state) => state.user.contact);
   const sliceInstitute = useSelector((state) => state.user.institute);
+  const sliceSocial = useSelector((state) => state.user.social)
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -53,6 +58,12 @@ const UserProfile = () => {
         contact: contact || sliceContact,
         institute: institute || sliceInstitute,
         profilePic: profilePic,
+        social : {
+          github : github || sliceSocial.github,
+          linkedin :  linkedin || sliceSocial.linkedin,
+          portfolio : portfolio || sliceSocial.portfolio, 
+        }
+
       };
 
       const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
@@ -106,6 +117,8 @@ const UserProfile = () => {
       dispatch(setSliceInstitute(storedUserData.institute || sliceInstitute));
 
       dispatch(setSliceContact(storedUserData.contact || sliceContact));
+
+      dispatch(setSliceSocial(storedUserData.social));
       
     } 
     else {
@@ -124,8 +137,12 @@ const UserProfile = () => {
     setYear(storedUserData.year)
     setInstitute(storedUserData.institute)
     setContact(storedUserData.contact);
+    setGithub(storedUserData.social.github);
+    setLinkedin(storedUserData.social.linkedin);
+    setPortfolio(storedUserData.social.portfolio)
 
   },[])
+
 
   return (
     <section className="userProfile">
@@ -153,37 +170,23 @@ const UserProfile = () => {
                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                       <h6 class="mb-0">
                         <i class="fa-solid fa-globe me-2"></i>
-                        Website
+                        Portfolio
                       </h6>
-                      <span class="text-secondary">https://bootdey.com</span>
+                      <Link class="text-secondary" to={portfolio}>{portfolio}</Link>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                       <h6 class="mb-0">
                         <i class="fa-brands me-2 fa-github"></i>
                         Github
                       </h6>
-                      <span class="text-secondary">bootdey</span>
+                      <Link class="text-secondary" to = {github}>{github}</Link>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                       <h6 class="mb-0">
-                        <i class="fa-brands me-2 fa-x-twitter"></i>
-                        Twitter
+                        <i class="fa-brands me-2 fa-linkedin"></i>
+                        Linkedin
                       </h6>
-                      <span class="text-secondary">@bootdey</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                      <h6 class="mb-0">
-                        <i class="fa-brands me-2 fa-instagram"></i>
-                        Instagram
-                      </h6>
-                      <span class="text-secondary">bootdey</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                      <h6 class="mb-0">
-                        <i class="fa-brands me-2 fa-facebook-f"></i>
-                        Facebook
-                      </h6>
-                      <span class="text-secondary">bootdey</span>
+                      <Link class="text-secondary" to = {linkedin}>{linkedin}</Link>
                     </li>
                   </ul>
                 </div>
@@ -293,6 +296,51 @@ const UserProfile = () => {
                         value={contact}
                         onChange={(e) => {
                           setContact(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Portfolio</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <input
+                        type="text"
+                        class="form-control"
+                        value={portfolio}
+                        onChange={(e) => {
+                          setPortfolio(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Github</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <input
+                        type="text"
+                        class="form-control"
+                        value={github}
+                        onChange={(e) => {
+                          setGithub(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Linkedin</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <input
+                        type="text"
+                        class="form-control"
+                        value={linkedin}
+                        onChange={(e) => {
+                          setLinkedin(e.target.value);
                         }}
                       />
                     </div>
