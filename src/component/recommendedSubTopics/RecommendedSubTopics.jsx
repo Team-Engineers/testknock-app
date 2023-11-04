@@ -3,13 +3,12 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/images/subtopic-logo.png";
 const TopicCard = styled.li`
-  height: 3rem;
+  height: fit-content;
   background-color: white;
-  // border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid;
+  border: 1px solid ;
   text-align: center;
   background: ${(props) => (props.isCurrentTopic ? "blueviolet" : "inherit")};
   color: ${(props) => (props.isCurrentTopic ? "white" : "inherit")};
@@ -29,19 +28,21 @@ const TopicCard = styled.li`
 const Wrapper = styled.ul`
   width: fit-content;
   display: flex;
-  /* justify-content: center; */
   align-items: center;
+  justify-content : center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
   padding: 0px;
 `;
 
 const MarginTop = styled.div`
-  margin-top: 7rem;
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
   algin-items: center;
   flex-direction: column;
+  top : 0;
+  position: sticky;
 `;
 
 const Box = styled.div`
@@ -51,10 +52,11 @@ const Box = styled.div`
 `;
 
 const Box1 = styled.div`
-  width: 3rem;
+  min-width: 2rem;
 `;
 const Box2 = styled.h6`
-  width: 12rem;
+  width : 10rem;
+  padding : 10px 5px;
   margin-bottom: 0px;
   text-transform: uppercase;
   font-weight: ${(props) => (props.isCurrentTopic ? "bolder" : "normal")};
@@ -107,34 +109,60 @@ const RecommendedSubTopics = () => {
 
   return (
     <MarginTop>
-      <h4>List of Subtopics</h4>
-      <Wrapper>
-        {subtopicsData[topic].map((currentTopic, subIndex) => (
-          <Link
-            to={`/${topic.split(" ").join("_")}/${currentTopic
-              .split(" ")
-              .join("_")}`}
-            key={subIndex}
-          >
-            <TopicCard
-              isCurrentTopic={subTopic.split("_").join(" ") === currentTopic}
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item ">
+          <h2 class="accordion-header" id="headingOne">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
             >
-              <Box>
-                <Box1>
-                  <img src={logo} className="img-fluid" alt="Logo" />
-                </Box1>
-                <Box2
-                  isCurrentTopic={
-                    currentTopic === subTopic.split("_").join(" ")
-                  }
-                >
-                  {currentTopic}
-                </Box2>
-              </Box>
-            </TopicCard>
-          </Link>
-        ))}
-      </Wrapper>
+              List of Subtopics
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse show"
+            aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body p-1 my-3">
+              <Wrapper>
+                {subtopicsData[topic].map((currentTopic, subIndex) => (
+                  <Link
+                    to={`/${topic.split(" ").join("_")}/${currentTopic
+                      .split(" ")
+                      .join("_")}`}
+                    key={subIndex}
+                  >
+                    <TopicCard
+                      isCurrentTopic={
+                        subTopic.split("_").join(" ") === currentTopic
+                      }
+                    >
+                      <Box>
+                        <Box1>
+                          <img src={logo} className="img-fluid" alt="Logo" />
+                        </Box1>
+                        <Box2
+                          isCurrentTopic={
+                            currentTopic === subTopic.split("_").join(" ")
+                          }
+                        >
+                          {currentTopic}
+                        </Box2>
+                      </Box>
+                    </TopicCard>
+                  </Link>
+                ))}
+              </Wrapper>
+            </div>
+          </div>
+        </div>
+      </div>
     </MarginTop>
   );
 };

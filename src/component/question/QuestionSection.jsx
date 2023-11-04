@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./QuestionSection.css";
 import { Modal, Button } from "react-bootstrap";
-import gif from "../../assets/images/gif.gif";
+import giphy from "../../assets/images/giphy.gif";
 
 const MCQSection = () => {
   const [data, setData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
-
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
   const [unattemptedAnswers, setUnattemptedAnswers] = useState(0);
@@ -17,116 +16,34 @@ const MCQSection = () => {
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
   const [optionsUI, setOptionsUI] = useState(Array(10).fill(""));
-  const [yourScore, setYourScore] = useState(null);
+  const [yourScore, setYourScore] = useState(0);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [timer, setTimer] = useState(600); // Initial timer value in seconds
-  const [timerActive, setTimerActive] = useState(true); // Whether the timer is active
-
+  const [timerActive, setTimerActive] = useState(false); // Whether the timer is active
+  const [isLoading, setIsLoading] = useState(true);
   // correctOptionIndex in api, is 1 index numbering, so reduce it by 1 , whenever in use
 
   useEffect(() => {
-    // Fetch data from the API here
     fetch(
       "https://ourntamockpapers.onrender.com/api/math/question/v2/l1/random"
     )
       .then((response) => response.json())
       .then((resData) => {
+        setIsLoading(false);
         setData(resData);
-        console.log("resdata", resData);
+        // console.log("resdata", resData);
         if (resData) {
           setSelectedOptions(Array(10).fill(null));
           setExplanationsVisible(Array(10).fill(false));
+          setTimerActive(true);
         }
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
       });
-      // interval();
+  }, []);
 
-  },[])
-
-  useEffect(()=>{
-    const interval = setInterval(() => {
-      if (timer > 0 && timerActive) {
-        setTimer(timer - 1); // Decrement the timer value
-      } else if (timer === 0) {
-        setTimerActive(false);
-        setTestSubmitted(true); // Show the scorecard
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(interval); // Clear the interval when the component unmounts
-    };
-  }, [timer, timerActive]);
-
-  const handleOptionSelect = (questionIndex, optionIndex) => {
-    const updatedSelectedOptions = [...selectedOptions];
-    updatedSelectedOptions[questionIndex] = optionIndex;
-    setSelectedOptions(updatedSelectedOptions);
-    const updatedOptionsUI = [...optionsUI];
-
-    updatedOptionsUI[questionIndex] = optionIndex;
-
-    setOptionsUI(updatedOptionsUI);
-  };
-
-  const handleSubmit = () => {
-    const areAllQuestionsAnswered = selectedOptions.every(
-      (option) => option !== null
-    );
-
-    if (areAllQuestionsAnswered) {
-      const { correct, wrong, unattempted } = calculateAnswers();
-      setCorrectAnswers(correct);
-      setWrongAnswers(wrong);
-      setUnattemptedAnswers(unattempted);
-      const score = calculateScore();
-      setYourScore(score);
-      handleShowSubmissionModal();
-    } else {
-      handleShowWarningModal();
-    }
-  };
-
-  const calculateAnswers = () => {
-    let correct = 0;
-    let wrong = 0;
-    let unattempted = 0;
-
-    selectedOptions.forEach((userAnswerIndex, index) => {
-      if (userAnswerIndex === null) {
-        unattempted++;
-      } else if (userAnswerIndex === data[index].correctOptionIndex - 1) {
-        correct++;
-      } else {
-        wrong++;
-      }
-    });
-    return { correct, wrong, unattempted };
-  };
-
-  const handleCloseWarningModal = () => {
-    setShowWarningModal(false);
-  };
-
-  const handleShowWarningModal = () => {
-    setShowWarningModal(true);
-  };
-
-  const handleCloseSubmissionModal = () => {
-    setShowSubmissionModal(false);
-  };
-
-  const handleShowSubmissionModal = () => {
-    calculateScore();
-    setShowSubmissionModal(true);
-    setTestSubmitted(true);
-    setShowWarningModal(false);
-    setShowCorrectAnswer(true);
-  };
-
-  const calculateScore = () => {
+  const calculateScore = useCallback(() => {
     let correctAnswers = 0;
     let wrongAnswers = 0;
     let unattemptedAnswers = 0;
@@ -149,9 +66,67 @@ const MCQSection = () => {
     setCorrectAnswers(correctAnswers); // Set the correct answer count
     setWrongAnswers(wrongAnswers); // Set the wrong answer count
     setUnattemptedAnswers(unattemptedAnswers); // Set the unattempted answer count
-
+    setYourScore(correctAnswers);
     return score2;
+  },[data,selectedOptions]);
+
+  const handleShowSubmissionModal = useCallback(() => {
+    calculateScore();
+    setShowSubmissionModal(true);
+    setTestSubmitted(true);
+    setShowWarningModal(false);
+    setShowCorrectAnswer(true);
+    setTimerActive(false);
+    setTimer(0);
+  },[calculateScore]);
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timer > 0 && timerActive) {
+        setTimer(timer - 1); // Decrement the timer value
+      } else if (timer === 0 && timerActive) {
+        handleShowSubmissionModal();
+      }
+    }, 1000);
+    return () => {
+      clearInterval(interval); // Clear the interval when the component unmounts
+    };
+  }, [timer, timerActive,handleShowSubmissionModal]);
+
+  const handleOptionSelect = (questionIndex, optionIndex) => {
+    const updatedSelectedOptions = [...selectedOptions];
+    updatedSelectedOptions[questionIndex] = optionIndex;
+    setSelectedOptions(updatedSelectedOptions);
+    const updatedOptionsUI = [...optionsUI];
+
+    updatedOptionsUI[questionIndex] = optionIndex;
+
+    setOptionsUI(updatedOptionsUI);
   };
+
+  const handleSubmit = () => {
+    if (timer > 0 && timerActive) {
+      calculateScore();
+      handleShowWarningModal();
+    } else {
+      handleShowSubmissionModal();
+    }
+  };
+
+  const handleCloseWarningModal = () => {
+    setShowWarningModal(false);
+  };
+
+  const handleShowWarningModal = () => {
+    setShowWarningModal(true);
+  };
+
+  const handleCloseSubmissionModal = () => {
+    setShowSubmissionModal(false);
+  };
+
+
 
   const toggleExplanationVisibility = (questionIndex) => {
     const updatedExplanationsVisible = [...explanationsVisible];
@@ -166,35 +141,44 @@ const MCQSection = () => {
 
   return (
     <section className="quiz-section">
-      <div className="mcq-section">
-      <div className={`timer ${testSubmitted ? "d-none" : ""}`}>Time Remaining: {Math.floor(timer / 60)}:{timer % 60}</div>
-        <div className="question-section">
-          {data.map((question, questionIndex) => (
-            <div key={questionIndex} className="question-container">
-              <div className="question-header">
-                <h6 className="question-number">{`${questionIndex + 1}`}</h6>
-                <h6>{question.text[0]}</h6>
-              </div>
-              <div className="images-container">
-                {question.images.map((image, imageIndex) => (
-                  <img
-                    key={imageIndex}
-                    src={image}
-                    alt={`Img ${imageIndex + 1}`}
-                    className="para-images"
-                  />
-                ))}
-              </div>
-              <ul>
-                {question.options.map((option, optionIndex) => (
-                  <li
-                    key={optionIndex}
-                    onClick={() =>
-                      handleOptionSelect(questionIndex, optionIndex)
-                    }
-                  >
-                    <div
-                      className={`option-section 
+      {isLoading ? (
+        <div className="spinner-container">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <div className="mcq-section">
+          <div className={`timer ${testSubmitted ? "d-none" : ""}`}>
+            Time Remaining: {Math.floor(timer / 60)}:{timer % 60}
+          </div>
+          <div className="question-section">
+            {data.map((question, questionIndex) => (
+              <div key={questionIndex} className="question-container">
+                <div className="question-header">
+                  <h6 className="question-number">{`${questionIndex + 1}`}</h6>
+                  <h6>{question.text[0]}</h6>
+                </div>
+                <div className="images-container">
+                  {question.images.map((image, imageIndex) => (
+                    <img
+                      key={imageIndex}
+                      src={image}
+                      alt={`Img ${imageIndex + 1}`}
+                      className="para-images"
+                    />
+                  ))}
+                </div>
+                <ul>
+                  {question.options.map((option, optionIndex) => (
+                    <li
+                      key={optionIndex}
+                      onClick={() =>
+                        handleOptionSelect(questionIndex, optionIndex)
+                      }
+                    >
+                      <div
+                        className={`option-section 
                       ${
                         showCorrectAnswer
                           ? optionIndex === question.correctOptionIndex - 1
@@ -209,69 +193,74 @@ const MCQSection = () => {
                       }
 
                        `}
-                    >
-                      <h6 className="alphabet">
-                        {String.fromCharCode(65 + optionIndex)}{" "}
-                      </h6>
-                      <div className="option-container">
-                        <h6 className="option-text">{option.text}</h6>
-                        {option.image && (
-                          <img
-                            src={option.image}
-                            alt={`Img ${optionIndex + 1}`}
-                            className="option-image"
-                          />
-                        )}
-                      </div>
-                      {showCorrectAnswer ? (
-                        optionIndex === optionsUI[questionIndex] ? (
-                          optionsUI[questionIndex] ===
-                          question.correctOptionIndex - 1 ? (
-                            <i class="fa-solid fa-check"></i>
+                      >
+                        <div className="d-flex justify-content-center align-items-center gap-4">
+                          <h6 className="alphabet">
+                            {String.fromCharCode(65 + optionIndex)}{" "}
+                          </h6>
+                          <div className="option-container">
+                            <h6 className="option-text">{option.text}</h6>
+                            {option.image && (
+                              <img
+                                src={option.image}
+                                alt={`Img ${optionIndex + 1}`}
+                                className="option-image"
+                              />
+                            )}
+                          </div>
+                        </div>
+
+                        {showCorrectAnswer ? (
+                          optionIndex === optionsUI[questionIndex] ? (
+                            optionsUI[questionIndex] ===
+                            question.correctOptionIndex - 1 ? (
+                              <i class="fa-solid fa-check"></i>
+                            ) : (
+                              <i class="fa-solid fa-xmark"></i>
+                            )
                           ) : (
-                            <i class="fa-solid fa-xmark"></i>
+                            ""
                           )
                         ) : (
                           ""
-                        )
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
 
-              <div
-                className={`d-flex justify-content-center align-items-start flex-column ${
-                  testSubmitted ? "d-block" : "d-none"
-                }`} style = {{padding:"10px"}}
-              >
-                <button
-                  className="toggle-explanation-btn"
-                  onClick={() => toggleExplanationVisibility(questionIndex)}
+                <div
+                  className={`d-flex justify-content-center align-items-start flex-column ${
+                    testSubmitted ? "d-block" : "d-none"
+                  }`}
+                  style={{ padding: "10px" }}
                 >
-                  {explanationsVisible[questionIndex]
-                    ? "Hide Explanation"
-                    : "Show Explanation"}
-                </button>
+                  <button
+                    className="toggle-explanation-btn"
+                    onClick={() => toggleExplanationVisibility(questionIndex)}
+                  >
+                    {explanationsVisible[questionIndex]
+                      ? "Hide Explanation"
+                      : "Show Explanation"}
+                  </button>
 
-                <div className="explanation-wrapper ">
-                  {explanationsVisible[questionIndex] && (
-                    <div className="explanation">
-                      <p>
-                        {question.explanation.text.map((text, index) => (
-                          <h6 key={index}>{text}</h6>
-                        ))}
-                      </p>
-                    </div>
-                  )}
+                  <div className="explanation-wrapper ">
+                    {explanationsVisible[questionIndex] && (
+                      <div className="explanation">
+                        <p>
+                          {question.explanation.text.map((text, index) => (
+                            <h6 key={index}>{text}</h6>
+                          ))}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {testSubmitted ? (
         <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
@@ -290,8 +279,8 @@ const MCQSection = () => {
         dialogClassName="warning-modal-dialog"
       >
         <Modal.Body>
-          <p className="bold-text">You have not answered all the questions.</p>
-          <p className="bold-text">Do you want to continue?</p>
+          <p className="bold-text">Time is Left !!!</p>
+          <p className="bold-text">Do you want still want to continue?</p>
           <div className="modal-buttons">
             <Button variant="secondary" onClick={handleCloseWarningModal}>
               Cancel
@@ -310,23 +299,15 @@ const MCQSection = () => {
         centered
       >
         <Modal.Body>
-          <img src={gif} alt="Your GIF" className="gif-image" />
+          <img src={giphy} alt="Your GIF" className="giphy-image" />
           <h6 className="score">Your Score: {yourScore}</h6>
-          <p
-            className={`correct-answers ${
-              correctAnswers > 0 ? "green-text" : ""
-            }`}
-          >
+          <p className="correct-answers green-text">
             Correct Answers: {correctAnswers}
           </p>
-          <p className={`wrong-answers ${wrongAnswers > 0 ? "red-text" : ""}`}>
+          <p className="wrong-answers red-text">
             Wrong Answers: {wrongAnswers}
           </p>
-          <p
-            className={`unattempted-answers ${
-              unattemptedAnswers > 0 ? "orange-text" : ""
-            }`}
-          >
+          <p className="unattempted-answers orange-text">
             Unattempted Answers: {unattemptedAnswers}
           </p>
         </Modal.Body>
