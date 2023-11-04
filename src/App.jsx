@@ -25,10 +25,7 @@ const App = () => {
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route exact path="/" element={<Home />} />
-            <Route
-              path="/:topic/:subTopic"
-              element={<SubTopicQuestion />}
-            />
+            <Route path="/:topic/:subTopic" element={<SubTopicQuestion />} />
             <Route exact path="/:topic" element={<SubTopicsList />} />
             <Route exact path="/user" element={<UserProfile />} />
             <Route exact path="/questionpractice" element={<QuestionV2 />} />

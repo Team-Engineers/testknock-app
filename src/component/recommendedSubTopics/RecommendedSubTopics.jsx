@@ -33,15 +33,15 @@ const Wrapper = styled.ul`
   align-items: center;
   flex-wrap: wrap;
   gap: 2rem;
-  padding : 0px;
+  padding: 0px;
 `;
 
 const MarginTop = styled.div`
   margin-top: 7rem;
-  display : flex;
-  justify-content : center;
-  algin-items : center;
-  flex-direction : column;
+  display: flex;
+  justify-content: center;
+  algin-items: center;
+  flex-direction: column;
 `;
 
 const Box = styled.div`
@@ -107,8 +107,7 @@ const RecommendedSubTopics = () => {
 
   return (
     <MarginTop>
-        <h4>List of Subtopics</h4>
-
+      <h4>List of Subtopics</h4>
       <Wrapper>
         {subtopicsData[topic].map((currentTopic, subIndex) => (
           <Link
@@ -117,12 +116,18 @@ const RecommendedSubTopics = () => {
               .join("_")}`}
             key={subIndex}
           >
-            <TopicCard isCurrentTopic={subTopic.split("_").join(" ") === currentTopic}>
+            <TopicCard
+              isCurrentTopic={subTopic.split("_").join(" ") === currentTopic}
+            >
               <Box>
                 <Box1>
                   <img src={logo} className="img-fluid" alt="Logo" />
                 </Box1>
-                <Box2 isCurrentTopic={currentTopic === subTopic.split("_").join(" ")}>
+                <Box2
+                  isCurrentTopic={
+                    currentTopic === subTopic.split("_").join(" ")
+                  }
+                >
                   {currentTopic}
                 </Box2>
               </Box>
