@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import "./QuestionSection.css";
 import { Modal, Button } from "react-bootstrap";
@@ -20,6 +19,8 @@ const MCQSection = () => {
   const [optionsUI, setOptionsUI] = useState(Array(10).fill(""));
   const [yourScore, setYourScore] = useState(null);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
+  const [timer, setTimer] = useState(600); // Initial timer value in seconds
+  const [timerActive, setTimerActive] = useState(true); // Whether the timer is active
 
   // correctOptionIndex in api, is 1 index numbering, so reduce it by 1 , whenever in use
 
@@ -36,24 +37,35 @@ const MCQSection = () => {
           setSelectedOptions(Array(10).fill(null));
           setExplanationsVisible(Array(10).fill(false));
         }
-        // Update the state with the fetched data
-        // console.log("taking data", resData, data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+      // interval();
+
+  },[])
+
+  useEffect(()=>{
+    const interval = setInterval(() => {
+      if (timer > 0 && timerActive) {
+        setTimer(timer - 1); // Decrement the timer value
+      } else if (timer === 0) {
+        setTimerActive(false);
+        setTestSubmitted(true); // Show the scorecard
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval); // Clear the interval when the component unmounts
+    };
+  }, [timer, timerActive]);
 
   const handleOptionSelect = (questionIndex, optionIndex) => {
     const updatedSelectedOptions = [...selectedOptions];
     updatedSelectedOptions[questionIndex] = optionIndex;
     setSelectedOptions(updatedSelectedOptions);
-
-    // const isCorrect =
-    //   optionIndex + 1 === data[questionIndex].correctOptionIndex;
     const updatedOptionsUI = [...optionsUI];
 
-    // updatedOptionsUI[questionIndex] = isCorrect ? "correct" : "incorrect";
     updatedOptionsUI[questionIndex] = optionIndex;
 
     setOptionsUI(updatedOptionsUI);
@@ -85,11 +97,7 @@ const MCQSection = () => {
     selectedOptions.forEach((userAnswerIndex, index) => {
       if (userAnswerIndex === null) {
         unattempted++;
-      } else if (
-        userAnswerIndex ===
-        data[index].correctOptionIndex - 1
-        // userAnswerIndex === question.correctOptionIndex
-      ) {
+      } else if (userAnswerIndex === data[index].correctOptionIndex - 1) {
         correct++;
       } else {
         wrong++;
@@ -123,28 +131,6 @@ const MCQSection = () => {
     let wrongAnswers = 0;
     let unattemptedAnswers = 0;
 
-    // const score = data.reduce((totalScore, para) => {
-    //   para.questions.forEach((question, index) => {
-    //     const userAnswerIndex = selectedOptions[index];
-    //     if (userAnswerIndex !== null) {
-    //       if (userAnswerIndex === question.correctOptionIndex) {
-    //         correctAnswers++; // Increase the count for each correct answer
-    //       } else {
-    //         wrongAnswers++; // Increase the count for each wrong answer
-    //       }
-    //     } else {
-    //       unattemptedAnswers++; // Increase the count for unattempted questions
-    //     }
-    //     if (
-    //       userAnswerIndex !== null &&
-    //       userAnswerIndex === question.correctOptionIndex
-    //     ) {
-    //       totalScore++; // Increase the score for each correct answer
-    //     }
-    //   });
-    //   return totalScore;
-    // }, 0);
-
     const score2 = data.forEach((question, index) => {
       const correctOptionIndex = question.correctOptionIndex - 1;
       const userAnswerIndex = selectedOptions[index];
@@ -174,41 +160,14 @@ const MCQSection = () => {
     setExplanationsVisible(updatedExplanationsVisible);
   };
 
-  // const logSelectedOptions = () => {
-  //   const selectedOptionsData = data.map((question, questionIndex) => {
-  //     const selectedOptionIndex = selectedOptions[questionIndex];
-  //     const selectedOption =
-  //       selectedOptionIndex !== null
-  //         ? question.options[selectedOptionIndex]
-  //         : null;
-
-  //     const isCorrect =
-  //       selectedOptionIndex !== null &&
-  //       selectedOptionIndex === question.correctOptionIndex - 1;
-  //     // correctoption is 4, but actual it should be 3
-  //     const correctOption = question.options[question.correctOptionIndex - 1];
-
-  //     return {
-  //       questionIndex: questionIndex,
-  //       selectedOptionIndex: selectedOptionIndex,
-  //       selectedOption: selectedOption,
-  //       isCorrect: isCorrect,
-  //       correctOption: correctOption,
-  //     };
-  //   });
-
-  //   console.log("Selected Options:", selectedOptionsData);
-  // };
-
   const handleRetakeTest = () => {
-    // Reload the page to retake the test
     window.location.reload();
   };
 
   return (
     <section className="quiz-section">
       <div className="mcq-section">
-
+      <div className={`timer ${testSubmitted ? "d-none" : ""}`}>Time Remaining: {Math.floor(timer / 60)}:{timer % 60}</div>
         <div className="question-section">
           {data.map((question, questionIndex) => (
             <div key={questionIndex} className="question-container">
@@ -237,7 +196,6 @@ const MCQSection = () => {
                     <div
                       className={`option-section 
                       ${
-                        
                         showCorrectAnswer
                           ? optionIndex === question.correctOptionIndex - 1
                             ? ""
@@ -287,7 +245,7 @@ const MCQSection = () => {
               <div
                 className={`d-flex justify-content-center align-items-start flex-column ${
                   testSubmitted ? "d-block" : "d-none"
-                }`}
+                }`} style = {{padding:"10px"}}
               >
                 <button
                   className="toggle-explanation-btn"
@@ -317,21 +275,13 @@ const MCQSection = () => {
 
       {testSubmitted ? (
         <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
-          Retake Test
+          Take New Test
         </button>
       ) : (
         <button className="submit-button btn  mb-4" onClick={handleSubmit}>
           Submit
         </button>
       )}
-      {/* 
-      <button
-        className="log-options-button btn mb-4"
-        onClick={logSelectedOptions}
-      >
-        Log Selected Options
-      </button> */}
-
       <Modal
         show={showWarningModal}
         onHide={handleCloseWarningModal}
@@ -361,7 +311,7 @@ const MCQSection = () => {
       >
         <Modal.Body>
           <img src={gif} alt="Your GIF" className="gif-image" />
-          <p className="score">Your Score: {yourScore}</p>
+          <h6 className="score">Your Score: {yourScore}</h6>
           <p
             className={`correct-answers ${
               correctAnswers > 0 ? "green-text" : ""

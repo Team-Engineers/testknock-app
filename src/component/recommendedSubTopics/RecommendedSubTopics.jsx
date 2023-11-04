@@ -108,7 +108,6 @@ const RecommendedSubTopics = () => {
   return (
     <MarginTop>
       <h4>List of Subtopics</h4>
-
       <Wrapper>
         {subtopicsData[topic].map((currentTopic, subIndex) => (
           <Link

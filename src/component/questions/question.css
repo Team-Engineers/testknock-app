@@ -40,6 +40,10 @@
   margin-top: 10px;
 }
 
+.question-practice .question{
+  margin-top: 10px;
+}
+
 .question-practice .question-text {
   text-align: justify;
   font-size: 14px;

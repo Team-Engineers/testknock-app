@@ -3,14 +3,15 @@
 .mcq-container,
 .mcq-container h2,
 .question-number,
+.modal-body,
 .mcq-container ul li {
   font-family: "Roboto", sans-serif;
 }
 
 .quiz-section .mcq-section,
 .quiz-section .question-section {
-  margin: 20px auto;
-  max-width: 150%;
+  margin: 10px;
+  /* max-width: 10%; */
 }
 
 
@@ -63,6 +64,18 @@
   border-bottom-right-radius: 10px;
   background-color: #79090b;
   color: white;
+}
+
+
+.quiz-section .timer {
+  position: sticky;
+  top: 0;
+  height: 50px;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75px;
 }
 
 .quiz-section .mcq-container h2 {
@@ -255,18 +268,13 @@
 }
 
 
-.quiz-section .question-container ul .incorrect {
-  /* background-color: red; */
-}
-
 .quiz-section .question-container ul {
   padding: 0px;
 }
 
 .selected-option {
-  background-color: orange; /* Change the background color to highlight the selected option */
-  color: #fff; /* Change the text color for better contrast */
-  /* Add other styles as needed */
+  background-color: orange; 
+  color: #fff; 
 }
 
 
@@ -277,13 +285,15 @@
     background-color: white;
     border: none;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-  }
-  .modal-warning  .warning-modal-dialog {
     display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-warning {
+    display: flex !important;
     align-items: center;
     justify-content: center;
-    width: 420px;
-    height: 400px;
+    /* width: fit-content; */
   }
   .modal-warning .modal-body {
     text-align: center;
@@ -335,6 +345,13 @@
   .scorecard-modal .modal-body {
     text-align: center;
   }
+
+  .scorecard-modal .modal-body p{
+    border : 1px solid #bababa;
+    padding: 1rem
+  }
+
+
   .scorecard-modal .score {
     font-size: 36px;
     font-weight: bold;
@@ -351,6 +368,7 @@
     color: #fff;
     font-weight: bold;
   }
+
 
 
 .gif-image {
@@ -373,12 +391,3 @@
   color: orange;
   font-weight: bold;
 }
-
-/* Your nesting styles */
-
-/* .parent {
-  background-color: #ccc;
-  .child {
-    color: #333;
-  }
-} */

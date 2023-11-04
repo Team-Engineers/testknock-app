@@ -105,7 +105,7 @@ const Banner = () => {
     { label: "Verbal Ability and Reading Comprehension", url: "/quiz/varc" },
     { label: "Data Interpretation", url: "/quiz/di" },
     { label: "Logical Reasoning", url: "/quiz/lr" },
-    { label: "Maths", url: "/quiz/math" },
+    { label: "Quantitative Aptitude", url: "/quiz/math" },
   ];
   return (
     <BannerSection>

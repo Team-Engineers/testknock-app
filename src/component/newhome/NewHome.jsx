@@ -36,7 +36,7 @@ const Wrapper = styled.ul`
 `;
 
 const MarginTop = styled.div`
-  margin-top: 7rem;
+  margin-top: 2rem;
 `;
 
 const Box = styled.div`
@@ -71,9 +71,9 @@ const NewHome = () => {
     ],
     "LOGICAL_REASONING": [
       "CODING AND DECODING",
-      "FAMILY TREE / BLOOD RELATIONS",
+      "FAMILY TREE || BLOOD RELATIONS",
       "DIRECTIONS",
-      "NUMBER/ALPHABET SERIES",
+      "NUMBER || ALPHABET SERIES",
       "PUZZLES",
       "CRITICAL REASONING",
       "SITUTATION TEST",
