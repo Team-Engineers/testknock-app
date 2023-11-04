@@ -143,43 +143,6 @@ const UserProfile = () => {
 
   },[])
 
-  const user ={
-    "subject": {
-        "math": {
-            "topics": []
-        },
-        "lr": {
-            "topics": []
-        },
-        "varc": {
-            "topics": []
-        },
-        "di": {
-            "topics": []
-        }
-    },
-    "social": {
-        "github": "",
-        "portfolio": "",
-        "linkedin": ""
-    },
-    "_id": "654529fe6a11b85a2c2e22f9",
-    "email": "aashutoshmishra296@gmail.com",
-    "name": "Ashutosh mishra",
-    "profilePic": "",
-    "isAdmin": false,
-    "branch": "",
-    "year": "",
-    "contact": "",
-    "accessLevel": "",
-    "institute": "",
-    "last_activity": [],
-    "createdAt": "2023-11-03T17:12:30.997Z",
-    "updatedAt": "2023-11-03T17:12:30.997Z",
-    "__v": 0,
-    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDUyOWZlNmExMWI4NWEyYzJlMjJmOSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2OTkxMDA0NjQsImV4cCI6MTY5OTUzMjQ2NH0.4GLnJEwIcuGvFnSf4QUAKdWreZgk-g-rR31umTFBYdA",
-    "check": true
-}
 
   return (
     <section className="userProfile">
