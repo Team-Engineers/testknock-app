@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./QuestionSection.css";
 import { Modal, Button } from "react-bootstrap";
 import giphy from "../../assets/images/giphy.gif";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const MCQSection = () => {
   const [data, setData] = useState([]);
@@ -22,26 +24,28 @@ const MCQSection = () => {
   const [timerActive, setTimerActive] = useState(false); // Whether the timer is active
   const [isLoading, setIsLoading] = useState(true);
   // correctOptionIndex in api, is 1 index numbering, so reduce it by 1 , whenever in use
-
+  const {topic} = useParams()
+  console.log(topic)
   useEffect(() => {
-    fetch(
-      "https://ourntamockpapers.onrender.com/api/math/question/v2/l1/random"
-    )
-      .then((response) => response.json())
-      .then((resData) => {
+    const fetchData = async()=>{
+      try{
+        const response = await axios.get(`https://ourntamockpapers.onrender.com/api/${topic}/question/v2/l1/random`)
+        const resData = response.data;
         setIsLoading(false);
         setData(resData);
-        // console.log("resdata", resData);
         if (resData) {
           setSelectedOptions(Array(10).fill(null));
           setExplanationsVisible(Array(10).fill(false));
           setTimerActive(true);
         }
-      })
-      .catch((error) => {
+      }catch(error){
         // console.error("Error fetching data:", error);
-      });
-  }, []);
+        alert("data is not fetched")
+      }
+    }
+    fetchData();
+
+  },[topic]);
 
   const calculateScore = useCallback(() => {
     let correctAnswers = 0;

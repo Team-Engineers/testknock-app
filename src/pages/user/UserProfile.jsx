@@ -48,7 +48,6 @@ const UserProfile = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     const storedUserData = JSON.parse(localStorage.getItem("user")); // Parse the JSON string to get the object
-    // console.log("localstorage data", storedUserData);
     if (storedUserData._id) {
       const userData = {
         email: email || sliceEmail,
@@ -67,7 +66,6 @@ const UserProfile = () => {
       };
 
       const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
-      // console.log("accesstoken", accessToken);
       if (accessToken) {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
@@ -129,11 +127,9 @@ const UserProfile = () => {
 
   useEffect(()=>{
     const storedUserData = JSON.parse(localStorage.getItem("user"));
-    // console.log("data browser",storedUserData)
     setName(storedUserData.name)
     setEmail(storedUserData.email )
     setBranch(storedUserData.branch)
-    // console.log("branch",storedUserData.branch)
     setYear(storedUserData.year)
     setInstitute(storedUserData.institute)
     setContact(storedUserData.contact);
