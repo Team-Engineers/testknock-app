@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./question.css";
 import RecommendedSubTopics from "../recommendedSubTopics/RecommendedSubTopics";
+import { useParams } from "react-router-dom";
+import axios from 'axios';
 
 const QuestionV2 = () => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -8,19 +10,36 @@ const QuestionV2 = () => {
   const [selectedOption, setSelectedOption] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const {topic , subTopic}  = useParams()
+  console.log("topic and subtopic",topic,subTopic)
 
   useEffect(() => {
-    // Fetch data from the API when the component mounts
-    fetch("https://ourntamockpapers.onrender.com/api/lr/question/v2")
-      .then((response) => response.json())
-      .then((result) => {
-        setData(result);
+    // Define an async function to fetch the data
+    const fetchData = async () => {
+      let route = ""; // Local variable to hold the route
+      let subTopicRoute = subTopic;
+      if(subTopic === "S.I_AND_C.I")subTopicRoute = "simple_interest_and_compound_interest"
+      if(subTopic === "RATIO_AND_PROPORTION")subTopicRoute = "ratio_and_praportion"
+      if(subTopic === "TIME,_SPEED_AND_DISTANCE")subTopicRoute = "time_speed_and_distance"
+      if(subTopic === "FAMILY_TREE_AND_BLOOD_RELATIONS")subTopicRoute = "family_tree_and_blood_relations"
+      if(subTopic === "NUMBER_OR_ALPHABET_SERIES")subTopicRoute = "number_alphabet_series"
+      if(topic === "QUANTITATIVE_APTITUDE") route = "math";
+      if(topic === "DATA_INTERPRETATION") route = "di";
+      if(topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION") route = "varc";
+      if(topic === "LOGICAL_REASONING") route = "lr";
+  
+      try {
+        const response = await axios.get(`https://ourntamockpapers.onrender.com/api/${route}/question/v2/${subTopicRoute.toLowerCase()}`);
+        setData(response.data); // Assuming the response has the data directly
         setIsLoading(false);
-      })
-      .catch((error) => {
-        // console.error("Error fetching data: ", error);
-      });
-  }, []);
+      } catch (error) {
+        console.error("Error fetching data with axios: ", error);
+      }
+    };
+  
+    fetchData(); // Call the async function
+  }, [topic, subTopic]); // Dependency array to trigger the effect when topic or subTopic changes
+  
 
   const handleOptionClick = (questionIndex, optionIndex) => {
     const updatedSelectedOption = [...selectedOption];

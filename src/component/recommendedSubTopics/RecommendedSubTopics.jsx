@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/images/subtopic-logo.png";
+import {subtopicsData} from '../../utils/constants'
 const TopicCard = styled.li`
   height: fit-content;
   background-color: white;
@@ -64,47 +65,7 @@ const Box2 = styled.h6`
 `;
 
 const RecommendedSubTopics = () => {
-  const subtopicsData = {
-    QUANTITATIVE_APTITUDE: [
-      "NUMBER SYSTEM",
-      "AVERAGE",
-      "PERCENTAGE",
-      "PROFIT AND LOSS",
-      "S.I AND C.I",
-      "PARTNERSHIP",
-      "RATIO & PROPORTION",
-      "TIME AND WORK",
-      "TIME, SPEED AND DISTANCE",
-      "PROBABILITY",
-      "PERMUTATION AND COMBINATION",
-    ],
-    LOGICAL_REASONING: [
-      "CODING AND DECODING",
-      "FAMILY TREE || BLOOD RELATIONS",
-      "DIRECTIONS",
-      "NUMBER || ALPHABET SERIES",
-      "PUZZLES",
-      "CRITICAL REASONING",
-      "SITUTATION TEST",
-      "MISCELLANEOUS",
-      "ARRANGEMENTS",
-    ],
-    VERBAL_ABILITY_AND_READING_COMPREHENSION: [
-      "SENTENCE CORRECTION",
-      "READING COMPREHENSION",
-      "CRITICAL REASONING",
-      "SENTENCE COMPLETION",
-      " SYLLOGISMS(VERBAL REASONING)",
-      "VOCABULARY ",
-      "ANALOGY ",
-    ],
-    DATA_INTERPRETATION: [
-      "BAR CHART",
-      "PIE CHART ",
-      "TABLE CHART",
-      "LINE CHART",
-    ],
-  };
+
   const { topic, subTopic } = useParams();
 
   return (
