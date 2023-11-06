@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/images/subtopic-logo.png";
 import {subtopicsData} from '../../utils/constants'
@@ -93,8 +93,8 @@ const RecommendedSubTopics = () => {
             <div class="accordion-body p-1 my-3">
               <Wrapper>
                 {subtopicsData[topic].map((currentTopic, subIndex) => (
-                  <Link
-                    to={`/${topic.split(" ").join("_")}/${currentTopic
+                  <a
+                    href={`/${topic.split(" ").join("_")}/${currentTopic
                       .split(" ")
                       .join("_")}`}
                     key={subIndex}
@@ -117,7 +117,7 @@ const RecommendedSubTopics = () => {
                         </Box2>
                       </Box>
                     </TopicCard>
-                  </Link>
+                  </a>
                 ))}
               </Wrapper>
             </div>
