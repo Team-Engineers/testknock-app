@@ -19,9 +19,6 @@ const QuestionV2 = () => {
       let route = ""; // Local variable to hold the route
       let subTopicRoute = subTopic;
       if(subTopic === "S.I_AND_C.I")subTopicRoute = "simple_interest_and_compound_interest"
-      if(subTopic === "RATIO_AND_PROPORTION")subTopicRoute = "ratio_and_praportion"
-      if(subTopic === "TIME,_SPEED_AND_DISTANCE")subTopicRoute = "time_speed_and_distance"
-      if(subTopic === "FAMILY_TREE_AND_BLOOD_RELATIONS")subTopicRoute = "family_tree_and_blood_relations"
       if(subTopic === "NUMBER_OR_ALPHABET_SERIES")subTopicRoute = "number_alphabet_series"
       if(topic === "QUANTITATIVE_APTITUDE") route = "math";
       if(topic === "DATA_INTERPRETATION") route = "di";
