@@ -206,7 +206,7 @@ const Login = () => {
                     className="img-fluid"
                     style={{ height: "120px" }}
                   />
-                  <h1 className="mt-3">Sign in</h1>
+                  
                   <input
                     type="email"
                     placeholder="Email"
@@ -249,7 +249,11 @@ const Login = () => {
                       isRightPanelActive ? "overlay-active" : ""
                     }`}
                   >
-                    <h1>Already have an account?</h1>
+                    <h1>Existing user?</h1>
+                    <p><b>Please log in with your personal information to stay in touch with us.</b>
+            
+                    
+          </p>
                   
                     <button
                       className="ghost"
@@ -264,11 +268,11 @@ const Login = () => {
                       isRightPanelActive ? "overlay-active" : ""
                     }`}
                   >
-                    <h1>Hello, Friend!</h1>
+                    <h1>New here?</h1>
                   
-                    <p>
-                    <b>Don't have an account? </b><br />
-                      Enter your personal details and start a journey with us
+                    <p><b>Enter your personal details and start a journey with us</b>
+            
+                      
                     </p>
                     <button
                       className="ghost"
