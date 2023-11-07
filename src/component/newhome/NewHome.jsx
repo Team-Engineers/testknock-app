@@ -12,7 +12,7 @@ const TopicCard = styled.li`
   align-items: center;
   border: dashed;
   text-align: center;
-  width: 18rem;
+  width: 15rem;
 
   &:hover {
     background: blueviolet;
