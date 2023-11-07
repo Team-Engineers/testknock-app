@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../../assets/images/subtopic-logo.png";
 import {subtopicsData} from '../../utils/constants'
 const TopicCard = styled.li`
   height: fit-content;
@@ -34,10 +33,14 @@ const Wrapper = styled.ul`
   flex-wrap: wrap;
   gap: 1rem;
   padding: 0px;
+
+  a{
+    width : 100%;
+  }
 `;
 
 const MarginTop = styled.div`
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   display: flex;
   justify-content: center;
   algin-items: center;
@@ -50,10 +53,6 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Box1 = styled.div`
-  min-width: 2rem;
 `;
 const Box2 = styled.h6`
   width : 10rem;
@@ -105,9 +104,9 @@ const RecommendedSubTopics = () => {
                       }
                     >
                       <Box>
-                        <Box1>
+                        {/* <Box1>
                           <img src={logo} className="img-fluid" alt="Logo" />
-                        </Box1>
+                        </Box1> */}
                         <Box2
                           isCurrentTopic={
                             currentTopic === subTopic.split("_").join(" ")

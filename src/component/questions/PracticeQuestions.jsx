@@ -26,9 +26,12 @@ const QuizPage = () => {
       if (topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION") route = "varc";
       if (topic === "LOGICAL_REASONING") route = "lr";
       let version = "v2";
-      if (topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" && subTopic === "READING_COMPREHENSION") {
+      if (
+        topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" &&
+        subTopic === "READING_COMPREHENSION"
+      ) {
         version = "v1";
-        subTopicRoute="";
+        subTopicRoute = "";
       }
       try {
         const response = await axios.get(
@@ -56,26 +59,28 @@ const QuizPage = () => {
 
   let ComponentToRender;
 
-  if (topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" && subTopic === "READING_COMPREHENSION") {
+  if (
+    topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" &&
+    subTopic === "READING_COMPREHENSION"
+  ) {
     ComponentToRender = QuestionV1;
-    // console.log()
   } else {
     ComponentToRender = QuestionV2;
   }
 
   return (
-      <section className="question-practice">
-        <div className="container">
-          <div className="row d-flex justify-content-between">
-            <div className="col-lg-3">
-              <RecommendedSubTopics />
-            </div>
-            <div className="col-lg-9">
-              <ComponentToRender data={data} />
-            </div>
+    <section className="question-practice">
+      <div className="container">
+        <div className="row d-flex justify-content-between">
+          <div className="col-lg-3">
+            <RecommendedSubTopics />
+          </div>
+          <div className="col-lg-9">
+            <ComponentToRender data={data} />
           </div>
         </div>
-      </section>
+      </div>
+    </section>
   );
 };
 

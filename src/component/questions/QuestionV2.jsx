@@ -18,32 +18,48 @@ const QuestionV2 = ({ data }) => {
       setSelectedOption([]);
     }
   };
-
+  
   const handlePreviousPage = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
       setSelectedOption([]);
     }
   };
-
+  
   const generatePageNumbers = () => {
     const totalPages = Math.ceil(data.length / 5);
     const maxPagesToShow = 5;
     const pages = [];
-    const currentPageIndex = currentPage;
-
-    for (
-      let i = currentPageIndex - Math.floor(maxPagesToShow / 2);
-      i <= currentPageIndex + Math.floor(maxPagesToShow / 2);
-      i++
-    ) {
-      if (i >= 0 && i < totalPages) {
-        pages.push(i);
+    let startPage = currentPage - Math.floor(maxPagesToShow / 2);
+    let endPage = currentPage + Math.floor(maxPagesToShow / 2);
+  
+    if (startPage < 0) {
+      endPage -= startPage;
+      startPage = 0;
+    }
+  
+    if (endPage > totalPages - 1) {
+      startPage -= endPage - totalPages + 1;
+      endPage = totalPages - 1;
+    }
+  
+    startPage = Math.max(startPage, 0);
+  
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+  
+    while (pages.length > maxPagesToShow) {
+      if (currentPage - startPage <= endPage - currentPage) {
+        pages.pop();
+      } else {
+        pages.shift();
       }
     }
-
+  
     return pages;
   };
+  
 
   return (
     <section className="question-practice-v1">
@@ -61,7 +77,7 @@ const QuestionV2 = ({ data }) => {
                       } `}</span>
                     </div>
                     <div className="question-text-container">
-                      <span className="question-text">{question.text}</span>
+                      <h6 className="question-text">{question.text}</h6>
                     </div>
                   </div>
                   <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
@@ -92,8 +108,8 @@ const QuestionV2 = ({ data }) => {
                       <span className="option-alphabet">
                         {alphabets[optionIndex]}
                       </span>
-                      <div className="d-flex justify-content-start gap-3 w-100 align-items-center ">
-                        {option.text}
+                      <div className="d-flex align-items-center justify-content-start gap-3 w-100 align-items-center ">
+                        <h6>{option.text}</h6>
                         {option.image ? (
                           <img
                             className="question-image"
@@ -131,17 +147,17 @@ const QuestionV2 = ({ data }) => {
                           aria-expanded="true"
                           aria-controls={`collapse${questionIndex}`}
                         >
-                          <strong>Explain It</strong>
+                          <h6>Explain It</h6>
                         </button>
                       </h2>
                       <div
                         id={`collapse${questionIndex}`}
                         class="accordion-collapse collapse"
                       >
-                        <div class="accordion-body">
+                        <div class="accordion-body ">
                           {question.explanation.text.map(
                             (explanationText, explanationIndex) => (
-                              <p key={explanationIndex}>{explanationText}</p>
+                              <h6 className="explanation" key={explanationIndex}>{explanationText}</h6>
                             )
                           )}
                           <div className="d-flex justify-content-center align-items-center gap-3">

@@ -14,7 +14,8 @@ import {
 import Header from "../../component/header/Header";
 import axios from "axios"; // Import Axios
 import { Link, useNavigate } from "react-router-dom";
-import { API, PROFILEPIC_URL } from "../../utils/constants";
+import { API } from "../../utils/constants";
+import PROFILEPIC_URL from '../../assets/images/user-profile.jpg'
 
 const UserProfile = () => {
   const [email, setEmail] = useState("");

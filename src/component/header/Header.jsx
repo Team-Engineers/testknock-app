@@ -13,7 +13,7 @@ import {
   setSliceContact,
   setSliceInstitute,
 } from "../../utils/userSlice";
-import { PROFILEPIC_URL } from "../../utils/constants";
+import PROFILEPIC_URL  from "../../assets/images/user-profile.jpg";
 
 
 const HeaderSection = styled.section`
