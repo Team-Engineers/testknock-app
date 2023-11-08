@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./QuestionSection.css";
 import { Modal, Button } from "react-bootstrap";
 import giphy from "../../assets/images/giphy.gif";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { API } from "../../utils/constants";
 import axios from "axios";
 import TietLoader from "../Loader/Loader";
@@ -284,11 +284,7 @@ const MCQSection = () => {
               </button>
             )
           ) : (
-            <Link to = "/">
-            <div className="btn submit-button">
-              Go Back To Home
-            </div>
-            </Link>
+            ""
           )
         }
      

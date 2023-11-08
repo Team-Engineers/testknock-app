@@ -4,9 +4,7 @@ const QuestionV2 = ({ data }) => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [accordionOpen, setAccordionOpen] = useState(
-    Array(data.length).fill(false)
-  );
+
   const handleOptionClick = (questionIndex, optionIndex) => {
     const updatedSelectedOption = [...selectedOption];
     updatedSelectedOption[questionIndex] = optionIndex;
@@ -17,13 +15,6 @@ const QuestionV2 = ({ data }) => {
     setSelectedOption([]);
     setCurrentPage(pageIndex);
     window.scrollTo(0, 0);
-    setAccordionOpen(Array(data.length).fill(false));
-  };
-
-  const handleAccordionClick = (index) => {
-    const newAccordionOpen = [...accordionOpen];
-    newAccordionOpen[index] = !newAccordionOpen[index];
-    setAccordionOpen(newAccordionOpen);
   };
 
   const generatePageNumbers = () => {
@@ -77,7 +68,7 @@ const QuestionV2 = ({ data }) => {
                         } `}</span>
                       </div>
                       <div className="question-text-container">
-                        <h6 className="question-text">{question.text}</h6>
+                        <h6 className="question-text mb-2">{question.text}</h6>
                       </div>
                     </div>
                     <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
@@ -139,22 +130,22 @@ const QuestionV2 = ({ data }) => {
                   </div>
 
                   <div class="accordion" id={`accordionExample`}>
+                    <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button
-                          class={`accordion-button collapsed ${
-                            accordionOpen[questionIndex] ? "active" : ""
-                          }`}
+                          class="accordion-button collapsed"
                           type="button"
-                          onClick={() => handleAccordionClick(questionIndex)}
+                          data-bs-toggle="collapse"
+                          data-bs-target={`#collapse${questionIndex}`}
+                          aria-expanded="true"
+                          aria-controls={`collapse${questionIndex}`}
                         >
                           <h6>Explain It</h6>
                         </button>
                       </h2>
                       <div
                         id={`collapse${questionIndex}`}
-                        class={`accordion-collapse collapse ${
-                          accordionOpen[questionIndex] ? "show" : ""
-                        }`}
+                        class="accordion-collapse collapse"
                       >
                         <div class="accordion-body ">
                           {question.explanation.text.map(
@@ -185,6 +176,7 @@ const QuestionV2 = ({ data }) => {
                         </div>
                       </div>
                     </div>
+                  </div>
                 </div>
               </div>
             ))}

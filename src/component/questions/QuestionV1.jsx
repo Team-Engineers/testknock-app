@@ -11,20 +11,11 @@ const QuestionV1 = ({ data }) => {
     setSelectedOption(updatedSelectedOption);
   };
 
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(data.length / 5) - 1) {
-      setCurrentPage(currentPage + 1);
-      setSelectedOption([]);
-    }
+  const handlePageChange = (pageIndex) => {
+    setSelectedOption([]);
+    setCurrentPage(pageIndex);
+    window.scrollTo(0, 0);
   };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-      setSelectedOption([]);
-    }
-  };
-  
 
   const generatePageNumbers = () => {
     const totalPages = Math.ceil(data.length / 5);
@@ -60,7 +51,6 @@ const QuestionV1 = ({ data }) => {
     return pages;
   };
 
-
   return (
     <section className="question-practice question-practice-v1">
       <div className="d-flex justify-content-center mt-4 align-items-center flex-column">
@@ -68,7 +58,7 @@ const QuestionV1 = ({ data }) => {
 
           <div key={index} className="question-container">
             <div className="question-box paragraph">
-              <h6>
+              <h6 className="mb-2 ">
                 <strong>Direction:</strong> Read the following passage carefully
                 and answer the questions that follow.
               </h6>
@@ -76,9 +66,9 @@ const QuestionV1 = ({ data }) => {
                 <span className="question-number">{`P${
                   index + 1 + currentPage
                 } `}</span>
-                <div className="question-text">
+                <div className="question-text ">
                   {item.paragraph.map((paragraph, paraindex) => (
-                    <h6 key={paraindex}>{paragraph}</h6>
+                    <h6 className="mb-2" key={paraindex}>{paragraph}</h6>
                   ))}
                 </div>
               </div>
@@ -221,7 +211,7 @@ const QuestionV1 = ({ data }) => {
         <div className="pagination">
           <button
             className={`page-button ${currentPage === 0 ? "disabled" : ""}`}
-            onClick={handlePreviousPage}
+            onClick={() => handlePageChange(currentPage - 1)}
           >
             Prev
           </button>
@@ -231,16 +221,16 @@ const QuestionV1 = ({ data }) => {
               className={`page-button ${
                 currentPage === pageIndex ? "active" : ""
               }`}
-              onClick={() => setCurrentPage(pageIndex)}
+              onClick={() => handlePageChange(pageIndex)}
             >
               {pageIndex + 1}
             </button>
           ))}
           <button
             className={`page-button ${
-              currentPage === Math.ceil(data.length / 5) - 1 ? "disabled" : ""
+              currentPage === Math.ceil(data.length) - 1 ? "disabled" : ""
             }`}
-            onClick={handleNextPage}
+            onClick={() => handlePageChange(currentPage + 1)}
           >
             Next
           </button>

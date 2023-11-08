@@ -25,16 +25,11 @@ const HeaderSection = styled.section`
   top: 0;
   width: 100%;
   z-index: 9999;
-  height: 76px;
   color: ${(props) => (props.darkTheme ? "#fff" : "inherit")};
 
   .light-theme,
   .dark-theme {
     cursor: pointer;
-  }
-
-  @media (max-width: 768px) {
-    height: 50px; 
   }
 `;
 
