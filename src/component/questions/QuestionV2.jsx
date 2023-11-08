@@ -4,25 +4,26 @@ const QuestionV2 = ({ data }) => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-
+  const [accordionOpen, setAccordionOpen] = useState(
+    Array(data.length).fill(false)
+  );
   const handleOptionClick = (questionIndex, optionIndex) => {
     const updatedSelectedOption = [...selectedOption];
     updatedSelectedOption[questionIndex] = optionIndex;
     setSelectedOption(updatedSelectedOption);
   };
 
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(data.length / 5) - 1) {
-      setCurrentPage(currentPage + 1);
-      setSelectedOption([]);
-    }
+  const handlePageChange = (pageIndex) => {
+    setSelectedOption([]);
+    setCurrentPage(pageIndex);
+    window.scrollTo(0, 0);
+    setAccordionOpen(Array(data.length).fill(false));
   };
 
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-      setSelectedOption([]);
-    }
+  const handleAccordionClick = (index) => {
+    const newAccordionOpen = [...accordionOpen];
+    newAccordionOpen[index] = !newAccordionOpen[index];
+    setAccordionOpen(newAccordionOpen);
   };
 
   const generatePageNumbers = () => {
@@ -138,22 +139,22 @@ const QuestionV2 = ({ data }) => {
                   </div>
 
                   <div class="accordion" id={`accordionExample`}>
-                    <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button
-                          class="accordion-button collapsed"
+                          class={`accordion-button collapsed ${
+                            accordionOpen[questionIndex] ? "active" : ""
+                          }`}
                           type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target={`#collapse${questionIndex}`}
-                          aria-expanded="true"
-                          aria-controls={`collapse${questionIndex}`}
+                          onClick={() => handleAccordionClick(questionIndex)}
                         >
                           <h6>Explain It</h6>
                         </button>
                       </h2>
                       <div
                         id={`collapse${questionIndex}`}
-                        class="accordion-collapse collapse"
+                        class={`accordion-collapse collapse ${
+                          accordionOpen[questionIndex] ? "show" : ""
+                        }`}
                       >
                         <div class="accordion-body ">
                           {question.explanation.text.map(
@@ -184,15 +185,14 @@ const QuestionV2 = ({ data }) => {
                         </div>
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
             ))}
         </div>
-        <div className="pagination col-md-9">
+        <div className="pagination">
           <button
             className={`page-button ${currentPage === 0 ? "disabled" : ""}`}
-            onClick={handlePreviousPage}
+            onClick={() => handlePageChange(currentPage - 1)}
           >
             Prev
           </button>
@@ -202,7 +202,7 @@ const QuestionV2 = ({ data }) => {
               className={`page-button ${
                 currentPage === pageIndex ? "active" : ""
               }`}
-              onClick={() => setCurrentPage(pageIndex)}
+              onClick={() => handlePageChange(pageIndex)}
             >
               {pageIndex + 1}
             </button>
@@ -211,7 +211,7 @@ const QuestionV2 = ({ data }) => {
             className={`page-button ${
               currentPage === Math.ceil(data.length / 5) - 1 ? "disabled" : ""
             }`}
-            onClick={handleNextPage}
+            onClick={() => handlePageChange(currentPage + 1)}
           >
             Next
           </button>

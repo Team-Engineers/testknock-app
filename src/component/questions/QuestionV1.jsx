@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./question.css";
-
 const QuestionV1 = ({ data }) => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-
+  const accordionRef = useRef()
   const handleOptionClick = (questionIndex, optionIndex) => {
     const updatedSelectedOption = [...selectedOption];
     updatedSelectedOption[questionIndex] = optionIndex;
@@ -25,6 +24,7 @@ const QuestionV1 = ({ data }) => {
       setSelectedOption([]);
     }
   };
+  
 
   const generatePageNumbers = () => {
     const totalPages = Math.ceil(data.length / 5);
@@ -60,10 +60,12 @@ const QuestionV1 = ({ data }) => {
     return pages;
   };
 
+
   return (
     <section className="question-practice question-practice-v1">
       <div className="d-flex justify-content-center mt-4 align-items-center flex-column">
         {data.slice(currentPage * 1, currentPage + 1).map((item, index) => (
+
           <div key={index} className="question-container">
             <div className="question-box paragraph">
               <h6>
@@ -76,7 +78,7 @@ const QuestionV1 = ({ data }) => {
                 } `}</span>
                 <div className="question-text">
                   {item.paragraph.map((paragraph, paraindex) => (
-                    <h6 key={paraindex}>{paragraph}</h6> // The 'return' is implicit here
+                    <h6 key={paraindex}>{paragraph}</h6>
                   ))}
                 </div>
               </div>
@@ -158,7 +160,7 @@ const QuestionV1 = ({ data }) => {
                         </div>
                       ))}
                     </div>
-                    <div class="accordion" id={`accordionExample`}>
+                    <div class="accordion" id={`accordionExample`} ref={accordionRef}>
                       <div class="accordion-item">
                         <h2 class="accordion-header">
                           <button
@@ -175,7 +177,6 @@ const QuestionV1 = ({ data }) => {
                         <div
                           id={`collapse${questionIndex}`}
                           class="accordion-collapse collapse"
-                          //   aria-labelledby={`heading${index}`}
                           data-bs-parent={`#accordionExample-${questionIndex}`}
                         >
                           <div class="accordion-body">
@@ -217,7 +218,7 @@ const QuestionV1 = ({ data }) => {
             </div>
           </div>
         ))}
-        <div className="pagination col-md-9">
+        <div className="pagination">
           <button
             className={`page-button ${currentPage === 0 ? "disabled" : ""}`}
             onClick={handlePreviousPage}
