@@ -27,6 +27,8 @@ const MCQSection = () => {
   // correctOptionIndex in api, is 1 index numbering, so reduce it by 1 , whenever in use
   const {topic} = useParams()
   // console.log(topic)
+
+  
   useEffect(() => {
     const fetchData = async()=>{
       try{
@@ -267,9 +269,16 @@ const MCQSection = () => {
       )}
 
       {testSubmitted ? (
-        <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
-          Take New Test
-        </button>
+       <div>
+       <a className="home-button btn mb-4" href="/">
+         Home
+       </a>
+       <button className="retake-button btn mb-4" onClick={handleRetakeTest} style={{ marginLeft: '50px' }}>
+         Take New Test
+       </button>
+     </div>
+     
+        
       ) : (
         <button className="submit-button btn  mb-4" onClick={handleSubmit}>
           Submit
