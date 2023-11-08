@@ -6,6 +6,8 @@ import QuestionV1 from "./QuestionV1";
 import QuestionV2 from "./QuestionV2";
 import axios from "axios";
 import RecommendedSubTopics from "../recommendedSubTopics/RecommendedSubTopics";
+import TietLoader from "../Loader/Loader";
+import NoData from "../Loader/NoData";
 
 const QuizPage = () => {
   const [data, setData] = useState([]);
@@ -40,7 +42,8 @@ const QuizPage = () => {
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching data with axios: ", error);
+        setIsLoading(false);
+
       }
     };
 
@@ -48,13 +51,7 @@ const QuizPage = () => {
   }, [topic, subTopic]);
 
   if (isLoading) {
-    return (
-      <div className="spinner-container">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
+    return <TietLoader />;
   }
 
   let ComponentToRender;
@@ -70,16 +67,20 @@ const QuizPage = () => {
 
   return (
     <section className="question-practice">
-      <div className="container">
-        <div className="row d-flex justify-content-between">
-          <div className="col-lg-3">
-            <RecommendedSubTopics />
-          </div>
-          <div className="col-lg-9">
-            <ComponentToRender data={data} />
+      {data.length > 0 ? (
+        <div className="container">
+          <div className="row d-flex justify-content-between">
+            <div className="col-lg-3">
+              <RecommendedSubTopics />
+            </div>
+            <div className="col-lg-8">
+              <ComponentToRender data={data} />
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <NoData />
+      )}
     </section>
   );
 };

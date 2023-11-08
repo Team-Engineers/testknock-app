@@ -32,31 +32,31 @@ const userSlice = createSlice({
       state.email = action.payload;
     },
     setSliceName: (state, action) => {
-      state.name = action.payload; // Fix the assignment here
+      state.name = action.payload; 
     },
     setSliceProfilePic: (state, action) => {
-      state.profilePic = action.payload; // Fix the assignment here
+      state.profilePic = action.payload; 
     },
     setSliceIsAdmin: (state, action) => {
-      state.isAdmin = action.payload; // Fix the assignment here
+      state.isAdmin = action.payload; 
     },
     setSliceBranch: (state, action) => {
-      state.branch = action.payload; // Fix the assignment here
+      state.branch = action.payload; 
     },
     setSliceYear: (state, action) => {
-      state.year = action.payload; // Fix the assignment here
+      state.year = action.payload; 
     },
     setSliceContact: (state, action) => {
-      state.contact = action.payload; // Fix the assignment here
+      state.contact = action.payload; 
     },
     setSliceInstitute: (state, action) => {
-      state.institute = action.payload; // Fix the assignment here
+      state.institute = action.payload; 
     },
     setSliceAccessLevel: (state, action) => {
-      state.accessLevel = action.payload; // Fix the assignment here
+      state.accessLevel = action.payload; 
     },
     setSliceUserId: (state, action) => {
-      state.userId = action.payload; // Fix the assignment here
+      state.userId = action.payload; 
     },
     setSliceSocial : (state,action) =>{
       state.social.github = action.payload.github;

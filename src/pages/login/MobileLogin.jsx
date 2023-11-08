@@ -5,6 +5,9 @@ import { useDispatch } from "react-redux";
 import { setSliceName, setSliceProfilePic } from "../../utils/userSlice";
 import axios from "axios";
 import { API } from "../../utils/constants";
+import TietLoader from "../../component/Loader/Loader";
+
+
 
 const MobileLogin = () => {
   const [isSignUpActive, setIsSignUpActive] = useState(false);
@@ -145,9 +148,7 @@ const MobileLogin = () => {
                 Sign Up
               </button>
               {isLoading && (
-                <div className="spinner-container text-primary" role="status">
-                  <span className="spinner"></span>
-                </div>
+                <TietLoader/>
               )}
               <h6 className="mt-5">
                 Already have an account?{" "}
@@ -189,9 +190,7 @@ const MobileLogin = () => {
               Sign In
             </button>
             {isLoading && (
-              <div className="spinner-container text-primary" role="status">
-                <span className="spinner"></span>
-              </div>
+              <TietLoader/>
             )}
             <h6 className="mt-5">
               Forgot your password?{" "}

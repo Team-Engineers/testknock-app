@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setSliceName, setSliceProfilePic } from "../../utils/userSlice";
 import axios from "axios";
 import { API } from "../../utils/constants";
+import TietLoader from "../../component/Loader/Loader";
 
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -66,10 +67,7 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post(
-        `${API}/auth/signup`,
-        userData
-      );
+      const response = await axios.post(`${API}/auth/signup`, userData);
       if (response.status === 200) {
         alert("Signup successful");
         setIsRightPanelActive(false);
@@ -100,10 +98,7 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post(
-        `${API}/auth/signin`,
-        userData
-      );
+      const response = await axios.post(`${API}/auth/signin`, userData);
       if (response.status === 200) {
         const user = response.data;
         localStorage.setItem("user", JSON.stringify(user));
@@ -186,14 +181,7 @@ const Login = () => {
                   >
                     Sign Up
                   </button>
-                  {isLoading && (
-                    <div
-                      className="spinner-container text-primary"
-                      role="status"
-                    >
-                      <span className="spinner"></span>
-                    </div>
-                  )}
+                  {isLoading && <TietLoader />}
                 </form>
               </div>
             </div>
@@ -230,18 +218,11 @@ const Login = () => {
                   >
                     Sign In
                   </button>
-                  {isLoading && (
-                    <div
-                      className="spinner-container text-primary"
-                      role="status"
-                    >
-                      <span className="spinner"></span>
-                    </div>
-                  )}
+                  {isLoading && <TietLoader />}
                 </form>
               </div>
             </div>
-            <div className="col-md-12">
+            <div className={`col-md-12 ${isLoading ? 'd-none' : 'd-block'}`}>
               <div className="overlay-container">
                 <div className="overlay">
                   <div

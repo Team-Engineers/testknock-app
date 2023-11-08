@@ -8,7 +8,6 @@
 }
 
 .question-practice .question-box {
-    padding: 30px;
     border-radius: 15px;
     font-size: 14px;
     font-weight: bolder;
@@ -17,6 +16,7 @@
     border: solid 1px #bababa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    position: relative;
 }
 
 .question-practice .question-number {
@@ -72,6 +72,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  font-weight: lighter;
   transition: background-color 0.3s;
 }
 .question-practice .options-grid .incorrect {
@@ -136,7 +137,7 @@
   display: flex;
 }
 
-.p {
+.question-practice .p {
   justify-content: baseline;
   align-items: baseline;
   display: flex;
@@ -144,14 +145,14 @@
   margin: 10px 0px;
 }
 
-.pagination {
+.question-practice .pagination {
   /* Styles for pagination */
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.page-button {
+.question-practice .page-button {
   padding: 10px 20px;
   margin: 0 5px;
   cursor: pointer;
@@ -162,50 +163,78 @@
   transition: background-color 0.2s ease;
 }
 
-.page-button.active {
+.question-practice .page-button.active {
   background-color: #007bff;
   color: #fff;
 }
 
-.page-button.disabled {
+.question-practice .page-button.disabled {
   cursor: not-allowed;
   pointer-events: none;
   background-color: #ccc;
   color: #666;
 }
 
-.accordion-body {
+.question-practice .accordion-body {
   font-weight: lighter;
   font-size: 14px;
+  margin-bottom: 10px;
 
 }
 
-.accordion-body .explanation{
+.question-practice .accordion-body .explanation{
   color: #444;
   line-height: 2rem;
   font-family: cursive;
+ 
 }
-
-.accordion-button{
-  border: 1px solid #bababa !important;
+.question-practice .question-box .accordion-button{
+  border: none !important;
   padding: 10px !important;
+  margin-bottom: 10px;
+  box-shadow: none !important;
+  border-top: 1px solid #bababa !important;
+  border-radius: 0px !important;
 }
 
-.question {
+.question-practice .question-box .accordion-button h6{
+  font-family: cursive;
+  font-weight: 600;
+}
+
+.question-practice .question {
   display: flex;
 }
 
-.question-text-container {
+.question-practice .question-text-container {
   text-align: justify;
 }
 @media screen and (max-width: 700px) {
-  .page-button {
+  .question-practice .page-button {
     padding: 0.5rem;
     justify-content: center;
   }
 }
 
 
-h6{
+.question-practice h6{
   margin-bottom: 0px;
+  line-height: 1.5rem;
+}
+
+.question-practice .question-container .paragraph{
+ padding : 2rem;
+}
+
+.question-practice .question-box  .question-option{
+  padding: 2rem;
+}
+
+
+.question-practice .question-box .accordion-item{
+  border:none !important;
+}
+
+.question-practice .question-container .accordion-body::before{
+  border: 1px solid black;
 }

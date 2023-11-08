@@ -32,6 +32,10 @@ const HeaderSection = styled.section`
   .dark-theme {
     cursor: pointer;
   }
+
+  @media (max-width: 768px) {
+    height: 50px; 
+  }
 `;
 
 const DropdownMenu = styled.div`
