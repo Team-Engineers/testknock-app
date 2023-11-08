@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import styled from "styled-components"; // Import styled-components
+import styled from "styled-components";
 import "./banner.css";
 import { Modal, Container, Row, Col } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-// import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 const BannerSection = styled.section`
   .banner-text h1 {
     font-size: 48px;

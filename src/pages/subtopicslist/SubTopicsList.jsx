@@ -13,8 +13,6 @@ const SubTopicsList = () => {
     return <Navigate to = "/"/>
   }
   const allowedTopics = ["QUANTITATIVE_APTITUDE", "DATA_INTERPRETATION", "LOGICAL_REASONING", "VERBAL_ABILITY_AND_READING_COMPREHENSION"];
-
-  // const allowedTopics = ["QUANT", "DI", "LR", "VARC"];
   if (!allowedTopics.includes(topic)) {
     return <Nopage />;
   }

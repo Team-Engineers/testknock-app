@@ -3,6 +3,7 @@ import "./QuestionSection.css";
 import { Modal, Button } from "react-bootstrap";
 import giphy from "../../assets/images/giphy.gif";
 import { useParams } from "react-router-dom";
+import {API} from '../../utils/constants'
 import axios from "axios";
 
 const MCQSection = () => {
@@ -24,14 +25,15 @@ const MCQSection = () => {
   const [timerActive, setTimerActive] = useState(false); // Whether the timer is active
   const [isLoading, setIsLoading] = useState(true);
   // correctOptionIndex in api, is 1 index numbering, so reduce it by 1 , whenever in use
-  const { topic } = useParams();
-  console.log(topic);
+  const {topic} = useParams()
+  // console.log(topic)
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://ourntamockpapers.onrender.com/api/${topic}/question/v2/l1/random`
-        );
+    const fetchData = async()=>{
+      try{
+        let version = "v2"
+        if(topic === "di")version = "v1"
+
+        const response = await axios.get(`${API}/${topic}/question/${version}/l1/random`)
         const resData = response.data;
         setIsLoading(false);
         setData(resData);

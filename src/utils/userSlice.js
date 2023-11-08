@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { PROFILEPIC_URL } from "./constants";
+import  PROFILEPIC_URL  from "../assets/images/user-profile.jpg";
 
 const userSlice = createSlice({
   name: "user",
