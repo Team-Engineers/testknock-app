@@ -8,7 +8,6 @@
 }
 
 .question-practice .question-box {
-    padding: 30px;
     border-radius: 15px;
     font-size: 14px;
     font-weight: bolder;
@@ -17,6 +16,7 @@
     border: solid 1px #bababa;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    position: relative;
 }
 
 .question-practice .question-number {
@@ -72,6 +72,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  font-weight: lighter;
   transition: background-color 0.3s;
 }
 .question-practice .options-grid .incorrect {
@@ -177,6 +178,7 @@
 .accordion-body {
   font-weight: lighter;
   font-size: 14px;
+  margin-bottom: 10px;
 
 }
 
@@ -184,11 +186,20 @@
   color: #444;
   line-height: 2rem;
   font-family: cursive;
+ 
+}
+.question-box .accordion-button{
+  border: none !important;
+  padding: 10px !important;
+  margin-bottom: 10px;
+  box-shadow: none !important;
+  border-top: 1px solid #bababa !important;
+  border-radius: 0px !important;
 }
 
-.accordion-button{
-  border: 1px solid #bababa !important;
-  padding: 10px !important;
+.question-box .accordion-button h6{
+  font-family: cursive;
+  font-weight: 600;
 }
 
 .question {
@@ -208,4 +219,24 @@
 
 h6{
   margin-bottom: 0px;
+}
+.question-practice-v1 h6{
+  line-height: 1.5rem;
+}
+
+.question-container .paragraph{
+ padding : 2rem;
+}
+
+.question-box  .question-option{
+  padding: 2rem;
+}
+
+
+.question-box .accordion-item{
+  border:none !important;
+}
+
+.question-container .accordion-body::before{
+  border: 1px solid black;
 }
