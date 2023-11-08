@@ -158,7 +158,7 @@ const Login = () => {
                     className="img-fluid"
                     style={{ height: "120px" }}
                   />
-                  <h1 className="mt-3">Sign Up</h1>
+                  
                   <input
                     type="text"
                     placeholder="Name"
@@ -206,7 +206,7 @@ const Login = () => {
                     className="img-fluid"
                     style={{ height: "120px" }}
                   />
-                  <h1 className="mt-3">Sign in</h1>
+                  
                   <input
                     type="email"
                     placeholder="Email"
@@ -249,11 +249,12 @@ const Login = () => {
                       isRightPanelActive ? "overlay-active" : ""
                     }`}
                   >
-                    <h1>Welcome Back!</h1>
-                    <p>
-                      To keep connected with us please login with your personal
-                      info
-                    </p>
+                    <h1>Existing user?</h1>
+                    <p><b>Please log in with your personal information to stay in touch with us.</b>
+            
+                    
+          </p>
+                  
                     <button
                       className="ghost"
                       id="signIn"
@@ -267,9 +268,11 @@ const Login = () => {
                       isRightPanelActive ? "overlay-active" : ""
                     }`}
                   >
-                    <h1>Hello, Friend!</h1>
-                    <p>
-                      Enter your personal details and start a journey with us
+                    <h1>New here?</h1>
+                  
+                    <p><b>Enter your personal details and start a journey with us</b>
+            
+                      
                     </p>
                     <button
                       className="ghost"
