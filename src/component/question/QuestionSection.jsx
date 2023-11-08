@@ -24,12 +24,14 @@ const MCQSection = () => {
   const [timerActive, setTimerActive] = useState(false); // Whether the timer is active
   const [isLoading, setIsLoading] = useState(true);
   // correctOptionIndex in api, is 1 index numbering, so reduce it by 1 , whenever in use
-  const {topic} = useParams()
-  console.log(topic)
+  const { topic } = useParams();
+  console.log(topic);
   useEffect(() => {
-    const fetchData = async()=>{
-      try{
-        const response = await axios.get(`https://ourntamockpapers.onrender.com/api/${topic}/question/v2/l1/random`)
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://ourntamockpapers.onrender.com/api/${topic}/question/v2/l1/random`
+        );
         const resData = response.data;
         setIsLoading(false);
         setData(resData);
@@ -38,14 +40,13 @@ const MCQSection = () => {
           setExplanationsVisible(Array(10).fill(false));
           setTimerActive(true);
         }
-      }catch(error){
+      } catch (error) {
         // console.error("Error fetching data:", error);
-        alert("data is not fetched")
+        alert("data is not fetched");
       }
-    }
+    };
     fetchData();
-
-  },[topic]);
+  }, [topic]);
 
   const calculateScore = useCallback(() => {
     let correctAnswers = 0;
@@ -72,7 +73,7 @@ const MCQSection = () => {
     setUnattemptedAnswers(unattemptedAnswers); // Set the unattempted answer count
     setYourScore(correctAnswers);
     return score2;
-  },[data,selectedOptions]);
+  }, [data, selectedOptions]);
 
   const handleShowSubmissionModal = useCallback(() => {
     calculateScore();
@@ -82,8 +83,7 @@ const MCQSection = () => {
     setShowCorrectAnswer(true);
     setTimerActive(false);
     setTimer(0);
-  },[calculateScore]);
-
+  }, [calculateScore]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -96,7 +96,7 @@ const MCQSection = () => {
     return () => {
       clearInterval(interval); // Clear the interval when the component unmounts
     };
-  }, [timer, timerActive,handleShowSubmissionModal]);
+  }, [timer, timerActive, handleShowSubmissionModal]);
 
   const handleOptionSelect = (questionIndex, optionIndex) => {
     const updatedSelectedOptions = [...selectedOptions];
@@ -129,8 +129,6 @@ const MCQSection = () => {
   const handleCloseSubmissionModal = () => {
     setShowSubmissionModal(false);
   };
-
-
 
   const toggleExplanationVisibility = (questionIndex) => {
     const updatedExplanationsVisible = [...explanationsVisible];
@@ -317,8 +315,11 @@ const MCQSection = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={handleCloseSubmissionModal}>
-            Close
+            Review Test
           </Button>
+          <a className ="gohome" href="/">
+            <Button variant="secondary">Home</Button>
+          </a>
         </Modal.Footer>
       </Modal>
     </section>
