@@ -60,7 +60,7 @@ const QuestionV2 = ({ data }) => {
   };
 
   return (
-    <section className="question-practice-v2">
+    <section className="question-practice question-practice-v2">
       <div className="w-100 d-flex justify-content-center mt-4 align-items-center flex-column">
         <div className="options-container">
           {data

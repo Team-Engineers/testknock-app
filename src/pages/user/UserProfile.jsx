@@ -48,7 +48,7 @@ const UserProfile = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    const storedUserData = JSON.parse(localStorage.getItem("user")); // Parse the JSON string to get the object
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
     if (storedUserData._id) {
       const userData = {
         email: email || sliceEmail,

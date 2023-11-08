@@ -61,7 +61,7 @@ const QuestionV1 = ({ data }) => {
   };
 
   return (
-    <section className="question-practice-v1">
+    <section className="question-practice question-practice-v1">
       <div className="d-flex justify-content-center mt-4 align-items-center flex-column">
         {data.slice(currentPage * 1, currentPage + 1).map((item, index) => (
           <div key={index} className="question-container">

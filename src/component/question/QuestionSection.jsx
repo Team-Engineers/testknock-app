@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./QuestionSection.css";
 import { Modal, Button } from "react-bootstrap";
 import giphy from "../../assets/images/giphy.gif";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { API } from "../../utils/constants";
 import axios from "axios";
 import TietLoader from "../Loader/Loader";
@@ -271,16 +271,28 @@ const MCQSection = () => {
             <NoData />
           )
         )}
+
+        {
+          data.length > 0 ? (
+            testSubmitted ? (
+              <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
+                Take New Test
+              </button>
+            ) : (
+              <button className="submit-button btn  mb-4" onClick={handleSubmit}>
+                Submit
+              </button>
+            )
+          ) : (
+            <Link to = "/">
+            <div className="btn submit-button">
+              Go Back To Home
+            </div>
+            </Link>
+          )
+        }
      
-      {testSubmitted ? (
-        <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
-          Take New Test
-        </button>
-      ) : (
-        <button className="submit-button btn  mb-4" onClick={handleSubmit}>
-          Submit
-        </button>
-      )}
+
       <Modal
         show={showWarningModal}
         onHide={handleCloseWarningModal}

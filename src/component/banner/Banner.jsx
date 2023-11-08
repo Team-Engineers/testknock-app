@@ -54,10 +54,10 @@ const CustomModal = styled(Modal)`
     line-height: 1;
   }
   .close {
-    background-color: #79090b; /* Background color for close button */
-    color: #fff; /* Text color for close button */
+    background-color: #79090b;
+    color: #fff;
     border: none;
-    border-radius: 50%; /* Make it a circle */
+    border-radius: 50%;
     font-size: 24px;
     line-height: 1;
     padding: 5px 10px;
@@ -76,7 +76,6 @@ const StyledLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
   font-size: 20px;
   color: #fff; 
   text-decoration: none;
