@@ -270,12 +270,14 @@ const MCQSection = () => {
 
       {testSubmitted ? (
        <div>
-       <a className="home-button btn mb-4" href="/">
+       
+       <button className="retake-button btn mb-4" onClick={handleRetakeTest} >
+       Take New Test
+       </button>
+       <a className="home-button btn mb-4" href="/" style={{ marginLeft: '50px' }}>
          Home
        </a>
-       <button className="retake-button btn mb-4" onClick={handleRetakeTest} style={{ marginLeft: '50px' }}>
-         Take New Test
-       </button>
+        
      </div>
      
         
