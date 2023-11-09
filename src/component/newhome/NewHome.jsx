@@ -26,10 +26,9 @@ const TopicCard = styled.li`
 `;
 
 const Wrapper = styled.ul`
-  width: fit-content;
   display: flex;
   align-items: center;
-  justify-content : start;
+  justify-content : center;
   flex-wrap: wrap;
   gap: 2rem;
   padding : 0px;
@@ -66,7 +65,7 @@ const NewHome = () => {
             {Object.keys(subtopicsData).map((topic, index) => (
               <div key={index}>
                 <h4
-                  className="mt-4 mb-4"
+                  className="mt-4 text-center mb-4"
                   style={{ overflowWrap: "break-word" }}
                 >
                   {topic.split("_").join(" ")}

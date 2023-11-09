@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {subtopicsData} from '../../utils/constants'
 const TopicCard = styled.li`
@@ -92,8 +92,8 @@ const RecommendedSubTopics = () => {
             <div class="accordion-body p-1 my-3">
               <Wrapper>
                 {subtopicsData[topic].map((currentTopic, subIndex) => (
-                  <a
-                    href={`/${topic.split(" ").join("_")}/${currentTopic
+                  <Link
+                    to={`/${topic.split(" ").join("_")}/${currentTopic
                       .split(" ")
                       .join("_")}`}
                     key={subIndex}
@@ -116,7 +116,7 @@ const RecommendedSubTopics = () => {
                         </Box2>
                       </Box>
                     </TopicCard>
-                  </a>
+                  </Link>
                 ))}
               </Wrapper>
             </div>

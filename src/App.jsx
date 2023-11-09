@@ -11,7 +11,6 @@ import Quiz from "./pages/quiz/Quiz";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import Nopage from "./pages/nopage/Nopage";
 import ScrollToTop from "./component/scrolltotop/ScrollToTop";
-import QuestionV2 from "./component/questions/QuestionV2";
 const App = () => {
   const isUserSignedIn = () => {
     const tokenData = JSON.parse(localStorage.getItem("accessToken"));
@@ -27,7 +26,6 @@ const App = () => {
             <Route path="/:topic/:subTopic" element={<SubTopicQuestion />} />
             <Route exact path="/:topic" element={<SubTopicsList />} />
             <Route exact path="/user" element={<UserProfile />} />
-            <Route exact path="/questionpractice" element={<QuestionV2 />} />
             <Route exact path="/quiz/:topic" element={<Quiz />} />
           </Route>
           {isUserSignedIn() ? (

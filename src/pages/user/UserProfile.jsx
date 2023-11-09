@@ -230,7 +230,6 @@ const UserProfile = () => {
                       <input
                         type="file"
                         class="form-control"
-                        // value={profilePic}
                         onChange={handleFileChange}
                       />
                     </div>

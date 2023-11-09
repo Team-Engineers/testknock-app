@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import "./QuestionSection.css";
+import "./QuizQuestions.css";
 import { Modal, Button } from "react-bootstrap";
 import giphy from "../../assets/images/giphy.gif";
 import { useParams } from "react-router-dom";
@@ -8,7 +8,7 @@ import axios from "axios";
 import TietLoader from "../Loader/Loader";
 import NoData from "../Loader/NoData";
 
-const MCQSection = () => {
+const QuizQuestions = () => {
   const [data, setData] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [correctAnswers, setCorrectAnswers] = useState(0);
@@ -334,4 +334,4 @@ const MCQSection = () => {
   );
 };
 
-export default MCQSection;
+export default QuizQuestions;
