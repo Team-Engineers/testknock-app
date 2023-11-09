@@ -11,18 +11,10 @@ const QuestionV2 = ({ data }) => {
     setSelectedOption(updatedSelectedOption);
   };
 
-  const handleNextPage = () => {
-    if (currentPage < Math.ceil(data.length / 5) - 1) {
-      setCurrentPage(currentPage + 1);
-      setSelectedOption([]);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-      setSelectedOption([]);
-    }
+  const handlePageChange = (pageIndex) => {
+    setSelectedOption([]);
+    setCurrentPage(pageIndex);
+    window.scrollTo(0, 0);
   };
 
   const generatePageNumbers = () => {
@@ -76,7 +68,7 @@ const QuestionV2 = ({ data }) => {
                         } `}</span>
                       </div>
                       <div className="question-text-container">
-                        <h6 className="question-text">{question.text}</h6>
+                        <h6 className="question-text mb-2">{question.text}</h6>
                       </div>
                     </div>
                     <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
@@ -189,10 +181,10 @@ const QuestionV2 = ({ data }) => {
               </div>
             ))}
         </div>
-        <div className="pagination col-md-9">
+        <div className="pagination">
           <button
             className={`page-button ${currentPage === 0 ? "disabled" : ""}`}
-            onClick={handlePreviousPage}
+            onClick={() => handlePageChange(currentPage - 1)}
           >
             Prev
           </button>
@@ -202,7 +194,7 @@ const QuestionV2 = ({ data }) => {
               className={`page-button ${
                 currentPage === pageIndex ? "active" : ""
               }`}
-              onClick={() => setCurrentPage(pageIndex)}
+              onClick={() => handlePageChange(pageIndex)}
             >
               {pageIndex + 1}
             </button>
@@ -211,7 +203,7 @@ const QuestionV2 = ({ data }) => {
             className={`page-button ${
               currentPage === Math.ceil(data.length / 5) - 1 ? "disabled" : ""
             }`}
-            onClick={handleNextPage}
+            onClick={() => handlePageChange(currentPage + 1)}
           >
             Next
           </button>

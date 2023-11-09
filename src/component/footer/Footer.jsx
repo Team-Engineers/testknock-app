@@ -8,7 +8,7 @@ const Footer = () => {
       <section class="row-10 footer mt-5">
         <div class="container">
           <div class="row footerContent">
-            <div class="col-md-3">
+            <div class="col-lg-3 col-sm-6">
               <div class="logo pcLogo pb-3">
                 <Link to="https://www.thapar.edu/">
                   <img src={tietLogo} alt="Thapar-Logo" className="img-fluid" />
@@ -38,7 +38,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-lg-3 col-sm-6">
               <div class="contactContent text-white  pe-md-2">
                 <div class="quickHeading fw-bold">Contact</div>
                 <div class=" pt-5 d-flex flex-column gap-4">
@@ -70,7 +70,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-3 ">
+            <div class="col-lg-3 col-sm-6">
               <div class=" text-white ps-md-3">
                 <div class="fw-bolder quickHeading">
                   <span>Categories</span>
@@ -93,7 +93,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-lg-3 col-sm-6">
               <div class=" text-white  pe-md-2">
                 <div class=" fw-bold">Any Technical Issue?</div>
                 <div class=" pt-5 d-flex flex-column gap-4">

@@ -1,39 +1,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../../assets/images/subtopic-logo.png";
-import {subtopicsData} from '../../utils/constants'
+import { subtopicsData } from "../../utils/constants";
 const TopicCard = styled.li`
-  height: 6rem;
-  background-color: white;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: dashed;
-  text-align: center;
-  width: 15rem;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height : 10rem;
+    width : 12rem;
+    border : 1px solid #bababa;
+    border-radius : 10px;
   &:hover {
-    background: blueviolet;
-    color: white;
+    box-shadow: 1px 1px 1px 1px #eacfcc
+
   }
   &:hover a {
     color: white;
   }
   img {
-    height: 20px;
-    width: 20px;
+    width: 6rem;
+    height : 6rem;
+    object-fit : cover;
   }
 `;
 
 const Wrapper = styled.ul`
   width: fit-content;
   display: flex;
-  /* justify-content: center; */
   align-items: center;
+  justify-content : start;
   flex-wrap: wrap;
   gap: 2rem;
+  padding : 0px;
 `;
 
 const MarginTop = styled.div`
@@ -44,10 +43,12 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap:  1rem;
 `;
 
 const Box1 = styled.div`
-  width: 3rem;
+  width: 6rem;
 `;
 const Box2 = styled.h6`
   width: 12rem;
@@ -56,13 +57,12 @@ const Box2 = styled.h6`
 `;
 
 const NewHome = () => {
-
+  let imageIndex = 1; 
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-12">
           <MarginTop>
-            {/* <h2 className="fs-5 fw-bolder mb-5">Subtopics</h2> */}
             {Object.keys(subtopicsData).map((topic, index) => (
               <div key={index}>
                 <h4
@@ -74,22 +74,33 @@ const NewHome = () => {
                 </h4>
 
                 <Wrapper>
-                  {subtopicsData[topic].map((subtopic, subIndex) => (
-                    <Link to={`/${topic}/${subtopic.split(" ").join("_")}`} key={subIndex}>
-                      <TopicCard>
-                        <Box>
-                          <Box1>
-                            <img
-                              src={logo}
-                              alt="subtopic-logo"
-                              className="img-fluid"
-                            />
-                          </Box1>
-                          <Box2>{subtopic}</Box2>
-                        </Box>
-                      </TopicCard>
-                    </Link>
-                  ))}
+                  {subtopicsData[topic].map((subtopic, subIndex) => {
+                    const imagePath = `${imageIndex + 1}.jpg`; // Dynamically generate image path
+                    imageIndex++;
+                    imageIndex = imageIndex%31;
+                    return (
+                      <Link
+                        to={`/${topic}/${subtopic.split(" ").join("_")}`}
+                        key={subIndex}
+                      >
+                        <TopicCard>
+                          <Box>
+                            <Box1>
+                              <img
+                                src={
+                                  require(`../../assets/images/subTopicLogo/${imagePath}`)
+                                    
+                                }
+                                alt="subtopic-logo"
+                                className="img-fluid"
+                              />
+                            </Box1>
+                            <Box2>{subtopic}</Box2>
+                          </Box>
+                        </TopicCard>
+                      </Link>
+                    );
+                  })}
                 </Wrapper>
               </div>
             ))}

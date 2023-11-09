@@ -1,5 +1,6 @@
 import React from "react";
-import nothing from '../../assets/images/nothing-found.png'
+import nothing from "../../assets/images/nothing-found.png";
+import { Link } from "react-router-dom";
 const NoData = () => {
   const loaderStyles = {
     top: 0,
@@ -9,6 +10,7 @@ const NoData = () => {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    flexDirection : "column"
   };
 
   const imageStyles = {
@@ -19,6 +21,9 @@ const NoData = () => {
   return (
     <div style={loaderStyles}>
       <img src={nothing} style={imageStyles} alt="noData" />
+      <Link to="/">
+        <div className="btn submit-button">Go Back To Home</div>
+      </Link>
     </div>
   );
 };

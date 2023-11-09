@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@400;500&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,700;1,100;1,200;1,300;1,400;1,700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@400;500&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,700;1,100;1,200;1,300;1,400;1,700&display=swap'); */
 .question-practice .question-container {
   margin: 10px;
   background-color: white;
@@ -185,7 +185,6 @@
 .question-practice .accordion-body .explanation{
   color: #444;
   line-height: 2rem;
-  font-family: cursive;
  
 }
 .question-practice .question-box .accordion-button{
@@ -198,7 +197,6 @@
 }
 
 .question-practice .question-box .accordion-button h6{
-  font-family: cursive;
   font-weight: 600;
 }
 
@@ -238,3 +236,4 @@
 .question-practice .question-container .accordion-body::before{
   border: 1px solid black;
 }
+

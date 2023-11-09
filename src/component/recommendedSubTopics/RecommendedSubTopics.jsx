@@ -55,7 +55,7 @@ const Box = styled.div`
   align-items: center;
 `;
 const Box2 = styled.h6`
-  width : 10rem;
+  min-width : 10rem;
   padding : 10px 5px;
   margin-bottom: 0px;
   text-transform: uppercase;
