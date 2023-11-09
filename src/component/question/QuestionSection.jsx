@@ -23,11 +23,10 @@ const MCQSection = () => {
   const [optionsUI, setOptionsUI] = useState(Array(10).fill(""));
   const [yourScore, setYourScore] = useState(0);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
-  const [timer, setTimer] = useState(600); 
-  const [timerActive, setTimerActive] = useState(false); 
+  const [timer, setTimer] = useState(600);
+  const [timerActive, setTimerActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { topic } = useParams();
-  // console.log(topic)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,7 +45,6 @@ const MCQSection = () => {
           setTimerActive(true);
         }
       } catch (error) {
-        // console.error("Error fetching data:", error);
         setIsLoading(false);
       }
     };
@@ -73,9 +71,9 @@ const MCQSection = () => {
       }
     });
 
-    setCorrectAnswers(correctAnswers); 
-    setWrongAnswers(wrongAnswers); 
-    setUnattemptedAnswers(unattemptedAnswers); 
+    setCorrectAnswers(correctAnswers);
+    setWrongAnswers(wrongAnswers);
+    setUnattemptedAnswers(unattemptedAnswers);
     setYourScore(correctAnswers);
     return score2;
   }, [data, selectedOptions]);
@@ -93,13 +91,13 @@ const MCQSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (timer > 0 && timerActive) {
-        setTimer(timer - 1); // Decrement the timer value
+        setTimer(timer - 1);
       } else if (timer === 0 && timerActive) {
         handleShowSubmissionModal();
       }
     }, 1000);
     return () => {
-      clearInterval(interval); 
+      clearInterval(interval);
     };
   }, [timer, timerActive, handleShowSubmissionModal]);
 
@@ -148,44 +146,41 @@ const MCQSection = () => {
 
   return (
     <section className="quiz-section">
-      
-        {isLoading ? (
-          <TietLoader />
-        ) : (
-          data.length > 0 ? (
-          <div className="mcq-section">
+      {isLoading ? (
+        <TietLoader />
+      ) : data.length > 0 ? (
+        <div className="mcq-section">
             <div className={`timer ${testSubmitted ? "d-none" : ""}`}>
               Time Remaining: {Math.floor(timer / 60)}:{timer % 60}
             </div>
-            <div className="question-section">
-              {data.map((question, questionIndex) => (
-                <div key={questionIndex} className="question-container">
-                  <div className="question-header">
-                    <h6 className="question-number">{`${
-                      questionIndex + 1
-                    }`}</h6>
-                    <h6>{question.text[0]}</h6>
-                  </div>
-                  <div className="images-container">
-                    {question.images.map((image, imageIndex) => (
-                      <img
-                        key={imageIndex}
-                        src={image}
-                        alt={`Img ${imageIndex + 1}`}
-                        className="para-images"
-                      />
-                    ))}
-                  </div>
-                  <ul>
-                    {question.options.map((option, optionIndex) => (
-                      <li
-                        key={optionIndex}
-                        onClick={() =>
-                          handleOptionSelect(questionIndex, optionIndex)
-                        }
-                      >
-                        <div
-                          className={`option-section 
+
+          <div className="question-section">
+            {data.map((question, questionIndex) => (
+              <div key={questionIndex} className="question-container">
+                <div className="question-header">
+                  <h6 className="question-number">{`${questionIndex + 1}`}</h6>
+                  <h6>{question.text[0]}</h6>
+                </div>
+                <div className="images-container">
+                  {question.images.map((image, imageIndex) => (
+                    <img
+                      key={imageIndex}
+                      src={image}
+                      alt={`Img ${imageIndex + 1}`}
+                      className="para-images"
+                    />
+                  ))}
+                </div>
+                <ul>
+                  {question.options.map((option, optionIndex) => (
+                    <li
+                      key={optionIndex}
+                      onClick={() =>
+                        handleOptionSelect(questionIndex, optionIndex)
+                      }
+                    >
+                      <div
+                        className={`option-section 
                           ${
                             showCorrectAnswer
                               ? optionIndex === question.correctOptionIndex - 1
@@ -200,94 +195,90 @@ const MCQSection = () => {
                           }
     
                            `}
-                        >
-                          <div className="d-flex justify-content-center align-items-center gap-4">
-                            <h6 className="alphabet">
-                              {String.fromCharCode(65 + optionIndex)}{" "}
-                            </h6>
-                            <div className="option-container">
-                              <h6 className="option-text">{option.text}</h6>
-                              {option.image && (
-                                <img
-                                  src={option.image}
-                                  alt={`Img ${optionIndex + 1}`}
-                                  className="option-image"
-                                />
-                              )}
-                            </div>
+                      >
+                        <div className="d-flex justify-content-center align-items-center gap-4">
+                          <h6 className="alphabet">
+                            {String.fromCharCode(65 + optionIndex)}{" "}
+                          </h6>
+                          <div className="option-container">
+                            <h6 className="option-text">{option.text}</h6>
+                            {option.image && (
+                              <img
+                                src={option.image}
+                                alt={`Img ${optionIndex + 1}`}
+                                className="option-image"
+                              />
+                            )}
                           </div>
+                        </div>
 
-                          {showCorrectAnswer ? (
-                            optionIndex === optionsUI[questionIndex] ? (
-                              optionsUI[questionIndex] ===
-                              question.correctOptionIndex - 1 ? (
-                                <i class="fa-solid fa-check"></i>
-                              ) : (
-                                <i class="fa-solid fa-xmark"></i>
-                              )
+                        {showCorrectAnswer ? (
+                          optionIndex === optionsUI[questionIndex] ? (
+                            optionsUI[questionIndex] ===
+                            question.correctOptionIndex - 1 ? (
+                              <i class="fa-solid fa-check"></i>
                             ) : (
-                              ""
+                              <i class="fa-solid fa-xmark"></i>
                             )
                           ) : (
                             ""
-                          )}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+                          )
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
 
-                  <div
-                    className={`d-flex justify-content-center align-items-start flex-column ${
-                      testSubmitted ? "d-block" : "d-none"
-                    }`}
-                    style={{ padding: "10px" }}
+                <div
+                  className={`d-flex justify-content-center align-items-start flex-column ${
+                    testSubmitted ? "d-block" : "d-none"
+                  }`}
+                  style={{ padding: "10px" }}
+                >
+                  <button
+                    className="toggle-explanation-btn"
+                    onClick={() => toggleExplanationVisibility(questionIndex)}
                   >
-                    <button
-                      className="toggle-explanation-btn"
-                      onClick={() => toggleExplanationVisibility(questionIndex)}
-                    >
-                      {explanationsVisible[questionIndex]
-                        ? "Hide Explanation"
-                        : "Show Explanation"}
-                    </button>
+                    {explanationsVisible[questionIndex]
+                      ? "Hide Explanation"
+                      : "Show Explanation"}
+                  </button>
 
-                    <div className="explanation-wrapper ">
-                      {explanationsVisible[questionIndex] && (
-                        <div className="explanation">
-                          <p>
-                            {question.explanation.text.map((text, index) => (
-                              <h6 key={index}>{text}</h6>
-                            ))}
-                          </p>
-                        </div>
-                      )}
-                    </div>
+                  <div className="explanation-wrapper ">
+                    {explanationsVisible[questionIndex] && (
+                      <div className="explanation">
+                        <p>
+                          {question.explanation.text.map((text, index) => (
+                            <h6 key={index}>{text}</h6>
+                          ))}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-           ) : (
-            <NoData />
-          )
-        )}
+        </div>
+      ) : (
+        <NoData />
+      )}
 
-        {
-          data.length > 0 ? (
-            testSubmitted ? (
-              <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
-                Take New Test
-              </button>
-            ) : (
-              <button className="submit-button btn  mb-4" onClick={handleSubmit}>
-                Submit
-              </button>
-            )
-          ) : (
-            ""
-          )
-        }
-     
+      {data.length > 0 ? (
+        testSubmitted ? (
+          <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
+            Take New Test
+          </button>
+        ) : (
+          <button className="submit-button btn  mb-4" onClick={handleSubmit}>
+            Submit
+          </button>
+        )
+      ) : (
+        ""
+      )}
 
       <Modal
         show={showWarningModal}

@@ -1,6 +1,6 @@
 .quiz-section .mcq-section,
 .quiz-section .question-section {
-  margin: 10px;
+  margin: 20px 10px;
 }
 
 .quiz-section .mcq-container,
@@ -52,13 +52,18 @@
   color: white;
 }
 
-.quiz-section .timer {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.quiz-section .timer{
+   text-align: center;
+  background: white;
+  z-index: 99;
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin-top : -20px;
+  height: 30px;
+  margin-bottom: 10px;
+  padding: 5px;
+
 }
 
 .quiz-section .mcq-container h2 {
@@ -214,6 +219,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
 }
 
 .quiz-section .boxShadow {

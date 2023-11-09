@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import TietLogo from "../../assets/images/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import WhiteTietLogo from "../../assets/images/whiteLogo.png";
+
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../utils/userSlice";
@@ -13,23 +15,41 @@ import {
   setSliceContact,
   setSliceInstitute,
 } from "../../utils/userSlice";
-import PROFILEPIC_URL  from "../../assets/images/user-profile.jpg";
-
+import PROFILEPIC_URL from "../../assets/images/user-profile.jpg";
 
 const HeaderSection = styled.section`
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2);
-  background: ${(props) => (props.darkTheme ? "#333" : "#fff")};
-  min-width: -moz-max-content;
-  position: sticky;
-  top: 0;
-  width: 100%;
-  z-index: 9999;
-  color: ${(props) => (props.darkTheme ? "#fff" : "inherit")};
+  &.light {
+    background: transparent;
+    position: relative;
 
-  .light-theme,
-  .dark-theme {
-    cursor: pointer;
+    .container-fluid {
+      position: absolute;
+    }
+
+    .name {
+      color: white;
+    }
+  }
+
+  &.solid {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+      0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    background: ${(props) => (props.darkTheme ? "#333" : "#fff")};
+    min-width: -moz-max-content;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    color: ${(props) => (props.darkTheme ? "#fff" : "inherit")};
+    transition: background-color 0.3s ease-in-out;
+
+    .container-fluid {
+      position: relative;
+    }
+
+    .name {
+      color: inherit;
+    }
   }
 `;
 
@@ -43,42 +63,57 @@ const DropdownMenu = styled.div`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   display: ${(props) => (props.isOpen ? "block" : "none")};
 
-  ul  {
-    text-decoration : none;
-    list-style : none;
+  ul {
+    text-decoration: none;
+    list-style: none;
     margin-right: 15px;
     padding-left: 15px;
   }
 `;
 
 const Header = () => {
-  // const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isHeaderSolid, setIsHeaderSolid] = useState(false);
+  const Navigate = useNavigate();
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
   const dispatch = useDispatch();
+
   const handleLogOut = () => {
     localStorage.removeItem("accessToken");
-  
     dispatch(logoutUser());
     window.location.reload();
   };
-  
 
-  // const toggleTheme = () => {
-  //   setIsDarkTheme(!isDarkTheme);
-  // };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsHeaderSolid(true);
+      } else {
+        setIsHeaderSolid(false);
+      }
+    };
+    if (isHomePage) {
+      window.addEventListener("scroll", handleScroll);
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+    if (isHomePage === false) {
+      setIsHeaderSolid(true);
+    }
+  }, [isHomePage]);
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  const Navigate = useNavigate();
-
 
   useEffect(() => {
     const setDetails = () => {
       const storedUserData = JSON.parse(localStorage.getItem("user"));
 
       if (storedUserData) {
-        // User data is present in localStorage
         dispatch(setSliceName(storedUserData.name));
         dispatch(setSliceEmail(storedUserData.email));
         dispatch(
@@ -95,50 +130,27 @@ const Header = () => {
     };
 
     setDetails();
-  }, [Navigate,dispatch]);
 
-
+  }, [Navigate, dispatch]);
 
   const userName = useSelector((state) => state.user.name);
   const firstName = userName && userName.split(" ")[0];
   const profilePic = useSelector((state) => state.user.profilePic);
-  
-
-
+  const logoSrc = isHeaderSolid ? TietLogo : WhiteTietLogo;
   return (
-    <HeaderSection
-    //  darkTheme={isDarkTheme}
-     >
+    <HeaderSection className={isHeaderSolid ? "solid" : "light"}>
       <div className="container-fluid">
         <div className="row">
           <div className="col">
             <div className="d-flex justify-content-between align-items-center w-100">
               <Link to="/">
-                <img src={TietLogo} alt="tietLogo" className="w-25" />
+                <img src={logoSrc} alt="tietLogo" className="w-25" />
               </Link>
               <div className="user-data d-flex justify-content-between gap-3 align-items-center">
-                {/* <div
-                  className={isDarkTheme ? "light-theme" : "dark-theme"}
-                  onClick={toggleTheme}
-                >
-                  <i
-                    className={
-                      isDarkTheme ? "fa-solid fa-sun" : "fa-solid fa-moon"
-                    }
-                  ></i>
-                </div> */}
                 <Link to="/user">
-                  <div
-                    className="name"
-                    // style={{ color: isDarkTheme ? "#fff" : "inherit" }}
-                  >
-                    {firstName}
-                  </div>
+                  <div className="name">{firstName}</div>
                 </Link>
-                 <div
-                  className="profile-pic"
-                  onClick={handleDropdownToggle}
-                >
+                <div className="profile-pic" onClick={handleDropdownToggle}>
                   <img
                     src={profilePic}
                     alt="userLogo"
@@ -152,7 +164,12 @@ const Header = () => {
                         <Link to="/user">Profile</Link>
                       </li>
                       <li>
-                        <button className="btn p-0 text-primary"  onClick={handleLogOut}>Log Out</button>
+                        <button
+                          className="btn p-0 text-primary"
+                          onClick={handleLogOut}
+                        >
+                          Log Out
+                        </button>
                       </li>
                     </ul>
                   </DropdownMenu>
