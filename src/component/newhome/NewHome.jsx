@@ -65,7 +65,7 @@ const NewHome = () => {
             {Object.keys(subtopicsData).map((topic, index) => (
               <div key={index}>
                 <h4
-                  className="mt-4 text-center mb-4"
+                  className="mt-5 text-center mb-5"
                   style={{ overflowWrap: "break-word" }}
                 >
                   {topic.split("_").join(" ")}

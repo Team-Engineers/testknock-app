@@ -40,7 +40,7 @@ const QuizQuestions = () => {
         setIsLoading(false);
         setData(resData);
         if (resData) {
-          console.log("resData",resData)
+          console.log("resData", resData);
           setSelectedOptions(Array(10).fill(null));
           setExplanationsVisible(Array(10).fill(false));
           setTimerActive(true);
@@ -151,117 +151,273 @@ const QuizQuestions = () => {
         <TietLoader />
       ) : data.length > 0 ? (
         <div className="mcq-section">
-            <div className={`timer ${testSubmitted ? "d-none" : ""}`}>
-              Time Remaining: {Math.floor(timer / 60)}:{timer % 60}
-            </div>
-
-          <div className="question-section">
-            {data.map((question, questionIndex) => (
-              <div key={questionIndex} className="question-container">
-                <div className="question-header">
-                  <h6 className="question-number">{`${questionIndex + 1}`}</h6>
-                  <h6>{question.text[0]}</h6>
+          <div className={`timer ${testSubmitted ? "d-none" : ""}`}>
+            Time Remaining: {Math.floor(timer / 60)}:{timer % 60}
+          </div>
+          {data[0].paragraph ? (
+            data.map((item, index) => (
+              <div key={index} className="question-container">
+                <div className="question-box paragraph">
+                  <h6 className="mb-2 ">
+                    <strong>Direction:</strong> Read the following passage
+                    carefully and answer the questions that follow.
+                  </h6>
+                  <div className="d-flex justify-content-start align-items-center gap-3">
+                    <span className="question-number">{`P${
+                      index + 1
+                    } `}</span>
+                    <div className="question-text ">
+                      {item.paragraph.map((paragraph, paraindex) => (
+                        <h6 className="mb-2" key={paraindex}>
+                          {paragraph}
+                        </h6>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-center align-items-center gap-3">
+                    {item.images &&
+                      item.images.map((image, imageIndex) => (
+                        <img
+                          className="question-image"
+                          key={imageIndex}
+                          src={image}
+                          alt={`Img ${imageIndex + 1}`}
+                        />
+                      ))}
+                  </div>
                 </div>
-                <div className="images-container">
-                  {question.images.map((image, imageIndex) => (
-                    <img
-                      key={imageIndex}
-                      src={image}
-                      alt={`Img ${imageIndex + 1}`}
-                      className="para-images"
-                    />
+                <div className="question-section">
+                  {item.questions.map((question, questionIndex) => (
+                    <div key={questionIndex} className="question-container">
+                      <div className="question-header">
+                        <h6 className="question-number">{`${
+                          questionIndex + 1
+                        }`}</h6>
+                        {question.text.map((text, textIndex) => (
+                          <h6 key={textIndex} className="mb-2">{`${text}`}</h6>
+                        ))}
+                      </div>
+                      <div className="images-container">
+                        {question.images.map((image, imageIndex) => (
+                          <img
+                            key={imageIndex}
+                            src={image}
+                            alt={`Img ${imageIndex + 1}`}
+                            className="para-images"
+                          />
+                        ))}
+                      </div>
+                      <ul>
+                        {question.options.map((option, optionIndex) => (
+                          <li
+                            key={optionIndex}
+                            onClick={() =>
+                              handleOptionSelect(questionIndex, optionIndex)
+                            }
+                          >
+                            <div
+                              className={`option-section 
+                            ${
+                              showCorrectAnswer
+                                ? optionIndex ===
+                                  question.correctOptionIndex - 1
+                                  ? ""
+                                  : "incorrect"
+                                : ""
+                            }
+                            ${
+                              optionsUI[questionIndex] === optionIndex
+                                ? "selected-option"
+                                : "unselected-option"
+                            }
+      
+                             `}
+                            >
+                              <div className="d-flex justify-content-center align-items-center gap-4">
+                                <h6 className="alphabet">
+                                  {String.fromCharCode(65 + optionIndex)}{" "}
+                                </h6>
+                                <div className="option-container">
+                                  <h6 className="option-text">{option.text}</h6>
+                                  {option.image && (
+                                    <img
+                                      src={option.image}
+                                      alt={`Img ${optionIndex + 1}`}
+                                      className="option-image"
+                                    />
+                                  )}
+                                </div>
+                              </div>
+
+                              {showCorrectAnswer ? (
+                                optionIndex === optionsUI[questionIndex] ? (
+                                  optionsUI[questionIndex] ===
+                                  question.correctOptionIndex - 1 ? (
+                                    <i class="fa-solid fa-check"></i>
+                                  ) : (
+                                    <i class="fa-solid fa-xmark"></i>
+                                  )
+                                ) : (
+                                  ""
+                                )
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div
+                        className={`d-flex justify-content-center align-items-start flex-column ${
+                          testSubmitted ? "d-block" : "d-none"
+                        }`}
+                        style={{ padding: "10px" }}
+                      >
+                        <button
+                          className="toggle-explanation-btn"
+                          onClick={() =>
+                            toggleExplanationVisibility(questionIndex)
+                          }
+                        >
+                          {explanationsVisible[questionIndex]
+                            ? "Hide Explanation"
+                            : "Show Explanation"}
+                        </button>
+
+                        <div className="explanation-wrapper ">
+                          {explanationsVisible[questionIndex] && (
+                            <div className="explanation">
+                              <p>
+                                {question.explanation.text.map(
+                                  (text, index) => (
+                                    <h6 key={index}>{text}</h6>
+                                  )
+                                )}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
-                <ul>
-                  {question.options.map((option, optionIndex) => (
-                    <li
-                      key={optionIndex}
-                      onClick={() =>
-                        handleOptionSelect(questionIndex, optionIndex)
-                      }
-                    >
-                      <div
-                        className={`option-section 
-                          ${
-                            showCorrectAnswer
-                              ? optionIndex === question.correctOptionIndex - 1
-                                ? ""
-                                : "incorrect"
-                              : ""
-                          }
-                          ${
-                            optionsUI[questionIndex] === optionIndex
-                              ? "selected-option"
-                              : "unselected-option"
-                          }
-    
-                           `}
+              </div>
+            ))
+          ) : (
+            <div className="question-section">
+              {data.map((question, questionIndex) => (
+                <div key={questionIndex} className="question-container">
+                  <div className="question-header">
+                    <h6 className="question-number">{`${
+                      questionIndex + 1
+                    }`}</h6>
+                    {question.text.map((text, textIndex) => (
+                      <h6 key={textIndex} className="mb-2">{`${text}`}</h6>
+                    ))}
+                  </div>
+                  <div className="images-container">
+                    {question.images.map((image, imageIndex) => (
+                      <img
+                        key={imageIndex}
+                        src={image}
+                        alt={`Img ${imageIndex + 1}`}
+                        className="para-images"
+                      />
+                    ))}
+                  </div>
+                  <ul>
+                    {question.options.map((option, optionIndex) => (
+                      <li
+                        key={optionIndex}
+                        onClick={() =>
+                          handleOptionSelect(questionIndex, optionIndex)
+                        }
                       >
-                        <div className="d-flex justify-content-center align-items-center gap-4">
-                          <h6 className="alphabet">
-                            {String.fromCharCode(65 + optionIndex)}{" "}
-                          </h6>
-                          <div className="option-container">
-                            <h6 className="option-text">{option.text}</h6>
-                            {option.image && (
-                              <img
-                                src={option.image}
-                                alt={`Img ${optionIndex + 1}`}
-                                className="option-image"
-                              />
-                            )}
+                        <div
+                          className={`option-section 
+                            ${
+                              showCorrectAnswer
+                                ? optionIndex ===
+                                  question.correctOptionIndex - 1
+                                  ? ""
+                                  : "incorrect"
+                                : ""
+                            }
+                            ${
+                              optionsUI[questionIndex] === optionIndex
+                                ? "selected-option"
+                                : "unselected-option"
+                            }
+      
+                             `}
+                        >
+                          <div className="d-flex justify-content-center align-items-center gap-4">
+                            <h6 className="alphabet">
+                              {String.fromCharCode(65 + optionIndex)}{" "}
+                            </h6>
+                            <div className="option-container">
+                              <h6 className="option-text">{option.text}</h6>
+                              {option.image && (
+                                <img
+                                  src={option.image}
+                                  alt={`Img ${optionIndex + 1}`}
+                                  className="option-image"
+                                />
+                              )}
+                            </div>
                           </div>
-                        </div>
 
-                        {showCorrectAnswer ? (
-                          optionIndex === optionsUI[questionIndex] ? (
-                            optionsUI[questionIndex] ===
-                            question.correctOptionIndex - 1 ? (
-                              <i class="fa-solid fa-check"></i>
+                          {showCorrectAnswer ? (
+                            optionIndex === optionsUI[questionIndex] ? (
+                              optionsUI[questionIndex] ===
+                              question.correctOptionIndex - 1 ? (
+                                <i class="fa-solid fa-check"></i>
+                              ) : (
+                                <i class="fa-solid fa-xmark"></i>
+                              )
                             ) : (
-                              <i class="fa-solid fa-xmark"></i>
+                              ""
                             )
                           ) : (
                             ""
-                          )
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
 
-                <div
-                  className={`d-flex justify-content-center align-items-start flex-column ${
-                    testSubmitted ? "d-block" : "d-none"
-                  }`}
-                  style={{ padding: "10px" }}
-                >
-                  <button
-                    className="toggle-explanation-btn"
-                    onClick={() => toggleExplanationVisibility(questionIndex)}
+                  <div
+                    className={`d-flex justify-content-center align-items-start flex-column ${
+                      testSubmitted ? "d-block" : "d-none"
+                    }`}
+                    style={{ padding: "10px" }}
                   >
-                    {explanationsVisible[questionIndex]
-                      ? "Hide Explanation"
-                      : "Show Explanation"}
-                  </button>
+                    <button
+                      className="toggle-explanation-btn"
+                      onClick={() => toggleExplanationVisibility(questionIndex)}
+                    >
+                      {explanationsVisible[questionIndex]
+                        ? "Hide Explanation"
+                        : "Show Explanation"}
+                    </button>
 
-                  <div className="explanation-wrapper ">
-                    {explanationsVisible[questionIndex] && (
-                      <div className="explanation">
-                        <p>
-                          {question.explanation.text.map((text, index) => (
-                            <h6 key={index}>{text}</h6>
-                          ))}
-                        </p>
-                      </div>
-                    )}
+                    <div className="explanation-wrapper ">
+                      {explanationsVisible[questionIndex] && (
+                        <div className="explanation">
+                          <p>
+                            {question.explanation.text.map((text, index) => (
+                              <h6 key={index}>{text}</h6>
+                            ))}
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       ) : (
         <NoData />

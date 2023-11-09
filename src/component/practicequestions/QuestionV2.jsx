@@ -244,14 +244,17 @@ const QuestionV2 = ({ data }) => {
                           } `}</span>
                         </div>
                         <div className="question-text-container">
-                          <h6 className="question-text mb-2">
-                            {question.text}
-                          </h6>
+                          {question.text.map((text, textIndex) => (
+                              <h6
+                                key={textIndex}
+                                className="question-text mb-2"
+                              >{`${text}`}</h6>
+                            ))}
                         </div>
                       </div>
                       <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
-                        {question.image &&
-                          question.image.map((image, imageIndex) => (
+                        {question.images &&
+                          question.images.map((image, imageIndex) => (
                             <img
                               className="question-image"
                               key={imageIndex}

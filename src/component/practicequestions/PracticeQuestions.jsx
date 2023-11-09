@@ -28,11 +28,13 @@ const PracticeQuestions = () => {
       if (topic === "LOGICAL_REASONING") route = "lr";
       let version = "v2";
       if (
-        topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" &&
-        subTopic === "READING_COMPREHENSION"
-      ) {
+        (topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" &&
+        subTopic === "READING_COMPREHENSION")) {
         version = "v1";
         subTopicRoute = "";
+      }
+      if(topic === "DATA_INTERPRETATION"){
+        version = "v1";
       }
       try {
         const response = await axios.get(

@@ -128,8 +128,7 @@
 }
 
 .question-practice .question-image {
-  height: 100px;
-  width: 100px;
+  width: 75%;
   object-fit: cover;
   border-radius: 10px;
   justify-content: center;
