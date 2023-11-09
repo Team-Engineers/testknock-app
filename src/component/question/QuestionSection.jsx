@@ -40,6 +40,7 @@ const MCQSection = () => {
         setIsLoading(false);
         setData(resData);
         if (resData) {
+          console.log("resData",resData)
           setSelectedOptions(Array(10).fill(null));
           setExplanationsVisible(Array(10).fill(false));
           setTimerActive(true);

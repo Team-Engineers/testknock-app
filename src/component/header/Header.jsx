@@ -144,7 +144,7 @@ const Header = () => {
           <div className="col">
             <div className="d-flex justify-content-between align-items-center w-100">
               <Link to="/">
-                <img src={logoSrc} alt="tietLogo" className="w-25" />
+                <img src={logoSrc} alt="tietLogo" className="" style = {{width:"4rem"}} />
               </Link>
               <div className="user-data d-flex justify-content-between gap-3 align-items-center">
                 <Link to="/user">
