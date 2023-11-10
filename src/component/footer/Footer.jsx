@@ -76,16 +76,16 @@ const Footer = () => {
                   <span>Categories</span>
                 </div>
                 <div class=" pt-5 d-flex flex-column gap-4">
-                  <Link to="/QUANT">
+                  <Link to="/QUANTITATIVE_APTITUDE">
                     <h6 className="liWrapper">Quantitative Aptitude</h6>
                   </Link>
-                  <Link to="/DI">
+                  <Link to="/DATA_INTERPRETATION">
                     <h6 className="liWrapper">Data Interpretation</h6>
                   </Link>
-                  <Link to="/LR">
+                  <Link to="/LOGICAL_REASONING">
                     <h6 className="liWrapper">Logical Reasoning</h6>
                   </Link>
-                  <Link to="/VARC">
+                  <Link to="/VERBAL_ABILITY_AND_READING_COMPREHENSION">
                     <h6 className="liWrapper">
                       Verbal Ability &amp; Reading Comprehension
                     </h6>
