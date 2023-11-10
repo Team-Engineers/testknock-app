@@ -85,7 +85,7 @@ const Footer = () => {
                   <Link to="/LOGICAL_REASONING">
                     <h6 className="liWrapper">Logical Reasoning</h6>
                   </Link>
-                  <Link to="/VERBAL_ABILITY_&_READING_COMPREHENSION">
+                  <Link to="/VERBAL_ABILITY_AND_READING_COMPREHENSION">
                     <h6 className="liWrapper">
                       Verbal Ability &amp; Reading Comprehension
                     </h6>
