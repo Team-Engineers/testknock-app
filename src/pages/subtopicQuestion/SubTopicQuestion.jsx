@@ -4,7 +4,7 @@ import Footer from "../../component/footer/Footer";
 import BreadCrumbBanner from "../../component/breadcrumb/BreadCrumbBanner";
 import { Navigate, useParams } from "react-router-dom";
 import Nopage from "../nopage/Nopage";
-import PracticeQuestions from "../../component/questions/PracticeQuestions";
+import PracticeQuestions from "../../component/practicequestions/PracticeQuestions";
 
 const SubTopicQuestion = () => {
   const { topic } = useParams();

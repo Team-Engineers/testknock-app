@@ -9,14 +9,34 @@
   padding: 30px;
   position: relative;
   border-radius: 10px;
-  margin: 0 auto;
-  margin-bottom: 20px;
+  margin: 20px 0px;
   border: solid 1px #bababa;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 20px;
   width: 100%;
   max-width: 800px;
 }
+
+@media screen and (max-width: 800px) {
+  .quiz-section .mcq-container,
+  .quiz-section .question-container,
+  .quiz-section .para-header-container {
+    padding: 30px 10px;
+    position: relative;
+    border-radius: 10px;
+    margin: 20px 0px;
+    border: solid 1px #bababa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    width: 100%;
+  }
+
+  .quiz-section .question-container img{
+    width: 75%;
+  }
+
+}
+
 
 .quiz-section .mcq-container ul li.correct,
 .mcq-container ul li.incorrect {
@@ -26,10 +46,11 @@
 .quiz-section .question-header,
 .para-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 10px;
-  gap: 10px;
+  flex-direction: column;
+  /* gap: 10px; */
   padding: 10px;
 }
 

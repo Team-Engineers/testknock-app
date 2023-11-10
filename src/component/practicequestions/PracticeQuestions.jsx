@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./question.css";
 import { useParams } from "react-router-dom";
 import { API } from "../../utils/constants";
-import QuestionV1 from "./QuestionV1";
 import QuestionV2 from "./QuestionV2";
 import axios from "axios";
 import RecommendedSubTopics from "../recommendedSubTopics/RecommendedSubTopics";
 import TietLoader from "../Loader/Loader";
 import NoData from "../Loader/NoData";
 
-const QuizPage = () => {
+const PracticeQuestions = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { topic, subTopic } = useParams();
@@ -29,11 +28,13 @@ const QuizPage = () => {
       if (topic === "LOGICAL_REASONING") route = "lr";
       let version = "v2";
       if (
-        topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" &&
-        subTopic === "READING_COMPREHENSION"
-      ) {
+        (topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" &&
+        subTopic === "READING_COMPREHENSION")) {
         version = "v1";
         subTopicRoute = "";
+      }
+      if(topic === "DATA_INTERPRETATION"){
+        version = "v1";
       }
       try {
         const response = await axios.get(
@@ -54,17 +55,6 @@ const QuizPage = () => {
     return <TietLoader />;
   }
 
-  let ComponentToRender;
-
-  if (
-    topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" &&
-    subTopic === "READING_COMPREHENSION"
-  ) {
-    ComponentToRender = QuestionV1;
-  } else {
-    ComponentToRender = QuestionV2;
-  }
-
   return (
     <section className="question-practice">
       {data.length > 0 ? (
@@ -74,7 +64,7 @@ const QuizPage = () => {
               <RecommendedSubTopics />
             </div>
             <div className="col-lg-8">
-              <ComponentToRender data={data} />
+              <QuestionV2 data={data} />
             </div>
           </div>
         </div>
@@ -85,4 +75,4 @@ const QuizPage = () => {
   );
 };
 
-export default QuizPage;
+export default PracticeQuestions;

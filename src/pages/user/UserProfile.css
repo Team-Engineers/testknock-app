@@ -1,5 +1,5 @@
 .userProfile .main-body{
-    background: #f7f7ff;
+    background: #fff7f7;;
     margin-top: 20px;
     padding : 20px;
 }
@@ -18,4 +18,8 @@
 }
 .me-2 {
     margin-right: .5rem!important;
+}
+
+.list-group-item {
+    overflow-wrap: anywhere;
 }

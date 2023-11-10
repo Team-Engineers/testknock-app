@@ -69,13 +69,13 @@ const Login = () => {
     try {
       const response = await axios.post(`${API}/auth/signup`, userData);
       if (response.status === 200) {
-        alert("Signup successful");
+        // alert("Signup successful");
         setIsRightPanelActive(false);
       } else {
-        alert("Signup failed");
+        // alert("Signup failed");
       }
     } catch (error) {
-      alert("Signup failed");
+      // alert("Signup failed");
     } finally {
       setIsLoading(false);
       setDisableButton(false); // Enable the button
@@ -115,14 +115,14 @@ const Login = () => {
         Navigate("/");
       } else {
         setIsLoading(false);
-        alert("Signin failed, email or username is wrong");
+        // alert("Signin failed, email or username is wrong");
       }
     } catch (error) {
       if (error.response) {
-        alert("Signin failed, email or username is wrong");
+        // alert("Signin failed, email or username is wrong");
       }
 
-      alert("Signin failed");
+      // alert("Signin failed");
     } finally {
       setIsLoading(false);
       setDisableButton(false);

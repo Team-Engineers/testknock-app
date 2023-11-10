@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from '../../component/header/Header'
-import QuestionSection from '../../component/question/QuestionSection'
+import QuizQuestions from '../../component/quizquestions/QuizQuestions'
 import Footer from '../../component/footer/Footer'
 
 const quiz = () => {
   return (
     <div>
       <Header/>
-      <QuestionSection/>
+      <QuizQuestions/>
       <Footer/>
     </div>
   )

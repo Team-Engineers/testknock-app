@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TietLogo from "../../assets/images/logo.png";
-import WhiteTietLogo from "../../assets/images/whiteLogo.png";
+import WhiteTietLogo from "../../assets/images/white-tietLogo.png";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -144,7 +144,7 @@ const Header = () => {
           <div className="col">
             <div className="d-flex justify-content-between align-items-center w-100">
               <Link to="/">
-                <img src={logoSrc} alt="tietLogo" className="" style = {{width:"4rem"}} />
+                <img src={logoSrc} alt="tietLogo" className="" style = {{width:"3.5rem",padding:"7px"}} />
               </Link>
               <div className="user-data d-flex justify-content-between gap-3 align-items-center">
                 <Link to="/user">
