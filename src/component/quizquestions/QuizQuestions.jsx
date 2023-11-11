@@ -425,9 +425,17 @@ const QuizQuestions = () => {
 
       {data.length > 0 ? (
         testSubmitted ? (
-          <button className="retake-button btn mb-4" onClick={handleRetakeTest}>
-            Take New Test
+          <div>
+
+          <button className="retake-button btn mb-4" onClick={handleRetakeTest} >
+          Take New Test
           </button>
+          <a className="home-button btn mb-4" href="/" style={{ marginLeft: '50px' }}>
+            Home
+          </a>
+   
+        </div>
+   
         ) : (
           <button className="submit-button btn  mb-4" onClick={handleSubmit}>
             Submit
