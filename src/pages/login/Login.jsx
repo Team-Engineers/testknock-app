@@ -140,10 +140,7 @@ const Login = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="form-container sign-up-container">
-                <form
-                  action=""
-                  className="d-flex align-items-center justify-content-center"
-                >
+                <div className="form">
                   <img src={Logo} alt="tiet-logo" className="img-fluid" />
 
                   <input
@@ -182,12 +179,12 @@ const Login = () => {
                     Sign Up
                   </button>
                   {isLoading && <TietLoader />}
-                </form>
+                </div>
               </div>
             </div>
             <div className="col-md-6">
               <div className="form-container sign-in-container">
-                <form action="">
+                <div className="form">
                   <img src={Logo} alt="tiet-logo" className="img-fluid" />
 
                   <input
@@ -223,7 +220,7 @@ const Login = () => {
                     Sign In
                   </button>
                   {isLoading && <TietLoader />}
-                </form>
+                </div>
               </div>
             </div>
             <div className={`col-md-12 ${isLoading ? "d-none" : "d-block"}`}>

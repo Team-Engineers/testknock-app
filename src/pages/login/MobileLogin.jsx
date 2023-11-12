@@ -109,103 +109,91 @@ const MobileLogin = () => {
   return (
     <div className="form-container login w-100 sign-in-container">
       {isSignUpActive ? (
-        <div className="h-100">
-          <form action="">
-            <div className="d-flex gap-3 align-items-center justify-content-between flex-column">
-              <img src={Logo} alt="tiet-logo" className="img-fluid" />
-              <input
-                type="text"
-                placeholder="Name"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  isPasswordValid(password);
-                }}
-              />
-              {!passwordValid && (
-                <div className="error-message">
-                  Password must be 8 characters long and contain at least one
-                  uppercase letter, one lowercase letter, and one number.
-                </div>
-              )}
-
-              <button
-                onClick={handleSignUp}
-                disabled={isLoading || disableButton}
-              >
-                Sign Up
-              </button>
-              {isLoading && <TietLoader />}
-              <h6 className="mt-2">
-                Already have an account?{" "}
-                <Link className="text-primary" onClick={handleToggleForm}>
-                  Sign In
-                </Link>
-              </h6>
+        <div className="form">
+          <img src={Logo} alt="tiet-logo" className="img-fluid" />
+          <input
+            type="text"
+            placeholder="Name"
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+              isPasswordValid(password);
+            }}
+          />
+          {!passwordValid && (
+            <div className="error-message">
+              Password must be 8 characters long and contain at least one
+              uppercase letter, one lowercase letter, and one number.
             </div>
-          </form>
+          )}
+
+          <button onClick={handleSignUp} disabled={isLoading || disableButton}>
+            Sign Up
+          </button>
+          {isLoading && <TietLoader />}
+          <h6 className="mt-2">
+            Already have an account?{" "}
+            <Link className="text-primary" onClick={handleToggleForm}>
+              Sign In
+            </Link>
+          </h6>
         </div>
       ) : (
-        <form action="">
-          <div className="d-flex gap-3 align-items-center justify-content-between flex-column">
-            <img src={Logo} alt="tiet-logo" className="img-fluid" />
-            <h1 className="mt-3">Sign in</h1>
-            <input
-              type="email"
-              placeholder="Email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
+        <div className="form">
+          <img src={Logo} alt="tiet-logo" className="img-fluid" />
+          <h1 className="mt-3">Sign in</h1>
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
 
-            {showError ? (
-              <h6 className="text-danger">
-                The username and/or password you specified are not correct.
-              </h6>
-            ) : (
-              ""
-            )}
-            <button
-              onClick={handleSignIn}
-              disabled={isLoading || disableButton}
-            >
-              Sign In
-            </button>
-            {isLoading && <TietLoader />}
-            {/* <h6 className="mt-2">
+          {showError ? (
+            <h6 className="text-danger">
+              The username and/or password you specified are not correct.
+            </h6>
+          ) : (
+            ""
+          )}
+          <button onClick={handleSignIn} disabled={isLoading || disableButton}>
+            Sign In
+          </button>
+          {isLoading && <TietLoader />}
+          {/* <h6 className="mt-2">
               Forgot your password?{" "}
               <Link to="/forgotpassword" className="text-primary">
                 Click Here
               </Link>
             </h6> */}
-            <h6 className="mt-2">
-              Don't have an account?{" "}
-              <Link className="text-primary" onClick={handleToggleForm}>
-                Sign Up
-              </Link>
-            </h6>
-          </div>
-        </form>
+          <h6 className="mt-2">
+            Don't have an account?{" "}
+            <Link className="text-primary" onClick={handleToggleForm}>
+              Sign Up
+            </Link>
+          </h6>
+        </div>
       )}
     </div>
   );

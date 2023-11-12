@@ -67,7 +67,7 @@
     border-color: #FFFFFF;
 }
 
-.login form {
+.login .form {
     background-color: #FFFFFF;
     display: flex;
     align-items: center;
