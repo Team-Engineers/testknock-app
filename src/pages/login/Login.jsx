@@ -47,19 +47,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    return emailRegex.test(email);
-  };
-  const handleSignUp = async () => {
-    if (disableButton) return;
-
-    if (!validateEmail(email)) {
-      setIsLoading(false);
-      setDisableButton(false);
-      return;
-    }
-
+  const isPasswordValid = (password) => {
     if (
       password.length >= 8 &&
       /[A-Z]/.test(password) &&
@@ -69,9 +57,10 @@ const Login = () => {
       setPasswordValid(true);
     } else {
       setPasswordValid(false);
-      setIsLoading(false);
-      return;
     }
+  };
+  const handleSignUp = async () => {
+    if (disableButton || !passwordValid) return;
 
     setIsLoading(true);
     setDisableButton(true);
@@ -99,26 +88,6 @@ const Login = () => {
   const handleSignIn = async () => {
     if (disableButton) return;
     setShowError(false);
-
-    if (!validateEmail(email)) {
-      setIsLoading(false);
-      setDisableButton(false);
-      return;
-    }
-
-    if (
-      password.length >= 8 &&
-      /[A-Z]/.test(password) &&
-      /[a-z]/.test(password) &&
-      /\d/.test(password)
-    ) {
-      setPasswordValid(true);
-    } else {
-      setPasswordValid(false);
-      setIsLoading(false);
-      return;
-    }
-
     setIsLoading(true);
     setDisableButton(true);
 
@@ -172,7 +141,7 @@ const Login = () => {
             <div className="col-md-6">
               <div className="form-container sign-up-container">
                 <form
-                  action="#"
+                  action=""
                   className="d-flex align-items-center justify-content-center"
                 >
                   <img src={Logo} alt="tiet-logo" className="img-fluid" />
@@ -196,7 +165,7 @@ const Login = () => {
                     placeholder="Password"
                     onChange={(e) => {
                       setPassword(e.target.value);
-                      setPasswordValid(true);
+                      isPasswordValid(password);
                     }}
                   />
                   {!passwordValid && (
@@ -218,7 +187,7 @@ const Login = () => {
             </div>
             <div className="col-md-6">
               <div className="form-container sign-in-container">
-                <form action="#">
+                <form action="">
                   <img src={Logo} alt="tiet-logo" className="img-fluid" />
 
                   <input
@@ -233,16 +202,9 @@ const Login = () => {
                     placeholder="Password"
                     onChange={(e) => {
                       setPassword(e.target.value);
-                      setPasswordValid(true);
+                      // isPasswordValid(password);
                     }}
                   />
-                  {!passwordValid && (
-                    <h6 className="error-message">
-                      Password must be 8 characters long and contain at least
-                      one uppercase letter, one lowercase letter, and one
-                      number.
-                    </h6>
-                  )}
                   {showError ? (
                     <h6 className="text-danger">
                       The username and/or password you specified are not
