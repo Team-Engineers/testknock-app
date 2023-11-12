@@ -7,8 +7,8 @@ const TopicCard = styled.li`
     justify-content: center;
     align-items: center;
     text-align: center;
-    height : 10rem;
-    width : 12rem;
+    height : 11rem;
+    width : 13rem;
     border : 1px solid #bababa;
     border-radius : 10px;
   &:hover {

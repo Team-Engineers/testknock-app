@@ -33,7 +33,9 @@ export const subtopicsData = {
       "CRITICAL REASONING",
       "SENTENCE COMPLETION",
       "SYLLOGISMS",
-      "VOCABULARY",
+      "SYNONYMS",
+      "ANTONYMS",
+      "IDIOMS AND PHRASES",   
       "ANALOGY",
     ],
     "DATA_INTERPRETATION": [
