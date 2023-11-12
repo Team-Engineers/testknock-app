@@ -7,8 +7,6 @@ import axios from "axios";
 import { API } from "../../utils/constants";
 import TietLoader from "../../component/Loader/Loader";
 
-
-
 const MobileLogin = () => {
   const [isSignUpActive, setIsSignUpActive] = useState(false);
   const [name, setName] = useState("");
@@ -16,6 +14,7 @@ const MobileLogin = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(true);
 
   const handleToggleForm = () => {
     setIsSignUpActive(!isSignUpActive);
@@ -29,15 +28,29 @@ const MobileLogin = () => {
     return emailRegex.test(email);
   };
   const handleSignUp = async () => {
-    if (disableButton) return; // Prevent multiple submissions
-    setIsLoading(true);
-    setDisableButton(true); // Disable the button
+    if (disableButton) return;
 
     if (!validateEmail(email)) {
       setIsLoading(false);
       setDisableButton(false);
       return;
     }
+    if (
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /\d/.test(password)
+    ) {
+      setPasswordValid(true);
+    } else {
+      setPasswordValid(false);
+      setIsLoading(false);
+
+      return;
+    }
+
+    setIsLoading(true);
+    setDisableButton(true);
 
     const userData = {
       name: name,
@@ -57,20 +70,35 @@ const MobileLogin = () => {
       alert("Signup failed");
     } finally {
       setIsLoading(false);
-      setDisableButton(false); // Enable the button
+      setDisableButton(false);
     }
   };
 
   const handleSignIn = async () => {
-    if (disableButton) return; // Prevent multiple submissions
-    setIsLoading(true);
-    setDisableButton(true); // Disable the button
+    if (disableButton) return;
 
     if (!validateEmail(email)) {
       setIsLoading(false);
       setDisableButton(false);
       return;
     }
+    if (
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /\d/.test(password)
+    ) {
+      setPasswordValid(true);
+    } else {
+      setPasswordValid(false);
+      setIsLoading(false);
+
+      return;
+    }
+
+    setIsLoading(true);
+    setDisableButton(true);
+
     const userData = {
       email: email,
       password: password,
@@ -113,13 +141,8 @@ const MobileLogin = () => {
       {isSignUpActive ? (
         <div className="h-100">
           <form action="#">
-            <div className="d-flex align-items-center justify-content-between flex-column">
-              <img
-                src={Logo}
-                alt="tiet-logo"
-                className="img-fluid"
-                style={{ height: "120px" }}
-              />
+            <div className="d-flex gap-3 align-items-center justify-content-between flex-column">
+              <img src={Logo} alt="tiet-logo" className="img-fluid" />
               <input
                 type="text"
                 placeholder="Name"
@@ -139,18 +162,24 @@ const MobileLogin = () => {
                 placeholder="Password"
                 onChange={(e) => {
                   setPassword(e.target.value);
+                  setPasswordValid(true);
                 }}
               />
+              {!passwordValid && (
+                <div className="error-message">
+                  Password must be 8 characters long and contain at least one
+                  uppercase letter, one lowercase letter, and one number.
+                </div>
+              )}
+
               <button
                 onClick={handleSignUp}
                 disabled={isLoading || disableButton}
               >
                 Sign Up
               </button>
-              {isLoading && (
-                <TietLoader/>
-              )}
-              <h6 className="mt-5">
+              {isLoading && <TietLoader />}
+              <h6 className="mt-2">
                 Already have an account?{" "}
                 <Link className="text-primary" onClick={handleToggleForm}>
                   Sign In
@@ -161,13 +190,8 @@ const MobileLogin = () => {
         </div>
       ) : (
         <form action="#">
-          <div className="d-flex align-items-center justify-content-between flex-column">
-            <img
-              src={Logo}
-              alt="tiet-logo"
-              className="img-fluid"
-              style={{ height: "120px" }}
-            />
+          <div className="d-flex gap-3 align-items-center justify-content-between flex-column">
+            <img src={Logo} alt="tiet-logo" className="img-fluid" />
             <h1 className="mt-3">Sign in</h1>
             <input
               type="email"
@@ -181,23 +205,29 @@ const MobileLogin = () => {
               placeholder="Password"
               onChange={(e) => {
                 setPassword(e.target.value);
+                setPasswordValid(true);
               }}
             />
+
+            {!passwordValid && (
+              <div className="error-message">
+                Password must be 8 characters long and contain at least one
+                uppercase letter, one lowercase letter, and one number.
+              </div>
+            )}
             <button
               onClick={handleSignIn}
               disabled={isLoading || disableButton}
             >
               Sign In
             </button>
-            {isLoading && (
-              <TietLoader/>
-            )}
-            <h6 className="mt-5">
+            {isLoading && <TietLoader />}
+            {/* <h6 className="mt-2">
               Forgot your password?{" "}
               <Link to="/forgotpassword" className="text-primary">
                 Click Here
               </Link>
-            </h6>
+            </h6> */}
             <h6 className="mt-2">
               Don't have an account?{" "}
               <Link className="text-primary" onClick={handleToggleForm}>
