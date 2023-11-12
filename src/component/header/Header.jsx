@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TietLogo from "../../assets/images/logo.png";
 import WhiteTietLogo from "../../assets/images/white-tietLogo.png";
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,6 +67,7 @@ const DropdownMenu = styled.div`
     list-style: none;
     margin-right: 15px;
     padding-left: 15px;
+    margin-top: 15px;
   }
 `;
 
@@ -130,7 +130,6 @@ const Header = () => {
     };
 
     setDetails();
-
   }, [Navigate, dispatch]);
 
   const userName = useSelector((state) => state.user.name);
@@ -144,20 +143,27 @@ const Header = () => {
           <div className="col">
             <div className="d-flex justify-content-between align-items-center w-100">
               <Link to="/">
-                <img src={logoSrc} alt="tietLogo" className="" style = {{width:"3.5rem",padding:"7px"}} />
+                <img
+                  src={logoSrc}
+                  alt="tietLogo"
+                  className=""
+                  style={{ width: "3.5rem", padding: "7px" }}
+                />
               </Link>
               <div className="user-data d-flex justify-content-between gap-3 align-items-center">
                 <Link to="/user">
                   <div className="name">{firstName}</div>
                 </Link>
                 <div className="profile-pic" onClick={handleDropdownToggle}>
-                  <img
-                    src={profilePic}
-                    alt="userLogo"
-                    width="40"
-                    height="40"
-                    className="rounded-circle"
-                  />
+                  <Link >
+                    <img
+                      src={profilePic}
+                      alt="userLogo"
+                      width="40"
+                      height="40"
+                      className="rounded-circle"
+                    />
+                  </Link>
                   <DropdownMenu isOpen={isDropdownOpen}>
                     <ul>
                       <li>

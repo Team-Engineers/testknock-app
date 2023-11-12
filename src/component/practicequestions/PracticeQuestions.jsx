@@ -28,12 +28,22 @@ const PracticeQuestions = () => {
       if (topic === "LOGICAL_REASONING") route = "lr";
       let version = "v2";
       if (
-        (topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" &&
-        subTopic === "READING_COMPREHENSION")) {
+        topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" &&
+        subTopic === "READING_COMPREHENSION"
+      ) {
         version = "v1";
         subTopicRoute = "";
       }
-      if(topic === "DATA_INTERPRETATION"){
+
+      if(topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" && (subTopic === "IDIOMS_AND_PHRASES" ||
+      subTopic === "SYNONYMS" ||
+      subTopic === "ANTONYMS")){
+        subTopicRoute = `sub/vocabulary/${subTopic.toLowerCase()}`
+      }
+      if (topic === "DATA_INTERPRETATION") {
+        version = "v1";
+      }
+      if(topic === "LOGICAL_REASONING" && subTopic === "MISCELLANEOUS"){
         version = "v1";
       }
       try {
@@ -44,7 +54,6 @@ const PracticeQuestions = () => {
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-
       }
     };
 

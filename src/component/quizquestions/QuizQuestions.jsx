@@ -155,7 +155,7 @@ const QuizQuestions = () => {
             Time Remaining: {Math.floor(timer / 60)}:{timer % 60}
           </div>
           {data[0].paragraph ? (
-            data.map((item, index) => (
+            data.slice(0,2).map((item, index) => (
               <div key={index} className="question-container">
                 <div className="question-box paragraph">
                   <h6 className="mb-2 ">

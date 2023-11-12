@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./login.css";
 import MobileLogin from "./MobileLogin";
 import Logo from "../../assets/images/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSliceName, setSliceProfilePic } from "../../utils/userSlice";
 import axios from "axios";
@@ -17,6 +17,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(true);
 
   const handleSignUpClick = () => {
     setIsRightPanelActive(true);
@@ -45,21 +47,23 @@ const Login = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    return emailRegex.test(email);
+  const isPasswordValid = (password) => {
+    if (
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /\d/.test(password)
+    ) {
+      setPasswordValid(true);
+    } else {
+      setPasswordValid(false);
+    }
   };
   const handleSignUp = async () => {
-    if (disableButton) return; // Prevent multiple submissions
+    if (disableButton || !passwordValid) return;
+
     setIsLoading(true);
-    setDisableButton(true); // Disable the button
-
-    if (!validateEmail(email)) {
-      setIsLoading(false);
-      setDisableButton(false);
-      return;
-    }
-
+    setDisableButton(true);
     const userData = {
       name: name,
       email: email,
@@ -69,7 +73,6 @@ const Login = () => {
     try {
       const response = await axios.post(`${API}/auth/signup`, userData);
       if (response.status === 200) {
-        // alert("Signup successful");
         setIsRightPanelActive(false);
       } else {
         // alert("Signup failed");
@@ -78,20 +81,16 @@ const Login = () => {
       // alert("Signup failed");
     } finally {
       setIsLoading(false);
-      setDisableButton(false); // Enable the button
+      setDisableButton(false);
     }
   };
 
   const handleSignIn = async () => {
-    if (disableButton) return; // Prevent multiple submissions
+    if (disableButton) return;
+    setShowError(false);
     setIsLoading(true);
-    setDisableButton(true); // Disable the button
+    setDisableButton(true);
 
-    if (!validateEmail(email)) {
-      setIsLoading(false);
-      setDisableButton(false);
-      return;
-    }
     const userData = {
       email: email,
       password: password,
@@ -115,14 +114,12 @@ const Login = () => {
         Navigate("/");
       } else {
         setIsLoading(false);
-        // alert("Signin failed, email or username is wrong");
+        setShowError(true);
       }
     } catch (error) {
       if (error.response) {
-        // alert("Signin failed, email or username is wrong");
+        setShowError(true);
       }
-
-      // alert("Signin failed");
     } finally {
       setIsLoading(false);
       setDisableButton(false);
@@ -144,16 +141,11 @@ const Login = () => {
             <div className="col-md-6">
               <div className="form-container sign-up-container">
                 <form
-                  action="#"
+                  action=""
                   className="d-flex align-items-center justify-content-center"
                 >
-                  <img
-                    src={Logo}
-                    alt="tiet-logo"
-                    className="img-fluid"
-                    style={{ height: "120px" }}
-                  />
-                  
+                  <img src={Logo} alt="tiet-logo" className="img-fluid" />
+
                   <input
                     type="text"
                     placeholder="Name"
@@ -173,8 +165,16 @@ const Login = () => {
                     placeholder="Password"
                     onChange={(e) => {
                       setPassword(e.target.value);
+                      isPasswordValid(password);
                     }}
                   />
+                  {!passwordValid && (
+                    <h6 className="error-message">
+                      Password must be 8 characters long and contain at least
+                      one uppercase letter, one lowercase letter, and one
+                      number.
+                    </h6>
+                  )}
                   <button
                     onClick={handleSignUp}
                     disabled={isLoading || disableButton}
@@ -187,14 +187,9 @@ const Login = () => {
             </div>
             <div className="col-md-6">
               <div className="form-container sign-in-container">
-                <form action="#">
-                  <img
-                    src={Logo}
-                    alt="tiet-logo"
-                    className="img-fluid"
-                    style={{ height: "120px" }}
-                  />
-                  
+                <form action="">
+                  <img src={Logo} alt="tiet-logo" className="img-fluid" />
+
                   <input
                     type="email"
                     placeholder="Email"
@@ -207,11 +202,20 @@ const Login = () => {
                     placeholder="Password"
                     onChange={(e) => {
                       setPassword(e.target.value);
+                      // isPasswordValid(password);
                     }}
                   />
-                  <Link to="/forgotpassword">
-                    <h6 className="my-3">Forgot your password?</h6>
-                  </Link>
+                  {showError ? (
+                    <h6 className="text-danger">
+                      The username and/or password you specified are not
+                      correct.
+                    </h6>
+                  ) : (
+                    ""
+                  )}
+                  {/* <Link to="/forgotpassword">
+                    <h6 className="">Forgot your password?</h6>
+                  </Link> */}
                   <button
                     onClick={handleSignIn}
                     disabled={isLoading || disableButton}
@@ -222,7 +226,7 @@ const Login = () => {
                 </form>
               </div>
             </div>
-            <div className={`col-md-12 ${isLoading ? 'd-none' : 'd-block'}`}>
+            <div className={`col-md-12 ${isLoading ? "d-none" : "d-block"}`}>
               <div className="overlay-container">
                 <div className="overlay">
                   <div
@@ -231,11 +235,13 @@ const Login = () => {
                     }`}
                   >
                     <h1>Existing user?</h1>
-                    <p><b>Please log in with your personal information to stay in touch with us.</b>
-            
-                    
-          </p>
-                  
+                    <p>
+                      <b>
+                        Please log in with your personal information to stay in
+                        touch with us.
+                      </b>
+                    </p>
+
                     <button
                       className="ghost"
                       id="signIn"
@@ -250,10 +256,11 @@ const Login = () => {
                     }`}
                   >
                     <h1>New here?</h1>
-                  
-                    <p><b>Enter your personal details and start a journey with us</b>
-            
-                      
+
+                    <p>
+                      <b>
+                        Enter your personal details and start a journey with us
+                      </b>
                     </p>
                     <button
                       className="ghost"

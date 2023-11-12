@@ -4,7 +4,7 @@ const QuestionV2 = ({ data }) => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  console.log("data", data[0].paragraph);
+  console.log("data", data);
   const handleOptionClick = (questionIndex, optionIndex) => {
     const updatedSelectedOption = [...selectedOption];
     updatedSelectedOption[questionIndex] = optionIndex;
@@ -17,6 +17,27 @@ const QuestionV2 = ({ data }) => {
     window.scrollTo(0, 0);
   };
 
+  const generatePageNumbers2 = () => {
+    const totalPages = Math.ceil(data.length);
+    const maxPagesToShow = 5;
+    const pages = [];
+    const currentPageIndex = currentPage;
+  
+    let startPage = Math.max(currentPageIndex - Math.floor(maxPagesToShow / 2), 0);
+    let endPage = Math.min(startPage + maxPagesToShow - 1, totalPages - 1);
+  
+    while (endPage - startPage < maxPagesToShow - 1 && endPage < totalPages - 1) {
+      endPage++;
+    }
+  
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+  
+    return pages;
+  };
+  
+  
   const generatePageNumbers = () => {
     const totalPages = Math.ceil(data.length / 5);
     const maxPagesToShow = 5;
@@ -227,6 +248,38 @@ const QuestionV2 = ({ data }) => {
                   </div>
                 ))}
               </div>
+
+              <div className="pagination">
+                <button
+                  className={`page-button ${
+                    currentPage === 0 ? "disabled" : ""
+                  }`}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  Prev
+                </button>
+                {generatePageNumbers2().map((pageIndex) => (
+                  <button
+                    key={pageIndex}
+                    className={`page-button ${
+                      currentPage === pageIndex ? "active" : ""
+                    }`}
+                    onClick={() => handlePageChange(pageIndex)}
+                  >
+                    {pageIndex + 1}
+                  </button>
+                ))}
+                <button
+                  className={`page-button ${
+                    currentPage === Math.ceil(data.length / 1) - 1
+                      ? "disabled"
+                      : ""
+                  }`}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
+                  Next
+                </button>
+              </div>
             </div>
           ))
         ) : (
@@ -245,11 +298,11 @@ const QuestionV2 = ({ data }) => {
                         </div>
                         <div className="question-text-container">
                           {question.text.map((text, textIndex) => (
-                              <h6
-                                key={textIndex}
-                                className="question-text mb-2"
-                              >{`${text}`}</h6>
-                            ))}
+                            <h6
+                              key={textIndex}
+                              className="question-text mb-2"
+                            >{`${text}`}</h6>
+                          ))}
                         </div>
                       </div>
                       <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
@@ -362,35 +415,38 @@ const QuestionV2 = ({ data }) => {
                   </div>
                 </div>
               ))}
+
+            <div className="pagination">
+              <button
+                className={`page-button ${currentPage === 0 ? "disabled" : ""}`}
+                onClick={() => handlePageChange(currentPage - 1)}
+              >
+                Prev
+              </button>
+              {generatePageNumbers().map((pageIndex) => (
+                <button
+                  key={pageIndex}
+                  className={`page-button ${
+                    currentPage === pageIndex ? "active" : ""
+                  }`}
+                  onClick={() => handlePageChange(pageIndex)}
+                >
+                  {pageIndex + 1}
+                </button>
+              ))}
+              <button
+                className={`page-button ${
+                  currentPage === Math.ceil(data.length / 5) - 1
+                    ? "disabled"
+                    : ""
+                }`}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
-        <div className="pagination">
-          <button
-            className={`page-button ${currentPage === 0 ? "disabled" : ""}`}
-            onClick={() => handlePageChange(currentPage - 1)}
-          >
-            Prev
-          </button>
-          {generatePageNumbers().map((pageIndex) => (
-            <button
-              key={pageIndex}
-              className={`page-button ${
-                currentPage === pageIndex ? "active" : ""
-              }`}
-              onClick={() => handlePageChange(pageIndex)}
-            >
-              {pageIndex + 1}
-            </button>
-          ))}
-          <button
-            className={`page-button ${
-              currentPage === Math.ceil(data.length / 5) - 1 ? "disabled" : ""
-            }`}
-            onClick={() => handlePageChange(currentPage + 1)}
-          >
-            Next
-          </button>
-        </div>
       </div>
     </section>
   );
