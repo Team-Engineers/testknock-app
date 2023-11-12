@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import { useDispatch, useSelector } from "react-redux";
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage';
 import Loader from "../../component/Loader/Loader";
 import {
   setSliceEmail,
@@ -11,6 +13,7 @@ import {
   setSliceContact,
   setSliceInstitute,
   setSliceSocial,
+  
 } from "../../utils/userSlice";
 import Header from "../../component/header/Header";
 import axios from "axios"; // Import Axios
@@ -42,15 +45,49 @@ const UserProfile = () => {
   const sliceContact = useSelector((state) => state.user.contact);
   const sliceInstitute = useSelector((state) => state.user.institute);
   const sliceSocial = useSelector((state) => state.user.social);
+  const sliceProfile = useSelector((state) => state.user.profilePic)
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setProfilePic(selectedFile);
+  const firebaseConfig = {
+    apiKey: "AIzaSyASByHisF628tGERKa5Og6sY18j9LA_ugc",
+    authDomain: "questionbank-d0788.firebaseapp.com",
+    projectId: "questionbank-d0788",
+    storageBucket: "questionbank-d0788.appspot.com",
+    messagingSenderId: "715290109810",
+    appId: "1:715290109810:web:0da69da285657aa3a31feb",
+    measurementId: "G-6HWTKSWMXL",
   };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const storage = firebase.storage();
+  const storageRef = storage.ref();
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const fileName = file.name;
+      const fileRef = storageRef.child(fileName);
+
+      try {
+        await fileRef.put(file);
+
+        const downloadURL = await fileRef.getDownloadURL();
+
+        console.log("image url",downloadURL);
+
+        setProfilePic(downloadURL);
+      } catch (error) {
+        alert("image us unable to upload in firebase")
+      }
+    }
+  };
+
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
+    console.log("saved url",profilePic)
     const storedUserData = JSON.parse(localStorage.getItem("user"));
     if (storedUserData._id) {
       const userData = {
@@ -60,7 +97,7 @@ const UserProfile = () => {
         year: year || sliceYear,
         contact: contact || sliceContact,
         institute: institute || sliceInstitute,
-        profilePic: profilePic,
+        profilePic: profilePic || sliceProfile,
         social: {
           github: github || sliceSocial.github,
           linkedin: linkedin || sliceSocial.linkedin,
@@ -84,20 +121,15 @@ const UserProfile = () => {
               const user = response.data;
               localStorage.setItem("user", JSON.stringify(user));
               setDetails();
-              // alert("User data updated successfully");
             } else {
               // alert("Failed to update user data, Email is in use");
             }
           })
           .catch((error) => {
             setIsLoading(false);
-
-            // alert("Failed to update user data");
           });
       } else {
         setIsLoading(false);
-
-        // alert("Access token not found in local storage");
       }
     }
   };
@@ -107,7 +139,7 @@ const UserProfile = () => {
       dispatch(setSliceName(storedUserData.name || sliceName));
       dispatch(setSliceEmail(storedUserData.email || sliceEmail));
 
-      dispatch(setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL));
+      dispatch(setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL)); 
 
       dispatch(setSliceBranch(storedUserData.branch || sliceBranch));
 
@@ -135,6 +167,7 @@ const UserProfile = () => {
     setGithub(storedUserData.social.github);
     setLinkedin(storedUserData.social.linkedin);
     setPortfolio(storedUserData.social.portfolio);
+    setProfilePic(storedUserData.profilePic);
   }, []);
 
   return (
@@ -154,9 +187,10 @@ const UserProfile = () => {
                         <img
                           src={profile_url}
                           alt="user"
-                          class="rounded-circle p-1 bg-primary"
+                          class="rounded-circle p-1 border border-primary"
                           width="110"
                           height="110"
+                          style = {{objectFit:"cover"}}
                         />
                         <div class="mt-3">
                           <h4>{sliceName}</h4>

@@ -155,13 +155,14 @@ const Header = () => {
                   <div className="name">{firstName}</div>
                 </Link>
                 <div className="profile-pic" onClick={handleDropdownToggle}>
-                  <Link >
+                  <Link>
                     <img
                       src={profilePic}
                       alt="userLogo"
                       width="40"
                       height="40"
-                      className="rounded-circle"
+                      className="rounded-circle border border-primary"
+                      style={{ objectFit: "cover" }}
                     />
                   </Link>
                   <DropdownMenu isOpen={isDropdownOpen}>
