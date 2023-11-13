@@ -64,30 +64,30 @@ const UserProfile = () => {
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
-
+  
     if (file) {
       const fileName = file.name;
-      const fileRef = storageRef.child(fileName);
-
+      const folderPath = "userProfileImages";
+      const fileRef = storageRef.child(`${folderPath}/${fileName}`);
+  
       try {
         await fileRef.put(file);
-
+  
         const downloadURL = await fileRef.getDownloadURL();
-
-        console.log("image url",downloadURL);
-
+  
         setProfilePic(downloadURL);
       } catch (error) {
-        alert("image us unable to upload in firebase")
+        alert("Image is unable to upload to Firebase");
       }
     }
   };
+  
 
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
-    console.log("saved url",profilePic)
+    // console.log("saved url",profilePic)
     const storedUserData = JSON.parse(localStorage.getItem("user"));
     if (storedUserData._id) {
       const userData = {
