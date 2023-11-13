@@ -17,16 +17,28 @@ const QuizQuestions = () => {
   const [explanationsVisible, setExplanationsVisible] = useState(
     Array(10).fill(false)
   );
+  const [explanationsVisiblePara, setExplanationsVisiblePara] = useState(
+    Array(10)
+      .fill(null)
+      .map(() => Array(10).fill(false))
+  );
+
   const [testSubmitted, setTestSubmitted] = useState(false);
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
-  const [optionsUI, setOptionsUI] = useState(Array(10).fill(""));
+  const [optionsUI, setOptionsUI] = useState(Array(10).fill([]));
+  const [selectedOptionsPara, setSelectedOptionsPara] = useState(
+    Array(10).fill([])
+  );
+
   const [yourScore, setYourScore] = useState(0);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [timer, setTimer] = useState(600);
   const [timerActive, setTimerActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { topic } = useParams();
+  // const correctAnswersArray = [];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,6 +49,7 @@ const QuizQuestions = () => {
           `${API}/${topic}/question/${version}/l1/random`
         );
         const resData = response.data;
+        console.log("questions", resData);
         setIsLoading(false);
         setData(resData);
         if (resData) {
@@ -55,28 +68,54 @@ const QuizQuestions = () => {
     let correctAnswers = 0;
     let wrongAnswers = 0;
     let unattemptedAnswers = 0;
+    
+    if (data[0].paragraph) {
+      data.slice(0, 2).forEach((item, itemIndex) => {
+        if (item.paragraph) {
+          // For paragraph-type questions
+          item.questions.forEach((question, questionIndex) => {
+            const correctOptionIndex = question.correctOptionIndex - 1;
+            const userAnswerIndex =
+              selectedOptionsPara[itemIndex][questionIndex];
 
-    const score2 = data.forEach((question, index) => {
-      const correctOptionIndex = question.correctOptionIndex - 1;
-      const userAnswerIndex = selectedOptions[index];
-
-      if (userAnswerIndex !== null) {
-        if (userAnswerIndex === correctOptionIndex) {
-          correctAnswers++;
-        } else {
-          wrongAnswers++;
+            if (userAnswerIndex !== null) {
+              if (userAnswerIndex === correctOptionIndex) {
+                correctAnswers++;
+                // correctAnswersArray.push(question._id);
+              } else {
+                wrongAnswers++;
+              }
+            } else {
+              unattemptedAnswers++;
+            }
+          });
         }
-      } else {
-        unattemptedAnswers++;
-      }
-    });
+      });
+    } else {
+      // For non-paragraph-type questions
+      data.forEach((question, index) => {
+        const correctOptionIndex = question.correctOptionIndex - 1;
+        const userAnswerIndex = selectedOptions[index];
+
+        if (userAnswerIndex !== null) {
+          if (userAnswerIndex === correctOptionIndex) {
+            correctAnswers++;
+            // correctAnswersArray.push(question._id);
+          } else {
+            wrongAnswers++;
+          }
+        } else {
+          unattemptedAnswers++;
+        }
+      });
+    }
 
     setCorrectAnswers(correctAnswers);
     setWrongAnswers(wrongAnswers);
     setUnattemptedAnswers(unattemptedAnswers);
     setYourScore(correctAnswers);
-    return score2;
-  }, [data, selectedOptions]);
+    // return correctAnswersArray;
+  }, [data, selectedOptions,selectedOptionsPara]);
 
   const handleShowSubmissionModal = useCallback(() => {
     calculateScore();
@@ -100,6 +139,17 @@ const QuizQuestions = () => {
       clearInterval(interval);
     };
   }, [timer, timerActive, handleShowSubmissionModal]);
+
+  const handleOptionSelect2 = (itemIndex, questionIndex, optionIndex) => {
+    const updatedSelectedOptionsPara = [...selectedOptionsPara];
+    updatedSelectedOptionsPara[itemIndex] = [...selectedOptionsPara[itemIndex]];
+    updatedSelectedOptionsPara[itemIndex][questionIndex] = optionIndex;
+    setSelectedOptionsPara(updatedSelectedOptionsPara);
+    const updatedOptionsUI = [...optionsUI];
+    updatedOptionsUI[itemIndex] = [...optionsUI[itemIndex]];
+    updatedOptionsUI[itemIndex][questionIndex] = optionIndex;
+    setOptionsUI(updatedOptionsUI);
+  };
 
   const handleOptionSelect = (questionIndex, optionIndex) => {
     const updatedSelectedOptions = [...selectedOptions];
@@ -140,6 +190,18 @@ const QuizQuestions = () => {
     setExplanationsVisible(updatedExplanationsVisible);
   };
 
+  const toggleExplanationVisibilityPara = (itemIndex, questionIndex) => {
+    setExplanationsVisiblePara((prevExplanationsVisible) => {
+      const updatedExplanationsVisible = [...prevExplanationsVisible];
+      updatedExplanationsVisible[itemIndex] = [
+        ...prevExplanationsVisible[itemIndex],
+      ];
+      updatedExplanationsVisible[itemIndex][questionIndex] =
+        !prevExplanationsVisible[itemIndex][questionIndex];
+      return updatedExplanationsVisible;
+    });
+  };
+
   const handleRetakeTest = () => {
     window.location.reload();
   };
@@ -154,8 +216,8 @@ const QuizQuestions = () => {
             Time Remaining: {Math.floor(timer / 60)}:{timer % 60}
           </div>
           {data[0].paragraph ? (
-            data.slice(0,2).map((item, index) => (
-              <div key={index} className="question-container">
+            data.slice(0, 2).map((item, itemIndex) => (
+              <div key={itemIndex} className="question-container">
                 <div className="question-box paragraph">
                   <h6 className="mb-2 ">
                     <strong>Direction:</strong> Read the following passage
@@ -163,7 +225,7 @@ const QuizQuestions = () => {
                   </h6>
                   <div className="d-flex justify-content-start align-items-center gap-3">
                     <span className="question-number">{`P${
-                      index + 1
+                      itemIndex + 1
                     } `}</span>
                     <div className="question-text ">
                       {item.paragraph.map((paragraph, paraindex) => (
@@ -211,7 +273,11 @@ const QuizQuestions = () => {
                           <li
                             key={optionIndex}
                             onClick={() =>
-                              handleOptionSelect(questionIndex, optionIndex)
+                              handleOptionSelect2(
+                                itemIndex,
+                                questionIndex,
+                                optionIndex
+                              )
                             }
                           >
                             <div
@@ -225,7 +291,9 @@ const QuizQuestions = () => {
                                 : ""
                             }
                             ${
-                              optionsUI[questionIndex] === optionIndex
+                              optionsUI[itemIndex] &&
+                              optionsUI[itemIndex][questionIndex] ===
+                                optionIndex
                                 ? "selected-option"
                                 : "unselected-option"
                             }
@@ -249,8 +317,9 @@ const QuizQuestions = () => {
                               </div>
 
                               {showCorrectAnswer ? (
-                                optionIndex === optionsUI[questionIndex] ? (
-                                  optionsUI[questionIndex] ===
+                                optionIndex ===
+                                optionsUI[itemIndex][questionIndex] ? (
+                                  optionsUI[itemIndex][questionIndex] ===
                                   question.correctOptionIndex - 1 ? (
                                     <i class="fa-solid fa-check"></i>
                                   ) : (
@@ -276,26 +345,33 @@ const QuizQuestions = () => {
                         <button
                           className="toggle-explanation-btn"
                           onClick={() =>
-                            toggleExplanationVisibility(questionIndex)
+                            toggleExplanationVisibilityPara(
+                              itemIndex,
+                              questionIndex
+                            )
                           }
                         >
-                          {explanationsVisible[questionIndex]
+                          {explanationsVisiblePara[itemIndex] &&
+                          explanationsVisiblePara[itemIndex][questionIndex]
                             ? "Hide Explanation"
                             : "Show Explanation"}
                         </button>
 
                         <div className="explanation-wrapper ">
-                          {explanationsVisible[questionIndex] && (
-                            <div className="explanation">
-                              <p>
-                                {question.explanation.text.map(
-                                  (text, index) => (
-                                    <h6 key={index}>{text}</h6>
-                                  )
-                                )}
-                              </p>
-                            </div>
-                          )}
+                          {explanationsVisiblePara[itemIndex] &&
+                            explanationsVisiblePara[itemIndex][
+                              questionIndex
+                            ] && (
+                              <div className="explanation">
+                                <p>
+                                  {question.explanation.text.map(
+                                    (text, index) => (
+                                      <h6 key={index}>{text}</h6>
+                                    )
+                                  )}
+                                </p>
+                              </div>
+                            )}
                         </div>
                       </div>
                     </div>
@@ -425,16 +501,20 @@ const QuizQuestions = () => {
       {data.length > 0 ? (
         testSubmitted ? (
           <div>
-
-          <button className="retake-button btn mb-4" onClick={handleRetakeTest} >
-          Take New Test
-          </button>
-          <a className="home-button btn mb-4" href="/" style={{ marginLeft: '50px' }}>
-            Home
-          </a>
-   
-        </div>
-   
+            <button
+              className="retake-button btn mb-4"
+              onClick={handleRetakeTest}
+            >
+              Take New Test
+            </button>
+            <a
+              className="home-button btn mb-4"
+              href="/"
+              style={{ marginLeft: "50px" }}
+            >
+              Home
+            </a>
+          </div>
         ) : (
           <button className="submit-button btn  mb-4" onClick={handleSubmit}>
             Submit

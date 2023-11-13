@@ -233,6 +233,7 @@
         border: solid 1px #bababa;
         border-radius: 10px;
         color: #444;
+        cursor: pointer;
     }
     
     .quiz-section h6 {

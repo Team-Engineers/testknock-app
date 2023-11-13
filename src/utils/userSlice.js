@@ -16,10 +16,10 @@ const userSlice = createSlice({
     accessLevel: "",
     userId: "",
     subject: {
-      math: 0,
-      lr: 0,
-      varc: 0,
-      di: 0,
+      math: [],
+      lr: [],
+      varc: [],
+      di: [],
     },
     social: {
       portfolio: "",
@@ -62,7 +62,12 @@ const userSlice = createSlice({
       state.social.github = action.payload.github;
       state.social.portfolio = action.payload.portfolio;
       state.social.linkedin = action.payload.linkedin;
-
+    },
+    setSliceSubject : (state,action) => {
+      state.subject.math = action.payload.math;
+      state.subject.lr = action.payload.lr;
+      state.subject.di = action.payload.di;
+      state.subject.varc = action.payload.varc;
     },
     logoutUser: (state) => {
       state.user = null;
@@ -83,6 +88,7 @@ export const {
   setSliceUserId,
   logoutUser,
   setSliceSocial,
+  setSliceSubject,
 } = userSlice.actions;
 
 export default userSlice.reducer;
