@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import { useDispatch, useSelector } from "react-redux";
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/storage';
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
 import Loader from "../../component/Loader/Loader";
 import {
   setSliceEmail,
@@ -13,7 +13,6 @@ import {
   setSliceContact,
   setSliceInstitute,
   setSliceSocial,
-  
 } from "../../utils/userSlice";
 import Header from "../../component/header/Header";
 import axios from "axios"; // Import Axios
@@ -45,7 +44,7 @@ const UserProfile = () => {
   const sliceContact = useSelector((state) => state.user.contact);
   const sliceInstitute = useSelector((state) => state.user.institute);
   const sliceSocial = useSelector((state) => state.user.social);
-  const sliceProfile = useSelector((state) => state.user.profilePic)
+  const sliceProfile = useSelector((state) => state.user.profilePic);
 
   const firebaseConfig = {
     apiKey: "AIzaSyASByHisF628tGERKa5Og6sY18j9LA_ugc",
@@ -64,25 +63,25 @@ const UserProfile = () => {
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
-  
+
     if (file) {
       const fileName = file.name;
+      const timestamp = Date.now();
+      const uniqueFileName = `${fileName}_${timestamp}`;
       const folderPath = "userProfileImages";
-      const fileRef = storageRef.child(`${folderPath}/${fileName}`);
-  
+      const fileRef = storageRef.child(`${folderPath}/${uniqueFileName}`);
+
       try {
         await fileRef.put(file);
-  
+
         const downloadURL = await fileRef.getDownloadURL();
-  
+
         setProfilePic(downloadURL);
       } catch (error) {
         alert("Image is unable to upload to Firebase");
       }
     }
   };
-  
-
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -139,7 +138,7 @@ const UserProfile = () => {
       dispatch(setSliceName(storedUserData.name || sliceName));
       dispatch(setSliceEmail(storedUserData.email || sliceEmail));
 
-      dispatch(setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL)); 
+      dispatch(setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL));
 
       dispatch(setSliceBranch(storedUserData.branch || sliceBranch));
 
@@ -190,7 +189,7 @@ const UserProfile = () => {
                           class="rounded-circle p-1 border border-primary"
                           width="110"
                           height="110"
-                          style = {{objectFit:"cover"}}
+                          style={{ objectFit: "cover" }}
                         />
                         <div class="mt-3">
                           <h4>{sliceName}</h4>
