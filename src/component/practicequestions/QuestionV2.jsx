@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./question.css";
+import { MathText } from '../mathJax/MathText';
+
 const QuestionV2 = ({ data }) => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
@@ -334,7 +336,7 @@ const QuestionV2 = ({ data }) => {
                             {alphabets[optionIndex]}
                           </span>
                           <div className="d-flex align-items-center justify-content-start gap-3 w-100 align-items-center ">
-                            <h6>{option.text}</h6>
+                          <MathText text={option.text} textTag="h6"/>
                             {option.image ? (
                               <img
                                 className="question-image"
@@ -385,12 +387,7 @@ const QuestionV2 = ({ data }) => {
                           <div class="accordion-body ">
                             {question.explanation.text.map(
                               (explanationText, explanationIndex) => (
-                                <h6
-                                  className="explanation"
-                                  key={explanationIndex}
-                                >
-                                  {explanationText}
-                                </h6>
+                                <MathText text = {explanationText} textTag='p'/>
                               )
                             )}
                             <div className="d-flex justify-content-center align-items-center gap-3">
