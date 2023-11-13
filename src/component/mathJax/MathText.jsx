@@ -1,5 +1,7 @@
 import React from 'react';
 import { MathComponent } from 'mathjax-react';
+import './mathText.css';
+
 export const MathText = ({ text, textTag = 'p' }) => {
   const parts = text.split(/\$(.*?)\$/);
   const TextTag = textTag || 'p';
@@ -8,7 +10,7 @@ export const MathText = ({ text, textTag = 'p' }) => {
     if (index % 2 === 0) {
       return <span key={index}>{part}</span>;
     } else {
-      return <MathComponent key={index} tex={part} display={false}/>;
+      return <MathComponent key={index} tex={part} display={false}  className='math-expression'/>;
     }
   });
 
