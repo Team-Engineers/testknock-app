@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./UserProfile.css";
 import { useDispatch, useSelector } from "react-redux";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
 import Loader from "../../component/Loader/Loader";
 import {
   setSliceEmail,
@@ -42,15 +44,50 @@ const UserProfile = () => {
   const sliceContact = useSelector((state) => state.user.contact);
   const sliceInstitute = useSelector((state) => state.user.institute);
   const sliceSocial = useSelector((state) => state.user.social);
+  const sliceProfile = useSelector((state) => state.user.profilePic);
 
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setProfilePic(selectedFile);
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+  };
+
+
+  firebase.initializeApp(firebaseConfig);
+
+  const storage = firebase.storage();
+  const storageRef = storage.ref();
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const fileName = file.name;
+      const timestamp = Date.now();
+      const uniqueFileName = `${fileName}_${timestamp}`;
+      const folderPath = "userProfileImages";
+      const fileRef = storageRef.child(`${folderPath}/${uniqueFileName}`);
+
+      try {
+        await fileRef.put(file);
+
+        const downloadURL = await fileRef.getDownloadURL();
+        // console.log("url",downloadURL)
+        setProfilePic(downloadURL);
+      } catch (error) {
+        alert("unable to upload to image");
+      }
+    }
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
+    // console.log("saved url",profilePic)
     const storedUserData = JSON.parse(localStorage.getItem("user"));
     if (storedUserData._id) {
       const userData = {
@@ -60,7 +97,7 @@ const UserProfile = () => {
         year: year || sliceYear,
         contact: contact || sliceContact,
         institute: institute || sliceInstitute,
-        profilePic: profilePic,
+        profilePic: profilePic || sliceProfile,
         social: {
           github: github || sliceSocial.github,
           linkedin: linkedin || sliceSocial.linkedin,
@@ -84,20 +121,15 @@ const UserProfile = () => {
               const user = response.data;
               localStorage.setItem("user", JSON.stringify(user));
               setDetails();
-              // alert("User data updated successfully");
             } else {
               // alert("Failed to update user data, Email is in use");
             }
           })
           .catch((error) => {
             setIsLoading(false);
-
-            // alert("Failed to update user data");
           });
       } else {
         setIsLoading(false);
-
-        // alert("Access token not found in local storage");
       }
     }
   };
@@ -135,6 +167,7 @@ const UserProfile = () => {
     setGithub(storedUserData.social.github);
     setLinkedin(storedUserData.social.linkedin);
     setPortfolio(storedUserData.social.portfolio);
+    setProfilePic(storedUserData.profilePic);
   }, []);
 
   return (
@@ -154,9 +187,10 @@ const UserProfile = () => {
                         <img
                           src={profile_url}
                           alt="user"
-                          class="rounded-circle p-1 bg-primary"
+                          class="rounded-circle p-1 border border-primary"
                           width="110"
                           height="110"
+                          style={{ objectFit: "cover" }}
                         />
                         <div class="mt-3">
                           <h4>{sliceName}</h4>
