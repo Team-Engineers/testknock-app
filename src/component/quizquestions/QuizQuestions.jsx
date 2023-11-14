@@ -14,6 +14,7 @@ const QuizQuestions = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
   const [unattemptedAnswers, setUnattemptedAnswers] = useState(0);
+  const [correctAnswersArray, setCorrectAnswersArray] = useState([]);
   const [explanationsVisible, setExplanationsVisible] = useState(
     Array(10).fill(false)
   );
@@ -49,7 +50,7 @@ const QuizQuestions = () => {
           `${API}/${topic}/question/${version}/l1/random`
         );
         const resData = response.data;
-        console.log("questions", resData);
+        // console.log("questions", resData);
         setIsLoading(false);
         setData(resData);
         if (resData) {
@@ -61,6 +62,9 @@ const QuizQuestions = () => {
         setIsLoading(false);
       }
     };
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
+    // console.log("subject correct answer",storedUserData.subject[topic].topics[0].questions)
+    setCorrectAnswersArray(storedUserData.subject_progress[topic]);
     fetchData();
   }, [topic]);
 
@@ -68,7 +72,7 @@ const QuizQuestions = () => {
     let correctAnswers = 0;
     let wrongAnswers = 0;
     let unattemptedAnswers = 0;
-    
+    const newCorrectAnswersArray = [];
     if (data[0].paragraph) {
       data.slice(0, 2).forEach((item, itemIndex) => {
         if (item.paragraph) {
@@ -81,7 +85,7 @@ const QuizQuestions = () => {
             if (userAnswerIndex !== null) {
               if (userAnswerIndex === correctOptionIndex) {
                 correctAnswers++;
-                // correctAnswersArray.push(question._id);
+                newCorrectAnswersArray.push(question._id);
               } else {
                 wrongAnswers++;
               }
@@ -100,7 +104,7 @@ const QuizQuestions = () => {
         if (userAnswerIndex !== null) {
           if (userAnswerIndex === correctOptionIndex) {
             correctAnswers++;
-            // correctAnswersArray.push(question._id);
+            newCorrectAnswersArray.push(question._id);
           } else {
             wrongAnswers++;
           }
@@ -114,8 +118,8 @@ const QuizQuestions = () => {
     setWrongAnswers(wrongAnswers);
     setUnattemptedAnswers(unattemptedAnswers);
     setYourScore(correctAnswers);
-    // return correctAnswersArray;
-  }, [data, selectedOptions,selectedOptionsPara]);
+    setCorrectAnswersArray(newCorrectAnswersArray);
+  }, [data, selectedOptions, selectedOptionsPara]);
 
   const handleShowSubmissionModal = useCallback(() => {
     calculateScore();
@@ -140,7 +144,7 @@ const QuizQuestions = () => {
     };
   }, [timer, timerActive, handleShowSubmissionModal]);
 
-  const handleOptionSelect2 = (itemIndex, questionIndex, optionIndex) => {
+  const handleOptionSelectPara = (itemIndex, questionIndex, optionIndex) => {
     const updatedSelectedOptionsPara = [...selectedOptionsPara];
     updatedSelectedOptionsPara[itemIndex] = [...selectedOptionsPara[itemIndex]];
     updatedSelectedOptionsPara[itemIndex][questionIndex] = optionIndex;
@@ -170,6 +174,53 @@ const QuizQuestions = () => {
       handleShowSubmissionModal();
     }
   };
+
+  const updateProgress = () => {
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
+    console.log("corrected array",correctAnswersArray)
+    if (storedUserData._id && correctAnswersArray.length > 0) {
+      const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
+
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+        const progressUserData = {
+          subject_progress: {
+            topic : correctAnswersArray
+          },
+        };
+        axios
+          .put(`${API}/users/${storedUserData._id}`, progressUserData, {
+            headers: headers,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              const user = response.data;
+              localStorage.setItem("user", JSON.stringify(user));
+              console.log("LR progress updated", user);
+            } else {
+              console.log("Error updating LR progress");
+            }
+          })
+          .catch((error) => {
+            console.log("Error updating LR progress", error);
+          });
+
+        // Similar code for varc and di subjects
+      } else {
+        console.log("Error in updating subject");
+      }
+    }
+  };
+
+  
+  useEffect(() => {
+    if (correctAnswersArray.length > 0) {
+      updateProgress();
+    }
+  }, [correctAnswersArray, updateProgress]);
+
 
   const handleCloseWarningModal = () => {
     setShowWarningModal(false);
@@ -204,6 +255,7 @@ const QuizQuestions = () => {
 
   const handleRetakeTest = () => {
     window.location.reload();
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -273,7 +325,7 @@ const QuizQuestions = () => {
                           <li
                             key={optionIndex}
                             onClick={() =>
-                              handleOptionSelect2(
+                              handleOptionSelectPara(
                                 itemIndex,
                                 questionIndex,
                                 optionIndex
@@ -357,7 +409,7 @@ const QuizQuestions = () => {
                             : "Show Explanation"}
                         </button>
 
-                        <div className="explanation-wrapper ">
+                        <div className="explanation-wrapper">
                           {explanationsVisiblePara[itemIndex] &&
                             explanationsVisiblePara[itemIndex][
                               questionIndex
