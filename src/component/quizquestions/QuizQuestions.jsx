@@ -175,7 +175,7 @@ const QuizQuestions = () => {
     }
   };
 
-  const updateProgress = () => {
+  const updateProgress = useCallback(() => {
     const storedUserData = JSON.parse(localStorage.getItem("user"));
     console.log("corrected array",correctAnswersArray)
     if (storedUserData._id && correctAnswersArray.length > 0) {
@@ -212,7 +212,7 @@ const QuizQuestions = () => {
         console.log("Error in updating subject");
       }
     }
-  };
+  },[correctAnswersArray]);
 
   
   useEffect(() => {
