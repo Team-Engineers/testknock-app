@@ -6,7 +6,7 @@ const QuestionV2 = ({ data }) => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const [collapseStates, setCollapseStates] = useState([]);
+  // const [collapseStates, setCollapseStates] = useState([]);
 
   const handleOptionClick = (questionIndex, optionIndex) => {
     const updatedSelectedOption = [...selectedOption];
@@ -19,16 +19,9 @@ const QuestionV2 = ({ data }) => {
     setCurrentPage(pageIndex);
     window.scrollTo(0, 0);
 
-    setCollapseStates(Array.from({ length: numberOfQuestions }, () => false));
+    // setCollapseStates(Array.from({ length: numberOfQuestions }, () => false));
   };
 
-  const handleAccordionToggle = (questionIndex) => {
-    setCollapseStates((prevCollapseStates) => {
-      const newCollapseStates = [...prevCollapseStates];
-      newCollapseStates[questionIndex] = !newCollapseStates[questionIndex];
-      return newCollapseStates;
-    });
-  };
 
   const generatePageNumbers2 = () => {
     const totalPages = Math.ceil(data.length);
@@ -387,16 +380,13 @@ const QuestionV2 = ({ data }) => {
                             data-bs-target={`#collapse${questionIndex}`}
                             aria-expanded="true"
                             aria-controls={`collapse${questionIndex}`}
-                            onClick={() => handleAccordionToggle(questionIndex)}
                           >
                             <h6>Explain It</h6>
                           </button>
                         </h2>
                         <div
                           id={`collapse${questionIndex}`}
-                          class={`accordion-collapse collapse ${
-                            collapseStates[questionIndex] ? "show" : ""
-                          }`}
+                          class={`accordion-collapse collapse`}
                         >
                           <div class="accordion-body ">
                             {question.explanation.text.map(
