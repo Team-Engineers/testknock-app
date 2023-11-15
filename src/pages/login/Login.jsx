@@ -133,7 +133,7 @@ const Login = () => {
   const handleEmailChange = (e) => {
     const enteredEmail = e.target.value;
     const isValid = isEmailValid(enteredEmail);
-    setUserExist(false)
+    setUserExist(false);
     setEmailValid(isValid);
     setEmail(enteredEmail);
   };
@@ -201,6 +201,8 @@ const Login = () => {
                   <button
                     onClick={handleSignUp}
                     disabled={
+                      password === "" ||
+                      email === "" ||
                       !emailValid ||
                       !passwordValid ||
                       isLoading ||
@@ -245,7 +247,13 @@ const Login = () => {
                   )}
                   <button
                     onClick={handleSignIn}
-                    disabled={!emailValid || isLoading || disableButton}
+                    disabled={
+                      password === "" ||
+                      email === "" ||
+                      !emailValid ||
+                      isLoading ||
+                      disableButton
+                    }
                   >
                     Sign In
                   </button>

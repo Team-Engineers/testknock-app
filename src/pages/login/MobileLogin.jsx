@@ -167,7 +167,12 @@ const MobileLogin = () => {
               <button
                 onClick={handleSignUp}
                 disabled={
-                  !emailValid || !passwordValid || isLoading || disableButton
+                  password === "" ||
+                  email === "" ||
+                  !emailValid ||
+                  !passwordValid ||
+                  isLoading ||
+                  disableButton
                 }
               >
                 Sign Up
@@ -214,7 +219,13 @@ const MobileLogin = () => {
             )}
             <button
               onClick={handleSignIn}
-              disabled={!emailValid || isLoading || disableButton}
+              disabled={
+                password === "" ||
+                email === "" ||
+                !emailValid ||
+                isLoading ||
+                disableButton
+              }
             >
               Sign In
             </button>
