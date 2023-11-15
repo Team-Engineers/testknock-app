@@ -1,8 +1,10 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/images/subtopic-logo.png";
 import { subtopicsData } from "../../utils/constants";
+
 const TopicCard = styled.li`
   height: 6rem;
   background-color: white;
@@ -30,7 +32,6 @@ const TopicCard = styled.li`
 const Wrapper = styled.ul`
   width: fit-content;
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   flex-wrap: wrap;
   gap: 2rem;
@@ -54,12 +55,9 @@ const Box2 = styled.h6`
   margin-bottom: 0px;
   text-transform: uppercase;
   overflow-wrap: break-word;
-
 `;
 
 const SubTopics = (props) => {
-  // Define an object that maps topics to their respective subtopics
-
   const selectedSubTopics = subtopicsData[props.topic] || [];
 
   return (
@@ -70,11 +68,21 @@ const SubTopics = (props) => {
             <h2 className="fs-5 fw-bolder mb-5">Subtopics</h2>
             <Wrapper>
               {selectedSubTopics.map((subtopic, index) => (
-                <Link to={`/${props.topic}/${subtopic}`} key = {index}>
+                <Link
+                  to={`/${encodeURIComponent(props.topic)}/${subtopic.replace(
+                    /\s/g,
+                    "_"
+                  )}`}
+                  key={index}
+                >
                   <TopicCard>
                     <Box>
                       <Box1>
-                        <img src={logo} alt = "subtopic-logo" className="img-fluid" />
+                        <img
+                          src={logo}
+                          alt="subtopic-logo"
+                          className="img-fluid"
+                        />
                       </Box1>
                       <Box2>{subtopic}</Box2>
                     </Box>
