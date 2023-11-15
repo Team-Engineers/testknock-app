@@ -7,6 +7,7 @@ import { API } from "../../utils/constants";
 import axios from "axios";
 import TietLoader from "../Loader/Loader";
 import NoData from "../Loader/NoData";
+import { MathText } from "../mathJax/MathText";
 
 const QuizQuestions = () => {
   const [data, setData] = useState([]);
@@ -38,7 +39,6 @@ const QuizQuestions = () => {
   const [timerActive, setTimerActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { topic } = useParams();
-  // const correctAnswersArray = [];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +50,6 @@ const QuizQuestions = () => {
           `${API}/${topic}/question/${version}/l1/random`
         );
         const resData = response.data;
-        // console.log("questions", resData);
         setIsLoading(false);
         setData(resData);
         if (resData) {
@@ -62,9 +61,6 @@ const QuizQuestions = () => {
         setIsLoading(false);
       }
     };
-    // const storedUserData = JSON.parse(localStorage.getItem("user"));
-    // console.log("subject correct answer of topic ",topic,storedUserData.subject_progress[topic])
-    // setCorrectAnswersArray(storedUserData.subject_progress[topic]);
     fetchData();
   }, [topic]);
 
@@ -81,8 +77,6 @@ const QuizQuestions = () => {
             const correctOptionIndex = question.correctOptionIndex - 1;
             const userAnswerIndex =
               selectedOptionsPara[itemIndex][questionIndex];
-              // console.log("itemindex, questionindex",itemIndex, questionIndex)
-              // console.log("userAnswerIndex",userAnswerIndex);
             if (userAnswerIndex !== undefined) {
               if (userAnswerIndex === correctOptionIndex) {
                 correctAnswers++;
@@ -177,29 +171,26 @@ const QuizQuestions = () => {
   };
   const updateProgress = useCallback(() => {
     const storedUserData = JSON.parse(localStorage.getItem("user"));
-    // console.log("corrected array", correctAnswersArray);
-  
+
     if (storedUserData?._id && correctAnswersArray.length > 0) {
       const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
-  
+
       if (accessToken) {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
         };
-  
-        // Retrieve existing progress for the topic
+
         const existingProgress = storedUserData.subject_progress[topic] || [];
-  
-        // Combine existing progress with the current correctAnswersArray
+
         const updatedProgress = [...existingProgress, ...correctAnswersArray];
-  
+
         const progressUserData = {
           subject_progress: {
             ...storedUserData.subject_progress,
             [topic]: updatedProgress,
           },
         };
-  
+
         axios
           .put(`${API}/users/${storedUserData._id}`, progressUserData, {
             headers: headers,
@@ -208,7 +199,6 @@ const QuizQuestions = () => {
             if (response.status === 200) {
               const user = response.data;
               localStorage.setItem("user", JSON.stringify(user));
-              // console.log(`${topic} progress updated`, user);
             } else {
               // console.log(`Error updating ${topic} progress`);
             }
@@ -221,17 +211,12 @@ const QuizQuestions = () => {
       }
     }
   }, [correctAnswersArray, topic]);
-  
-  
+
   useEffect(() => {
     if (correctAnswersArray.length > 0) {
       updateProgress();
     }
   }, [correctAnswersArray, updateProgress]);
-
-
-
-
 
   const handleCloseWarningModal = () => {
     setShowWarningModal(false);
@@ -318,7 +303,12 @@ const QuizQuestions = () => {
                           questionIndex + 1
                         }`}</h6>
                         {question.text.map((text, textIndex) => (
-                          <h6 key={textIndex} className="mb-2">{`${text}`}</h6>
+                          <MathText
+                            key={textIndex}
+                            className="mb-2"
+                            text={text}
+                            textTag="h6"
+                          />
                         ))}
                       </div>
                       <div className="images-container">
@@ -368,7 +358,11 @@ const QuizQuestions = () => {
                                   {String.fromCharCode(65 + optionIndex)}{" "}
                                 </h6>
                                 <div className="option-container">
-                                  <h6 className="option-text">{option.text}</h6>
+                                  <MathText
+                                    className="option-text"
+                                    text={option.text}
+                                    textTag="h6"
+                                  />
                                   {option.image && (
                                     <img
                                       src={option.image}
@@ -429,10 +423,32 @@ const QuizQuestions = () => {
                                 <p>
                                   {question.explanation.text.map(
                                     (text, index) => (
-                                      <h6 key={index}>{text}</h6>
+                                      <MathText
+                                        key={index}
+                                        text={text}
+                                        textTag="h6"
+                                      />
                                     )
                                   )}
                                 </p>
+                                <div className="d-flex justify-content-center align-items-center gap-3">
+                                  {question.explanation.image &&
+                                    question.explanation.image.map(
+                                      (
+                                        explanationImage,
+                                        explanationImageIndex
+                                      ) => (
+                                        <img
+                                          className="question-image"
+                                          key={explanationImageIndex}
+                                          src={explanationImage}
+                                          alt={`Explanation Img ${
+                                            explanationImageIndex + 1
+                                          }`}
+                                        />
+                                      )
+                                    )}
+                                </div>
                               </div>
                             )}
                         </div>
@@ -451,7 +467,12 @@ const QuizQuestions = () => {
                       questionIndex + 1
                     }`}</h6>
                     {question.text.map((text, textIndex) => (
-                      <h6 key={textIndex} className="mb-2">{`${text}`}</h6>
+                      <MathText
+                        key={textIndex}
+                        className="mb-2"
+                        text={text}
+                        textTag="h6"
+                      />
                     ))}
                   </div>
                   <div className="images-container">
@@ -495,7 +516,11 @@ const QuizQuestions = () => {
                               {String.fromCharCode(65 + optionIndex)}{" "}
                             </h6>
                             <div className="option-container">
-                              <h6 className="option-text">{option.text}</h6>
+                              <MathText
+                                className="option-text"
+                                text={option.text}
+                                textTag="h6"
+                              />
                               {option.image && (
                                 <img
                                   src={option.image}
@@ -545,9 +570,25 @@ const QuizQuestions = () => {
                         <div className="explanation">
                           <p>
                             {question.explanation.text.map((text, index) => (
-                              <h6 key={index}>{text}</h6>
+                              <MathText key={index} text={text} textTag="h6" />
                             ))}
                           </p>
+
+                          <div className="d-flex justify-content-center align-items-center gap-3">
+                            {question.explanation.image &&
+                              question.explanation.image.map(
+                                (explanationImage, explanationImageIndex) => (
+                                  <img
+                                    className="question-image"
+                                    key={explanationImageIndex}
+                                    src={explanationImage}
+                                    alt={`Explanation Img ${
+                                      explanationImageIndex + 1
+                                    }`}
+                                  />
+                                )
+                              )}
+                          </div>
                         </div>
                       )}
                     </div>
