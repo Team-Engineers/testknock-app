@@ -19,7 +19,7 @@ import Header from "../../component/header/Header";
 import axios from "axios"; // Import Axios
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/constants";
-// import PROFILEPIC_URL from "../../assets/images/user-profile.jpg";
+import { useCallback } from "react";
 
 const UserProfile = () => {
   const [email, setEmail] = useState("");
@@ -33,18 +33,16 @@ const UserProfile = () => {
   const [portfolio, setPortfolio] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [mathProgress, setMathProgress] = useState("")
-  const [diProgress, setDiProgress] = useState("")
-  const [lrProgress, setLrProgress] = useState("")
-  const [varcProgress, setVarcProgress] = useState("")
-  const [file,setFile] = useState("");
-
+  const [mathProgress, setMathProgress] = useState("");
+  const [diProgress, setDiProgress] = useState("");
+  const [lrProgress, setLrProgress] = useState("");
+  const [varcProgress, setVarcProgress] = useState("");
+  const [file, setFile] = useState("");
 
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const sliceName = useSelector((state) => state.user.name);
-  // const profile_url = useSelector((state) => state.user.profilePic);
   const sliceEmail = useSelector((state) => state.user.email);
   const sliceBranch = useSelector((state) => state.user.branch);
   const sliceYear = useSelector((state) => state.user.year);
@@ -52,7 +50,70 @@ const UserProfile = () => {
   const sliceInstitute = useSelector((state) => state.user.institute);
   const sliceSocial = useSelector((state) => state.user.social);
   const sliceProfile = useSelector((state) => state.user.profilePic);
-  // const sliceSubjectProgress = useSelector((state)=>state.user.subject_progress)
+
+  const fetchData = async (api) => {
+    try {
+      const response = await axios.get(api);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
+
+  const calculateQuestionsLength = useCallback(async () => {
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
+    const lrApiV1 = `${API}/lr/question/v1`;
+    const varcApiV1 = `${API}/varc/question/v1`;
+    const diApiV1 = `${API}/di/question/v1`;
+    const mathApiV1 = `${API}/math/question/v1`;
+    const lrApiV2 = `${API}/lr/question/v2`;
+    const varcApiV2 = `${API}/varc/question/v2`;
+    // const diApiV2 = `${API}/di/question/v2`;
+    const mathApiV2 = `${API}/math/question/v2`;
+
+    try {
+      let lrLength = localStorage.getItem("lrLength");
+      let varcLength = localStorage.getItem("varcLength");
+      let diLength = localStorage.getItem("diLength");
+      let mathLength = localStorage.getItem("mathLength");
+      if (!lrLength || !varcLength || !diLength || !mathLength) {
+        let lrQuestions1 = await fetchData(lrApiV1);
+        let varcQuestions1 = await fetchData(varcApiV1);
+        let diQuestions1 = await fetchData(diApiV1);
+        let mathQuestions1 = await fetchData(mathApiV1);
+        let lrQuestions2 = await fetchData(lrApiV2);
+        let varcQuestions2 = await fetchData(varcApiV2);
+        //let  diQuestions2 = await fetchData(diApiV2);
+        let mathQuestions2 = await fetchData(mathApiV2);
+
+        lrLength = lrQuestions1.length + lrQuestions2.length;
+        varcLength = varcQuestions1.length + varcQuestions2.length;
+        diLength = diQuestions1.length;
+        mathLength = mathQuestions1.length + mathQuestions2.length;
+
+        localStorage.setItem("lrLength", lrLength);
+        localStorage.setItem("varcLength", varcLength);
+        localStorage.setItem("diLength", diLength);
+        localStorage.setItem("mathLength", mathLength);
+      }
+      const mathSolved = storedUserData.subject_progress.math.length;
+      const diSolved = storedUserData.subject_progress.di.length;
+      const lrSolved = storedUserData.subject_progress.lr.length;
+      const varcSolved = storedUserData.subject_progress.varc.length;
+
+      const mathProgress = Math.ceil((mathSolved / mathLength) * 100);
+      const diProgress = Math.ceil((diSolved / diLength) * 100);
+      const varcProgress = Math.ceil((varcSolved / varcLength) * 100);
+      const lrProgress = Math.ceil((lrSolved / lrLength) * 100);
+      setMathProgress(mathProgress);
+      setDiProgress(diProgress);
+      setVarcProgress(varcProgress);
+      setLrProgress(lrProgress);
+    } catch (error) {
+      // console.error("Error calculating questions length:", error);
+    }
+  }, []);
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -64,7 +125,6 @@ const UserProfile = () => {
     measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
   };
 
-
   firebase.initializeApp(firebaseConfig);
 
   const storage = firebase.storage();
@@ -72,8 +132,7 @@ const UserProfile = () => {
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
-    setFile(file)
-
+    setFile(file);
   };
 
   const handleFormSubmit = async (event) => {
@@ -146,7 +205,6 @@ const UserProfile = () => {
     }
   };
 
-
   const setDetails = () => {
     const storedUserData = JSON.parse(localStorage.getItem("user"));
     if (storedUserData) {
@@ -184,13 +242,8 @@ const UserProfile = () => {
     setLinkedin(storedUserData.social.linkedin);
     setPortfolio(storedUserData.social.portfolio);
     setProfilePic(storedUserData.profilePic);
-    setMathProgress(storedUserData.subject_progress.math.length)
-    setDiProgress(storedUserData.subject_progress.di.length)
-    setLrProgress(storedUserData.subject_progress.lr.length)
-    setVarcProgress(storedUserData.subject_progress.varc.length)
-
-    
-  }, []);
+    calculateQuestionsLength();
+  }, [calculateQuestionsLength]);
 
   return (
     <section className="userProfile">
