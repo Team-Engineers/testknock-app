@@ -174,28 +174,20 @@
   color: #666;
 }
 
-.question-practice .accordion-body {
-  font-weight: lighter;
-  font-size: 14px;
-  margin-bottom: 10px;
 
-}
-
-.question-practice .accordion-body .explanation{
+.question-practice .explanation-wrapper .explanation p h6{
   color: #444;
   line-height: 2rem;
  
 }
-.question-practice .question-box .accordion-button{
-  border: none !important;
-  padding: 10px !important;
-  margin-bottom: 10px;
-  box-shadow: none !important;
-  border-top: 1px solid #bababa !important;
-  border-radius: 0px !important;
+.question-practice .question-box .toggle-explanation-btn{
+    padding: 10px !important;
+    border-radius: 15px;
+    text-align: justify;
+    width : 100%;
 }
 
-.question-practice .question-box .accordion-button h6{
+.question-practice .question-box .toggle-explanation-btn {
   font-weight: 600;
 }
 
@@ -228,11 +220,20 @@
 }
 
 
-.question-practice .question-box .accordion-item{
-  border:none !important;
+.toggle-button {
+  transition: background-color 0.3s ease; /* Add other styles for your button */
 }
 
-.question-practice .question-container .accordion-body::before{
-  border: 1px solid black;
+.toggle-button.toggled {
+  background-color: #3498db; /* Change the background color when toggled */
 }
 
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease; /* Adjust the duration and easing as needed */
+}
+
+.content.visible {
+  max-height: 1000px; /* Adjust the max height as needed */
+}
