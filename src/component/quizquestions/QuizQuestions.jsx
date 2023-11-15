@@ -81,8 +81,9 @@ const QuizQuestions = () => {
             const correctOptionIndex = question.correctOptionIndex - 1;
             const userAnswerIndex =
               selectedOptionsPara[itemIndex][questionIndex];
-
-            if (userAnswerIndex !== null) {
+              // console.log("itemindex, questionindex",itemIndex, questionIndex)
+              // console.log("userAnswerIndex",userAnswerIndex);
+            if (userAnswerIndex !== undefined) {
               if (userAnswerIndex === correctOptionIndex) {
                 correctAnswers++;
                 newCorrectAnswersArray.push(question._id);
@@ -254,8 +255,8 @@ const QuizQuestions = () => {
   };
 
   const handleRetakeTest = () => {
-    window.location.reload();
     window.scrollTo(0, 0);
+    window.location.reload();
   };
 
   return (
