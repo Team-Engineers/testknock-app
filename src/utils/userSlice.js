@@ -15,7 +15,7 @@ const userSlice = createSlice({
     institute: "",
     accessLevel: "",
     userId: "",
-    subject: {
+    subject_progress: {
       math: [],
       lr: [],
       varc: [],
@@ -63,11 +63,11 @@ const userSlice = createSlice({
       state.social.portfolio = action.payload.portfolio;
       state.social.linkedin = action.payload.linkedin;
     },
-    setSliceSubject : (state,action) => {
-      state.subject.math = action.payload.math;
-      state.subject.lr = action.payload.lr;
-      state.subject.di = action.payload.di;
-      state.subject.varc = action.payload.varc;
+    setSliceSubjectProgress : (state,action) => {
+      state.subject_progress.math = action.payload.math;
+      state.subject_progress.lr = action.payload.lr;
+      state.subject_progress.di = action.payload.di;
+      state.subject_progress.varc = action.payload.varc;
     },
     logoutUser: (state) => {
       state.user = null;
@@ -88,7 +88,7 @@ export const {
   setSliceUserId,
   logoutUser,
   setSliceSocial,
-  setSliceSubject,
+  setSliceSubjectProgress,
 } = userSlice.actions;
 
 export default userSlice.reducer;

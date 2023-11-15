@@ -13,12 +13,13 @@ import {
   setSliceContact,
   setSliceInstitute,
   setSliceSocial,
+  setSliceSubjectProgress,
 } from "../../utils/userSlice";
 import Header from "../../component/header/Header";
 import axios from "axios"; // Import Axios
 import { Link, useNavigate } from "react-router-dom";
 import { API } from "../../utils/constants";
-import PROFILEPIC_URL from "../../assets/images/user-profile.jpg";
+// import PROFILEPIC_URL from "../../assets/images/user-profile.jpg";
 
 const UserProfile = () => {
   const [email, setEmail] = useState("");
@@ -32,12 +33,18 @@ const UserProfile = () => {
   const [portfolio, setPortfolio] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [mathProgress, setMathProgress] = useState("")
+  const [diProgress, setDiProgress] = useState("")
+  const [lrProgress, setLrProgress] = useState("")
+  const [varcProgress, setVarcProgress] = useState("")
+  const [file,setFile] = useState("");
+
 
   const dispatch = useDispatch();
   const Navigate = useNavigate();
 
   const sliceName = useSelector((state) => state.user.name);
-  const profile_url = useSelector((state) => state.user.profilePic);
+  // const profile_url = useSelector((state) => state.user.profilePic);
   const sliceEmail = useSelector((state) => state.user.email);
   const sliceBranch = useSelector((state) => state.user.branch);
   const sliceYear = useSelector((state) => state.user.year);
@@ -45,6 +52,7 @@ const UserProfile = () => {
   const sliceInstitute = useSelector((state) => state.user.institute);
   const sliceSocial = useSelector((state) => state.user.social);
   const sliceProfile = useSelector((state) => state.user.profilePic);
+  // const sliceSubjectProgress = useSelector((state)=>state.user.subject_progress)
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -64,11 +72,18 @@ const UserProfile = () => {
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
+    setFile(file)
+
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
 
     if (file) {
       const fileName = file.name;
       const timestamp = Date.now();
-      const uniqueFileName = `${fileName}_${timestamp}`;
+      const uniqueFileName = `${timestamp}-${fileName}`;
       const folderPath = "userProfileImages";
       const fileRef = storageRef.child(`${folderPath}/${uniqueFileName}`);
 
@@ -76,18 +91,13 @@ const UserProfile = () => {
         await fileRef.put(file);
 
         const downloadURL = await fileRef.getDownloadURL();
-        // console.log("url",downloadURL)
+
         setProfilePic(downloadURL);
       } catch (error) {
-        alert("unable to upload to image");
+        alert("Unable to upload the image");
+        return;
       }
     }
-  };
-
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    setIsLoading(true);
-    // console.log("saved url",profilePic)
     const storedUserData = JSON.parse(localStorage.getItem("user"));
     if (storedUserData._id) {
       const userData = {
@@ -97,7 +107,7 @@ const UserProfile = () => {
         year: year || sliceYear,
         contact: contact || sliceContact,
         institute: institute || sliceInstitute,
-        profilePic: profilePic || sliceProfile,
+        profilePic: profilePic,
         social: {
           github: github || sliceSocial.github,
           linkedin: linkedin || sliceSocial.linkedin,
@@ -122,24 +132,28 @@ const UserProfile = () => {
               localStorage.setItem("user", JSON.stringify(user));
               setDetails();
             } else {
-              // alert("Failed to update user data, Email is in use");
+              // alert("Failed to update user data, Email is in use error1");
             }
           })
           .catch((error) => {
             setIsLoading(false);
+            // alert(error);
           });
       } else {
         setIsLoading(false);
+        // alert("error3");
       }
     }
   };
+
+
   const setDetails = () => {
     const storedUserData = JSON.parse(localStorage.getItem("user"));
     if (storedUserData) {
       dispatch(setSliceName(storedUserData.name || sliceName));
       dispatch(setSliceEmail(storedUserData.email || sliceEmail));
 
-      dispatch(setSliceProfilePic(storedUserData.profilePic || PROFILEPIC_URL));
+      dispatch(setSliceProfilePic(storedUserData.profilePic));
 
       dispatch(setSliceBranch(storedUserData.branch || sliceBranch));
 
@@ -150,6 +164,8 @@ const UserProfile = () => {
       dispatch(setSliceContact(storedUserData.contact || sliceContact));
 
       dispatch(setSliceSocial(storedUserData.social));
+
+      dispatch(setSliceSubjectProgress(storedUserData.subject_progress));
     } else {
       localStorage.removeItem("accessToken");
       Navigate("/login");
@@ -168,6 +184,12 @@ const UserProfile = () => {
     setLinkedin(storedUserData.social.linkedin);
     setPortfolio(storedUserData.social.portfolio);
     setProfilePic(storedUserData.profilePic);
+    setMathProgress(storedUserData.subject_progress.math.length)
+    setDiProgress(storedUserData.subject_progress.di.length)
+    setLrProgress(storedUserData.subject_progress.lr.length)
+    setVarcProgress(storedUserData.subject_progress.varc.length)
+
+    
   }, []);
 
   return (
@@ -185,7 +207,7 @@ const UserProfile = () => {
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
                         <img
-                          src={profile_url}
+                          src={sliceProfile}
                           alt="user"
                           class="rounded-circle p-1 border border-primary"
                           width="110"
@@ -407,7 +429,7 @@ const UserProfile = () => {
                             <div
                               class="progress-bar bg-danger"
                               role="progressbar"
-                              style={{ width: "72%" }}
+                              style={{ width: `${mathProgress}%` }}
                               aria-valuenow="72"
                               aria-valuemin="0"
                               aria-valuemax="100"
@@ -418,7 +440,7 @@ const UserProfile = () => {
                             <div
                               class="progress-bar bg-success"
                               role="progressbar"
-                              style={{ width: "89%" }}
+                              style={{ width: `${diProgress}%` }}
                               aria-valuenow="89"
                               aria-valuemin="0"
                               aria-valuemax="100"
@@ -429,7 +451,7 @@ const UserProfile = () => {
                             <div
                               class="progress-bar bg-warning"
                               role="progressbar"
-                              style={{ width: "55%" }}
+                              style={{ width: `${lrProgress}%` }}
                               aria-valuenow="55"
                               aria-valuemin="0"
                               aria-valuemax="100"
@@ -440,7 +462,7 @@ const UserProfile = () => {
                             <div
                               class="progress-bar bg-info"
                               role="progressbar"
-                              style={{ width: "66%" }}
+                              style={{ width: `${varcProgress}%` }}
                               aria-valuenow="66"
                               aria-valuemin="0"
                               aria-valuemax="100"

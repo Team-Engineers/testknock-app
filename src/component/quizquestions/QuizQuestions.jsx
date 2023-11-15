@@ -62,9 +62,9 @@ const QuizQuestions = () => {
         setIsLoading(false);
       }
     };
-    const storedUserData = JSON.parse(localStorage.getItem("user"));
-    // console.log("subject correct answer",storedUserData.subject[topic].topics[0].questions)
-    setCorrectAnswersArray(storedUserData.subject_progress[topic]);
+    // const storedUserData = JSON.parse(localStorage.getItem("user"));
+    // console.log("subject correct answer of topic ",topic,storedUserData.subject_progress[topic])
+    // setCorrectAnswersArray(storedUserData.subject_progress[topic]);
     fetchData();
   }, [topic]);
 
@@ -175,22 +175,31 @@ const QuizQuestions = () => {
       handleShowSubmissionModal();
     }
   };
-
   const updateProgress = useCallback(() => {
     const storedUserData = JSON.parse(localStorage.getItem("user"));
-    console.log("corrected array",correctAnswersArray)
-    if (storedUserData._id && correctAnswersArray.length > 0) {
+    // console.log("corrected array", correctAnswersArray);
+  
+    if (storedUserData?._id && correctAnswersArray.length > 0) {
       const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
-
+  
       if (accessToken) {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
         };
+  
+        // Retrieve existing progress for the topic
+        const existingProgress = storedUserData.subject_progress[topic] || [];
+  
+        // Combine existing progress with the current correctAnswersArray
+        const updatedProgress = [...existingProgress, ...correctAnswersArray];
+  
         const progressUserData = {
           subject_progress: {
-            topic : correctAnswersArray
+            ...storedUserData.subject_progress,
+            [topic]: updatedProgress,
           },
         };
+  
         axios
           .put(`${API}/users/${storedUserData._id}`, progressUserData, {
             headers: headers,
@@ -199,28 +208,29 @@ const QuizQuestions = () => {
             if (response.status === 200) {
               const user = response.data;
               localStorage.setItem("user", JSON.stringify(user));
-              console.log("LR progress updated", user);
+              // console.log(`${topic} progress updated`, user);
             } else {
-              console.log("Error updating LR progress");
+              // console.log(`Error updating ${topic} progress`);
             }
           })
           .catch((error) => {
-            console.log("Error updating LR progress", error);
+            // console.log(`Error updating ${topic} progress`, error);
           });
-
-        // Similar code for varc and di subjects
       } else {
-        console.log("Error in updating subject");
+        // console.log("Error in updating subject");
       }
     }
-  },[correctAnswersArray]);
-
+  }, [correctAnswersArray, topic]);
+  
   
   useEffect(() => {
     if (correctAnswersArray.length > 0) {
       updateProgress();
     }
   }, [correctAnswersArray, updateProgress]);
+
+
+
 
 
   const handleCloseWarningModal = () => {
