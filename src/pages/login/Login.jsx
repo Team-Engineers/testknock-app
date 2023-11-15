@@ -18,8 +18,8 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
   const [userExist, setUserExist] = useState(false);
 
   const handleSignUpClick = () => {
