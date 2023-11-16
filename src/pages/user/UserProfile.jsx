@@ -24,7 +24,7 @@ import { useCallback } from "react";
 const UserProfile = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [profilePic, setProfilePic] = useState(null);
+  // const [profilePic, setProfilePic] = useState(null);
   const [branch, setBranch] = useState("");
   const [year, setYear] = useState("");
   const [contact, setContact] = useState("");
@@ -169,7 +169,7 @@ const UserProfile = () => {
 
         const downloadURL = await fileRef.getDownloadURL();
 
-        setProfilePic(downloadURL);
+        // setProfilePic(downloadURL);
         const updatedUserData = {
           ...storedUserData,
           profilePic: downloadURL,
@@ -266,7 +266,7 @@ const UserProfile = () => {
     setGithub(storedUserData.social.github);
     setLinkedin(storedUserData.social.linkedin);
     setPortfolio(storedUserData.social.portfolio);
-    setProfilePic(storedUserData.profilePic);
+    // setProfilePic(storedUserData.profilePic);
     calculateQuestionsLength();
   }, [calculateQuestionsLength]);
 
