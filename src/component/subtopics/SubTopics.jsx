@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { subtopicsData } from "../../utils/constants";
+import { useParams } from "react-router-dom";
 
 const TopicCard = styled.li`
   display: flex;
@@ -60,9 +61,11 @@ const Box2 = styled.h6`
   text-transform: uppercase;
 `;
 
+//
 const SubTopics = (props) => {
   const selectedSubTopics = subtopicsData[props.topic] || [];
   let imageIndex = 1;
+  const { topic } = useParams();
 
   return (
     <div className="container">
@@ -73,17 +76,26 @@ const SubTopics = (props) => {
 
             <Wrapper>
               {selectedSubTopics.map((subtopic, index) => {
-                const imagePath = `${imageIndex + 1}.jpg`; // Dynamically generate image path
+                let imagePath;
+
+                if (topic === "LOGICAL_REASONING") {
+                  imagePath = `${imageIndex + 12}.jpg`;
+                } else if (topic === "DATA_INTERPRETATION") {
+                  const adjustedIndex = imageIndex % 31;
+                  imagePath = `${adjustedIndex}.jpg`;
+                } else if (
+                  topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION"
+                ) {
+                  imagePath = `${imageIndex + 21}.jpg`;
+                } else {
+                  imagePath = `${imageIndex + 1}.jpg`;
+                }
+
                 imageIndex++;
                 imageIndex = imageIndex % 31;
+
                 return (
-                  <Link
-                    to={`/${encodeURIComponent(props.topic)}/${subtopic.replace(
-                      /\s/g,
-                      "_"
-                    )}`}
-                    key={index}
-                  >
+                  <Link to={`/${props.topic}/${subtopic}`} key={index}>
                     <TopicCard>
                       <Box>
                         <Box1>
