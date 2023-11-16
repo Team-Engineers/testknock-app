@@ -17,9 +17,8 @@ const TopicCard = styled.li`
     box-shadow: 1px 1px 1px 1px #eacfcc;
   }
 
-  &:hover {
+   {
     background: blueviolet;
-    color: white;
   }
   &:hover a {
     color: white;
