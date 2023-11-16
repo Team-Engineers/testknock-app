@@ -73,10 +73,11 @@ const UserProfile = () => {
     const mathApiV2 = `${API}/math/question/v2`;
 
     try {
-      let lrLength = localStorage.getItem("lrLength");
-      let varcLength = localStorage.getItem("varcLength");
-      let diLength = localStorage.getItem("diLength");
-      let mathLength = localStorage.getItem("mathLength");
+      let lrLength = 0,varcLength = 0,diLength = 0,mathLength = 0;  
+       lrLength = localStorage.getItem("lrLength");
+       varcLength = localStorage.getItem("varcLength");
+       diLength = localStorage.getItem("diLength");
+       mathLength = localStorage.getItem("mathLength");
       if (!lrLength || !varcLength || !diLength || !mathLength) {
         let lrQuestions1 = await fetchData(lrApiV1);
         let varcQuestions1 = await fetchData(varcApiV1);
@@ -87,10 +88,26 @@ const UserProfile = () => {
         //let  diQuestions2 = await fetchData(diApiV2);
         let mathQuestions2 = await fetchData(mathApiV2);
 
-        lrLength = lrQuestions1.length + lrQuestions2.length;
-        varcLength = varcQuestions1.length + varcQuestions2.length;
-        diLength = diQuestions1.length;
-        mathLength = mathQuestions1.length + mathQuestions2.length;
+        lrQuestions1.map((para) => {
+          return (lrLength += para.questions.length);
+        });
+
+        varcQuestions1.map((para) => {
+          return (varcLength += para.questions.length);
+        });
+
+        diQuestions1.map((para) => {
+          return (diLength += para.questions.length);
+        });
+
+        mathQuestions1.map((para) => {
+          return (mathLength += para.questions.length);
+        });
+
+        lrLength += lrQuestions2.length;
+        varcLength += varcQuestions2.length;
+
+        mathLength += mathQuestions2.length;
 
         localStorage.setItem("lrLength", lrLength);
         localStorage.setItem("varcLength", varcLength);
@@ -138,6 +155,7 @@ const UserProfile = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
+    let storedUserData = JSON.parse(localStorage.getItem("user"));
 
     if (file) {
       const fileName = file.name;
@@ -152,12 +170,19 @@ const UserProfile = () => {
         const downloadURL = await fileRef.getDownloadURL();
 
         setProfilePic(downloadURL);
+        const updatedUserData = {
+          ...storedUserData,
+          profilePic: downloadURL,
+        };
+
+        localStorage.setItem("user", JSON.stringify(updatedUserData));
+        storedUserData = updatedUserData;
       } catch (error) {
+        setIsLoading(false);
         alert("Unable to upload the image");
         return;
       }
     }
-    const storedUserData = JSON.parse(localStorage.getItem("user"));
     if (storedUserData._id) {
       const userData = {
         email: email || sliceEmail,
@@ -166,7 +191,7 @@ const UserProfile = () => {
         year: year || sliceYear,
         contact: contact || sliceContact,
         institute: institute || sliceInstitute,
-        profilePic: profilePic,
+        profilePic: storedUserData.profilePic,
         social: {
           github: github || sliceSocial.github,
           linkedin: linkedin || sliceSocial.linkedin,
