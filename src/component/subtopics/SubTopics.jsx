@@ -81,8 +81,8 @@ const SubTopics = (props) => {
                 if (topic === "LOGICAL_REASONING") {
                   imagePath = `${imageIndex + 12}.jpg`;
                 } else if (topic === "DATA_INTERPRETATION") {
-                  const adjustedIndex = imageIndex % 31;
-                  imagePath = `${adjustedIndex}.jpg`;
+                  const adjustedIndex = (imageIndex % 31);
+                   imagePath = `${adjustedIndex}.jpg`;
                 } else if (
                   topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION"
                 ) {
@@ -95,7 +95,13 @@ const SubTopics = (props) => {
                 imageIndex = imageIndex % 31;
 
                 return (
-                  <Link to={`/${props.topic}/${subtopic}`} key={index}>
+                   <Link
+                    to={`/${encodeURIComponent(props.topic)}/${subtopic.replace(
+                      /\s/g,
+                      "_"
+                    )}`}
+                    key={index}
+                  >
                     <TopicCard>
                       <Box>
                         <Box1>
