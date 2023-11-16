@@ -74,6 +74,7 @@ const DropdownMenu = styled.div`
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isHeaderSolid, setIsHeaderSolid] = useState(false);
+  const [isAdmin,setIsAdmin] = useState(false);
   const Navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -123,6 +124,7 @@ const Header = () => {
         dispatch(setSliceYear(storedUserData.year));
         dispatch(setSliceInstitute(storedUserData.institute));
         dispatch(setSliceContact(storedUserData.contact));
+        setIsAdmin(storedUserData.isAdmin)
       } else {
         localStorage.removeItem("accessToken");
         Navigate("/login");
@@ -154,6 +156,7 @@ const Header = () => {
                 <Link to="/user">
                   <div className="name">{firstName}</div>
                 </Link>
+
                 <div className="profile-pic" onClick={handleDropdownToggle}>
                   <Link>
                     <img
@@ -170,6 +173,13 @@ const Header = () => {
                       <li>
                         <Link to="/user">Profile</Link>
                       </li>
+                      {isAdmin ? (
+                        <li>
+                          <Link to="/admin/questionEdit">Admin Panel</Link>
+                        </li>
+                      ) : (
+                        ""
+                      )}
                       <li>
                         <button
                           className="btn p-0 text-primary"
