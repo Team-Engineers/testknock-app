@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -58,6 +59,7 @@ const Box2 = styled.h6`
   width: 12rem;
   margin-bottom: 0px;
   text-transform: uppercase;
+  overflow-wrap: break-word;
 `;
 
 //

@@ -16,6 +16,8 @@ const MobileLogin = () => {
   const [disableButton, setDisableButton] = useState(false);
   const [showError, setShowError] = useState(false);
   const [passwordValid, setPasswordValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
+  const [userExist, setUserExist] = useState(false);
 
   const handleToggleForm = () => {
     setIsSignUpActive(!isSignUpActive);
@@ -25,21 +27,17 @@ const MobileLogin = () => {
   const Navigate = useNavigate();
 
   const isPasswordValid = (password) => {
-    if (
+    return (
       password.length >= 8 &&
       /[A-Z]/.test(password) &&
       /[a-z]/.test(password) &&
       /\d/.test(password)
-    ) {
-      setPasswordValid(true);
-    } else {
-      setPasswordValid(false);
-    }
+    );
   };
 
   const handleSignUp = async () => {
-    if (disableButton || !passwordValid) return;
-
+    if (disableButton || !passwordValid || !emailValid) return;
+    setUserExist(false);
     setIsLoading(true);
     setDisableButton(true);
 
@@ -52,13 +50,11 @@ const MobileLogin = () => {
     try {
       const response = await axios.post(`${API}/auth/signup`, userData);
       if (response.status === 200) {
-        alert("Signup successful");
         setIsSignUpActive(!isSignUpActive);
       } else {
-        alert("Signup failed");
       }
     } catch (error) {
-      alert("Signup failed");
+      setUserExist(true);
     } finally {
       setIsLoading(false);
       setDisableButton(false);
@@ -66,7 +62,7 @@ const MobileLogin = () => {
   };
 
   const handleSignIn = async () => {
-    if (disableButton) return;
+    if (disableButton || !emailValid) return;
     setShowError(false);
     setIsLoading(true);
     setDisableButton(true);
@@ -106,6 +102,27 @@ const MobileLogin = () => {
     }
   };
 
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e) => {
+    const enteredEmail = e.target.value;
+    const isValid = isEmailValid(enteredEmail);
+    setUserExist(false);
+    setEmailValid(isValid);
+    setEmail(enteredEmail);
+  };
+
+  const handlePasswordChange = (e) => {
+    const enteredPassword = e.target.value;
+    const isValid = isPasswordValid(enteredPassword);
+
+    setPasswordValid(isValid);
+    setPassword(enteredPassword);
+  };
+
   return (
     <div className="form-container login w-100 sign-in-container">
       {isSignUpActive ? (
@@ -123,28 +140,40 @@ const MobileLogin = () => {
               <input
                 type="email"
                 placeholder="Email"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
+                onChange={handleEmailChange}
               />
+              {!emailValid && (
+                <h6 className="error-message">
+                  Please enter a valid email address.
+                </h6>
+              )}
+
               <input
                 type="password"
                 placeholder="Password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  isPasswordValid(password);
-                }}
+                onChange={handlePasswordChange}
               />
               {!passwordValid && (
-                <div className="error-message">
+                <h6 className="error-message">
                   Password must be 8 characters long and contain at least one
                   uppercase letter, one lowercase letter, and one number.
-                </div>
+                </h6>
+              )}
+
+              {userExist && (
+                <h6 className="text-danger">Email already Exist</h6>
               )}
 
               <button
                 onClick={handleSignUp}
-                disabled={isLoading || disableButton}
+                disabled={
+                  password === "" ||
+                  email === "" ||
+                  !emailValid ||
+                  !passwordValid ||
+                  isLoading ||
+                  disableButton
+                }
               >
                 Sign Up
               </button>
@@ -166,10 +195,13 @@ const MobileLogin = () => {
             <input
               type="email"
               placeholder="Email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={handleEmailChange}
             />
+            {!emailValid && (
+              <h6 className="error-message">
+                Please enter a valid email address.
+              </h6>
+            )}
             <input
               type="password"
               placeholder="Password"
@@ -187,17 +219,17 @@ const MobileLogin = () => {
             )}
             <button
               onClick={handleSignIn}
-              disabled={isLoading || disableButton}
+              disabled={
+                password === "" ||
+                email === "" ||
+                !emailValid ||
+                isLoading ||
+                disableButton
+              }
             >
               Sign In
             </button>
             {isLoading && <TietLoader />}
-            {/* <h6 className="mt-2">
-              Forgot your password?{" "}
-              <Link to="/forgotpassword" className="text-primary">
-                Click Here
-              </Link>
-            </h6> */}
             <h6 className="mt-2">
               Don't have an account?{" "}
               <Link className="text-primary" onClick={handleToggleForm}>

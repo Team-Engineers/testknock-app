@@ -7,6 +7,7 @@ import { API } from "../../utils/constants";
 import axios from "axios";
 import TietLoader from "../Loader/Loader";
 import NoData from "../Loader/NoData";
+import { MathText } from "../mathJax/MathText";
 
 const QuizQuestions = () => {
   const [data, setData] = useState([]);
@@ -14,19 +15,31 @@ const QuizQuestions = () => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
   const [unattemptedAnswers, setUnattemptedAnswers] = useState(0);
+  const [correctAnswersArray, setCorrectAnswersArray] = useState([]);
   const [explanationsVisible, setExplanationsVisible] = useState(
     Array(10).fill(false)
   );
+  const [explanationsVisiblePara, setExplanationsVisiblePara] = useState(
+    Array(10)
+      .fill(null)
+      .map(() => Array(10).fill(false))
+  );
+
   const [testSubmitted, setTestSubmitted] = useState(false);
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showSubmissionModal, setShowSubmissionModal] = useState(false);
-  const [optionsUI, setOptionsUI] = useState(Array(10).fill(""));
+  const [optionsUI, setOptionsUI] = useState(Array(10).fill([]));
+  const [selectedOptionsPara, setSelectedOptionsPara] = useState(
+    Array(10).fill([])
+  );
+
   const [yourScore, setYourScore] = useState(0);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [timer, setTimer] = useState(600);
   const [timerActive, setTimerActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { topic } = useParams();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -55,28 +68,53 @@ const QuizQuestions = () => {
     let correctAnswers = 0;
     let wrongAnswers = 0;
     let unattemptedAnswers = 0;
-
-    const score2 = data.forEach((question, index) => {
-      const correctOptionIndex = question.correctOptionIndex - 1;
-      const userAnswerIndex = selectedOptions[index];
-
-      if (userAnswerIndex !== null) {
-        if (userAnswerIndex === correctOptionIndex) {
-          correctAnswers++;
-        } else {
-          wrongAnswers++;
+    const newCorrectAnswersArray = [];
+    if (data[0].paragraph) {
+      data.slice(0, 2).forEach((item, itemIndex) => {
+        if (item.paragraph) {
+          // For paragraph-type questions
+          item.questions.forEach((question, questionIndex) => {
+            const correctOptionIndex = question.correctOptionIndex - 1;
+            const userAnswerIndex =
+              selectedOptionsPara[itemIndex][questionIndex];
+            if (userAnswerIndex !== undefined) {
+              if (userAnswerIndex === correctOptionIndex) {
+                correctAnswers++;
+                newCorrectAnswersArray.push(question._id);
+              } else {
+                wrongAnswers++;
+              }
+            } else {
+              unattemptedAnswers++;
+            }
+          });
         }
-      } else {
-        unattemptedAnswers++;
-      }
-    });
+      });
+    } else {
+      // For non-paragraph-type questions
+      data.forEach((question, index) => {
+        const correctOptionIndex = question.correctOptionIndex - 1;
+        const userAnswerIndex = selectedOptions[index];
+
+        if (userAnswerIndex !== null) {
+          if (userAnswerIndex === correctOptionIndex) {
+            correctAnswers++;
+            newCorrectAnswersArray.push(question._id);
+          } else {
+            wrongAnswers++;
+          }
+        } else {
+          unattemptedAnswers++;
+        }
+      });
+    }
 
     setCorrectAnswers(correctAnswers);
     setWrongAnswers(wrongAnswers);
     setUnattemptedAnswers(unattemptedAnswers);
     setYourScore(correctAnswers);
-    return score2;
-  }, [data, selectedOptions]);
+    setCorrectAnswersArray(newCorrectAnswersArray);
+  }, [data, selectedOptions, selectedOptionsPara]);
 
   const handleShowSubmissionModal = useCallback(() => {
     calculateScore();
@@ -101,6 +139,17 @@ const QuizQuestions = () => {
     };
   }, [timer, timerActive, handleShowSubmissionModal]);
 
+  const handleOptionSelectPara = (itemIndex, questionIndex, optionIndex) => {
+    const updatedSelectedOptionsPara = [...selectedOptionsPara];
+    updatedSelectedOptionsPara[itemIndex] = [...selectedOptionsPara[itemIndex]];
+    updatedSelectedOptionsPara[itemIndex][questionIndex] = optionIndex;
+    setSelectedOptionsPara(updatedSelectedOptionsPara);
+    const updatedOptionsUI = [...optionsUI];
+    updatedOptionsUI[itemIndex] = [...optionsUI[itemIndex]];
+    updatedOptionsUI[itemIndex][questionIndex] = optionIndex;
+    setOptionsUI(updatedOptionsUI);
+  };
+
   const handleOptionSelect = (questionIndex, optionIndex) => {
     const updatedSelectedOptions = [...selectedOptions];
     updatedSelectedOptions[questionIndex] = optionIndex;
@@ -120,6 +169,54 @@ const QuizQuestions = () => {
       handleShowSubmissionModal();
     }
   };
+  const updateProgress = useCallback(() => {
+    const storedUserData = JSON.parse(localStorage.getItem("user"));
+
+    if (storedUserData?._id && correctAnswersArray.length > 0) {
+      const accessToken = JSON.parse(localStorage.getItem("accessToken")).token;
+
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+
+        const existingProgress = storedUserData.subject_progress[topic] || [];
+
+        const updatedProgress = [...existingProgress, ...correctAnswersArray];
+
+        const progressUserData = {
+          subject_progress: {
+            ...storedUserData.subject_progress,
+            [topic]: updatedProgress,
+          },
+        };
+
+        axios
+          .put(`${API}/users/${storedUserData._id}`, progressUserData, {
+            headers: headers,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              const user = response.data;
+              localStorage.setItem("user", JSON.stringify(user));
+            } else {
+              // console.log(`Error updating ${topic} progress`);
+            }
+          })
+          .catch((error) => {
+            // console.log(`Error updating ${topic} progress`, error);
+          });
+      } else {
+        // console.log("Error in updating subject");
+      }
+    }
+  }, [correctAnswersArray, topic]);
+
+  useEffect(() => {
+    if (correctAnswersArray.length > 0) {
+      updateProgress();
+    }
+  }, [correctAnswersArray, updateProgress]);
 
   const handleCloseWarningModal = () => {
     setShowWarningModal(false);
@@ -140,7 +237,20 @@ const QuizQuestions = () => {
     setExplanationsVisible(updatedExplanationsVisible);
   };
 
+  const toggleExplanationVisibilityPara = (itemIndex, questionIndex) => {
+    setExplanationsVisiblePara((prevExplanationsVisible) => {
+      const updatedExplanationsVisible = [...prevExplanationsVisible];
+      updatedExplanationsVisible[itemIndex] = [
+        ...prevExplanationsVisible[itemIndex],
+      ];
+      updatedExplanationsVisible[itemIndex][questionIndex] =
+        !prevExplanationsVisible[itemIndex][questionIndex];
+      return updatedExplanationsVisible;
+    });
+  };
+
   const handleRetakeTest = () => {
+    window.scrollTo(0, 0);
     window.location.reload();
   };
 
@@ -154,8 +264,8 @@ const QuizQuestions = () => {
             Time Remaining: {Math.floor(timer / 60)}:{timer % 60}
           </div>
           {data[0].paragraph ? (
-            data.slice(0,2).map((item, index) => (
-              <div key={index} className="question-container">
+            data.slice(0, 2).map((item, itemIndex) => (
+              <div key={itemIndex} className="question-container">
                 <div className="question-box paragraph">
                   <h6 className="mb-2 ">
                     <strong>Direction:</strong> Read the following passage
@@ -163,7 +273,7 @@ const QuizQuestions = () => {
                   </h6>
                   <div className="d-flex justify-content-start align-items-center gap-3">
                     <span className="question-number">{`P${
-                      index + 1
+                      itemIndex + 1
                     } `}</span>
                     <div className="question-text ">
                       {item.paragraph.map((paragraph, paraindex) => (
@@ -193,7 +303,12 @@ const QuizQuestions = () => {
                           questionIndex + 1
                         }`}</h6>
                         {question.text.map((text, textIndex) => (
-                          <h6 key={textIndex} className="mb-2">{`${text}`}</h6>
+                          <MathText
+                            key={textIndex}
+                            className="mb-2"
+                            text={text}
+                            textTag="h6"
+                          />
                         ))}
                       </div>
                       <div className="images-container">
@@ -211,7 +326,11 @@ const QuizQuestions = () => {
                           <li
                             key={optionIndex}
                             onClick={() =>
-                              handleOptionSelect(questionIndex, optionIndex)
+                              handleOptionSelectPara(
+                                itemIndex,
+                                questionIndex,
+                                optionIndex
+                              )
                             }
                           >
                             <div
@@ -225,7 +344,9 @@ const QuizQuestions = () => {
                                 : ""
                             }
                             ${
-                              optionsUI[questionIndex] === optionIndex
+                              optionsUI[itemIndex] &&
+                              optionsUI[itemIndex][questionIndex] ===
+                                optionIndex
                                 ? "selected-option"
                                 : "unselected-option"
                             }
@@ -237,7 +358,11 @@ const QuizQuestions = () => {
                                   {String.fromCharCode(65 + optionIndex)}{" "}
                                 </h6>
                                 <div className="option-container">
-                                  <h6 className="option-text">{option.text}</h6>
+                                  <MathText
+                                    className="option-text"
+                                    text={option.text}
+                                    textTag="h6"
+                                  />
                                   {option.image && (
                                     <img
                                       src={option.image}
@@ -249,8 +374,9 @@ const QuizQuestions = () => {
                               </div>
 
                               {showCorrectAnswer ? (
-                                optionIndex === optionsUI[questionIndex] ? (
-                                  optionsUI[questionIndex] ===
+                                optionIndex ===
+                                optionsUI[itemIndex][questionIndex] ? (
+                                  optionsUI[itemIndex][questionIndex] ===
                                   question.correctOptionIndex - 1 ? (
                                     <i class="fa-solid fa-check"></i>
                                   ) : (
@@ -276,26 +402,55 @@ const QuizQuestions = () => {
                         <button
                           className="toggle-explanation-btn"
                           onClick={() =>
-                            toggleExplanationVisibility(questionIndex)
+                            toggleExplanationVisibilityPara(
+                              itemIndex,
+                              questionIndex
+                            )
                           }
                         >
-                          {explanationsVisible[questionIndex]
+                          {explanationsVisiblePara[itemIndex] &&
+                          explanationsVisiblePara[itemIndex][questionIndex]
                             ? "Hide Explanation"
                             : "Show Explanation"}
                         </button>
 
-                        <div className="explanation-wrapper ">
-                          {explanationsVisible[questionIndex] && (
-                            <div className="explanation">
-                              <p>
-                                {question.explanation.text.map(
-                                  (text, index) => (
-                                    <h6 key={index}>{text}</h6>
-                                  )
-                                )}
-                              </p>
-                            </div>
-                          )}
+                        <div className="explanation-wrapper">
+                          {explanationsVisiblePara[itemIndex] &&
+                            explanationsVisiblePara[itemIndex][
+                              questionIndex
+                            ] && (
+                              <div className="explanation">
+                                <p>
+                                  {question.explanation.text.map(
+                                    (text, index) => (
+                                      <MathText
+                                        key={index}
+                                        text={text}
+                                        textTag="h6"
+                                      />
+                                    )
+                                  )}
+                                </p>
+                                <div className="d-flex justify-content-center align-items-center gap-3">
+                                  {question.explanation.image &&
+                                    question.explanation.image.map(
+                                      (
+                                        explanationImage,
+                                        explanationImageIndex
+                                      ) => (
+                                        <img
+                                          className="question-image"
+                                          key={explanationImageIndex}
+                                          src={explanationImage}
+                                          alt={`Explanation Img ${
+                                            explanationImageIndex + 1
+                                          }`}
+                                        />
+                                      )
+                                    )}
+                                </div>
+                              </div>
+                            )}
                         </div>
                       </div>
                     </div>
@@ -312,7 +467,12 @@ const QuizQuestions = () => {
                       questionIndex + 1
                     }`}</h6>
                     {question.text.map((text, textIndex) => (
-                      <h6 key={textIndex} className="mb-2">{`${text}`}</h6>
+                      <MathText
+                        key={textIndex}
+                        className="mb-2"
+                        text={text}
+                        textTag="h6"
+                      />
                     ))}
                   </div>
                   <div className="images-container">
@@ -356,7 +516,11 @@ const QuizQuestions = () => {
                               {String.fromCharCode(65 + optionIndex)}{" "}
                             </h6>
                             <div className="option-container">
-                              <h6 className="option-text">{option.text}</h6>
+                              <MathText
+                                className="option-text"
+                                text={option.text}
+                                textTag="h6"
+                              />
                               {option.image && (
                                 <img
                                   src={option.image}
@@ -406,9 +570,25 @@ const QuizQuestions = () => {
                         <div className="explanation">
                           <p>
                             {question.explanation.text.map((text, index) => (
-                              <h6 key={index}>{text}</h6>
+                              <MathText key={index} text={text} textTag="h6" />
                             ))}
                           </p>
+
+                          <div className="d-flex justify-content-center align-items-center gap-3">
+                            {question.explanation.image &&
+                              question.explanation.image.map(
+                                (explanationImage, explanationImageIndex) => (
+                                  <img
+                                    className="question-image"
+                                    key={explanationImageIndex}
+                                    src={explanationImage}
+                                    alt={`Explanation Img ${
+                                      explanationImageIndex + 1
+                                    }`}
+                                  />
+                                )
+                              )}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -425,16 +605,20 @@ const QuizQuestions = () => {
       {data.length > 0 ? (
         testSubmitted ? (
           <div>
-
-          <button className="retake-button btn mb-4" onClick={handleRetakeTest} >
-          Take New Test
-          </button>
-          <a className="home-button btn mb-4" href="/" style={{ marginLeft: '50px' }}>
-            Home
-          </a>
-   
-        </div>
-   
+            <button
+              className="retake-button btn mb-4"
+              onClick={handleRetakeTest}
+            >
+              Take New Test
+            </button>
+            <a
+              className="home-button btn mb-4"
+              href="/"
+              style={{ marginLeft: "50px" }}
+            >
+              Home
+            </a>
+          </div>
         ) : (
           <button className="submit-button btn  mb-4" onClick={handleSubmit}>
             Submit

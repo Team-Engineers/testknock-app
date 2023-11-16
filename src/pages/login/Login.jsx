@@ -19,6 +19,8 @@ const Login = () => {
   const [disableButton, setDisableButton] = useState(false);
   const [showError, setShowError] = useState(false);
   const [passwordValid, setPasswordValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
+  const [userExist, setUserExist] = useState(false);
 
   const handleSignUpClick = () => {
     setIsRightPanelActive(true);
@@ -48,20 +50,16 @@ const Login = () => {
   const Navigate = useNavigate();
 
   const isPasswordValid = (password) => {
-    if (
+    return (
       password.length >= 8 &&
       /[A-Z]/.test(password) &&
       /[a-z]/.test(password) &&
       /\d/.test(password)
-    ) {
-      setPasswordValid(true);
-    } else {
-      setPasswordValid(false);
-    }
+    );
   };
   const handleSignUp = async () => {
-    if (disableButton || !passwordValid) return;
-
+    if (disableButton || !passwordValid || !emailValid) return;
+    setUserExist(false);
     setIsLoading(true);
     setDisableButton(true);
     const userData = {
@@ -79,6 +77,7 @@ const Login = () => {
       }
     } catch (error) {
       // alert("Signup failed");
+      setUserExist(true);
     } finally {
       setIsLoading(false);
       setDisableButton(false);
@@ -86,7 +85,7 @@ const Login = () => {
   };
 
   const handleSignIn = async () => {
-    if (disableButton) return;
+    if (disableButton || !emailValid) return;
     setShowError(false);
     setIsLoading(true);
     setDisableButton(true);
@@ -126,6 +125,27 @@ const Login = () => {
     }
   };
 
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e) => {
+    const enteredEmail = e.target.value;
+    const isValid = isEmailValid(enteredEmail);
+    setUserExist(false);
+    setEmailValid(isValid);
+    setEmail(enteredEmail);
+  };
+
+  const handlePasswordChange = (e) => {
+    const enteredPassword = e.target.value;
+    const isValid = isPasswordValid(enteredPassword);
+
+    setPasswordValid(isValid);
+    setPassword(enteredPassword);
+  };
+
   return (
     <section className="login">
       {isMobileView ? (
@@ -140,10 +160,7 @@ const Login = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="form-container sign-up-container">
-                <form
-                  action=""
-                  className="d-flex align-items-center justify-content-center"
-                >
+                <form action="">
                   <img src={Logo} alt="tiet-logo" className="img-fluid" />
 
                   <input
@@ -156,17 +173,18 @@ const Login = () => {
                   <input
                     type="email"
                     placeholder="Email"
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
+                    onChange={handleEmailChange}
                   />
+                  {!emailValid && (
+                    <h6 className="error-message">
+                      Please enter a valid email address.
+                    </h6>
+                  )}
+
                   <input
                     type="password"
                     placeholder="Password"
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      isPasswordValid(password);
-                    }}
+                    onChange={handlePasswordChange}
                   />
                   {!passwordValid && (
                     <h6 className="error-message">
@@ -175,9 +193,21 @@ const Login = () => {
                       number.
                     </h6>
                   )}
+
+                  {userExist && (
+                    <h6 className="text-danger">Email already Exist</h6>
+                  )}
+
                   <button
                     onClick={handleSignUp}
-                    disabled={isLoading || disableButton}
+                    disabled={
+                      password === "" ||
+                      email === "" ||
+                      !emailValid ||
+                      !passwordValid ||
+                      isLoading ||
+                      disableButton
+                    }
                   >
                     Sign Up
                   </button>
@@ -193,16 +223,18 @@ const Login = () => {
                   <input
                     type="email"
                     placeholder="Email"
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
+                    onChange={handleEmailChange}
                   />
+                  {!emailValid && (
+                    <h6 className="error-message">
+                      Please enter a valid email address.
+                    </h6>
+                  )}
                   <input
                     type="password"
                     placeholder="Password"
                     onChange={(e) => {
                       setPassword(e.target.value);
-                      // isPasswordValid(password);
                     }}
                   />
                   {showError ? (
@@ -213,12 +245,15 @@ const Login = () => {
                   ) : (
                     ""
                   )}
-                  {/* <Link to="/forgotpassword">
-                    <h6 className="">Forgot your password?</h6>
-                  </Link> */}
                   <button
                     onClick={handleSignIn}
-                    disabled={isLoading || disableButton}
+                    disabled={
+                      password === "" ||
+                      email === "" ||
+                      !emailValid ||
+                      isLoading ||
+                      disableButton
+                    }
                   >
                     Sign In
                   </button>
