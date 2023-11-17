@@ -177,6 +177,7 @@ const UserProfile = () => {
 
         localStorage.setItem("user", JSON.stringify(updatedUserData));
         storedUserData = updatedUserData;
+        setFile('');
       } catch (error) {
         setIsLoading(false);
         alert("Unable to upload the image");
