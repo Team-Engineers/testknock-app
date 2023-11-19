@@ -3,6 +3,7 @@ import { MathComponent } from 'mathjax-react';
 import './mathText.css';
 
 export const MathText = ({ text, textTag = 'p' }) => {
+
   const parts = text.split(/\$(.*?)\$/);
   const TextTag = textTag || 'p';
 
