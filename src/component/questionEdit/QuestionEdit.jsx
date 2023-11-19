@@ -74,7 +74,7 @@ const QuestionEdit = () => {
     if (!questionData) return null;
 
     return (
-      <div>
+      <div className="admin-questionEdit">
         <div>
           <label>{version === "v1" ? "Paragraph" : "Text"}:</label>
           <textarea
@@ -270,7 +270,7 @@ const QuestionEdit = () => {
   };
 
   return (
-    <div>
+    <div className="admin-questionEdit">
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6">

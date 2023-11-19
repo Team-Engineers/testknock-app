@@ -1,5 +1,5 @@
 /* Style for the form container */
-.form-container {
+.admin-questionEdit .form-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -9,25 +9,25 @@
   }
   
   /* Style for section headings */
-  h2 {
+ .admin-questionEdit h2 {
     font-size: 18px;
     margin-top: 20px;
   }
   
   /* Style for form sections */
-  .form-section {
+ .admin-questionEdit .form-section {
     margin: 10px 0;
   }
   
   /* Style for labels */
-  label {
+  .admin-questionEdit label {
     font-weight: bold;
     display: block;
     margin-bottom: 5px;
   }
   
   /* Style for select elements */
-  select {
+ .admin-questionEdit select {
     width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
@@ -36,7 +36,7 @@
   }
   
   /* Style for textareas */
-  textarea {
+ .admin-questionEdit textarea {
     width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
@@ -45,7 +45,7 @@
   }
   
   /* Style for input elements */
-  input[type="text"] {
+ .admin-questionEdit input[type="text"] {
     width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
@@ -54,7 +54,7 @@
   }
   
   /* Style for the update button */
-  button[type="update"] {
+ .admin-questionEdit button[type="update"] {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -65,16 +65,16 @@
   }
   
   /* Style for the hidden-for-v1 class */
-  .hidden-for-v1 {
+ .admin-questionEdit .hidden-for-v1 {
     display: none;
   }
   
   /* Style for the Math, DI, LR, and VARC sections */
-  .math, .di, .lr, .varc {
+.admin-questionEdit  .math, .di, .lr, .varc {
     display: none;
   }
   
   /* Show the selected section */
-  .math.show, .di.show, .lr.show, .varc.show {
+ .admin-questionEdit .math.show, .di.show, .lr.show, .varc.show {
     display: block;
   }

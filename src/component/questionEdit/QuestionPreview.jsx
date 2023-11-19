@@ -3,7 +3,6 @@ import '../practicequestions/question.css'
 import { MathText } from "../mathJax/MathText";
 
 const QuestionPreview = ({ data }) => {
-  console.log("data received to preview",data)
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
 
