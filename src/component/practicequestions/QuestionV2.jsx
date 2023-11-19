@@ -3,6 +3,7 @@ import "./question.css";
 import { MathText } from "../mathJax/MathText";
 
 const QuestionV2 = ({ data }) => {
+  console.log("data received to preview",data)
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -115,9 +116,8 @@ const QuestionV2 = ({ data }) => {
   return (
     <section className="question-practice question-practice-v2">
       <div className="w-100 d-flex justify-content-center mt-4 align-items-center flex-column">
-        {data[0].paragraph ? (
-          data
-            .slice(currentPage * 1, currentPage + 1)
+        {data.paragraph || data[0].paragraph ? (
+          data.paragraph ?  data : data.slice(currentPage * 1, currentPage + 1)
             .map((item, itemIndex) => (
               <div key={itemIndex} className="question-container">
                 <div className="question-box paragraph">
