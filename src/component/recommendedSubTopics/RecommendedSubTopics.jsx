@@ -4,20 +4,23 @@ import styled from "styled-components";
 import {subtopicsData} from '../../utils/constants'
 const TopicCard = styled.li`
   height: fit-content;
-  background-color: white;
+  background-color: rgba(121, 9, 11, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid ;
+  border: 1px solid #79090b;
   text-align: center;
-  background: ${(props) => (props.isCurrentTopic ? "blueviolet" : "inherit")};
-  color: ${(props) => (props.isCurrentTopic ? "white" : "inherit")};
+  background: ${(props) => (props.isCurrentTopic ? "#79090b" : "inherit")};
+  color: ${(props) => (props.isCurrentTopic ? "white" : "black")};
   &:hover {
-    background: blueviolet;
+    background: #79090b;
     color: white;
   }
   &:hover a {
     color: white;
+  }
+  &:focus {
+    outline: none; /* Remove the default focus outline */
   }
   img {
     height: 20px;
@@ -79,6 +82,8 @@ const RecommendedSubTopics = () => {
               data-bs-target="#collapseOne"
               aria-expanded="true"
               aria-controls="collapseOne"
+              style={{ backgroundColor: '#fce4e4', color: 'black' ,fontWeight: 'bold',
+              outline: '2px solid black',}}
             >
               List of Subtopics
             </button>

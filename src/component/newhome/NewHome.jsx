@@ -53,6 +53,8 @@ const Box2 = styled.h6`
   width: 12rem;
   margin-bottom: 0px;
   text-transform: uppercase;
+  color: black;
+  font-weight: bold;
 `;
 
 const NewHome = () => {

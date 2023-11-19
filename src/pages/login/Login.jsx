@@ -239,7 +239,7 @@ const Login = () => {
                   />
                   {showError ? (
                     <h6 className="text-danger">
-                      The username and/or password you specified are not
+                      The username or password you specified are not
                       correct.
                     </h6>
                   ) : (
