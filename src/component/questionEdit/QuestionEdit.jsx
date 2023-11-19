@@ -4,6 +4,7 @@ import _ from "lodash";
 import "./QuestionEdit.css";
 import { API } from "../../utils/constants";
 import { MathText } from "../mathJax/MathText";
+import QuestionPreview from "./QuestionPreview";
 
 const QuestionEdit = () => {
   const [version, setVersion] = useState("v1");
@@ -37,13 +38,13 @@ const QuestionEdit = () => {
     }
   };
 
-  const handleInputChange = (field, value) => {
-    setQuestionData((prevData) => {
-      const newData = _.cloneDeep(prevData);
-      _.set(newData, field, value);
-      return newData;
-    });
-  };
+    const handleInputChange = (field, value) => {
+      setQuestionData((prevData) => {
+        const newData = _.cloneDeep(prevData);
+        _.set(newData, field, value);
+        return newData;
+      });
+    };
 
   const handleUpdateQuestion = async () => {
     try {
@@ -73,7 +74,7 @@ const QuestionEdit = () => {
     if (!questionData) return null;
 
     return (
-      <div>
+      <div className="admin-questionEdit">
         <div>
           <label>{version === "v1" ? "Paragraph" : "Text"}:</label>
           <textarea
@@ -269,40 +270,54 @@ const QuestionEdit = () => {
   };
 
   return (
-    <div>
-      <h1>Question Form</h1>
-      <form onSubmit={handleFormSubmit}>
-        <label>
-          Select Version:
-          <select value={version} onChange={handleVersionChange}>
-            <option value="v1">Version 1</option>
-            <option value="v2">Version 2</option>
-          </select>
-        </label>
-        <br />
-        <label>
-          Select Collection:
-          <select value={collection} onChange={handleCollectionChange}>
-            <option value="math">Math</option>
-            <option value="varc">
-              Verbal Ability and Reading Comprehension
-            </option>
-            <option value="lr">LR (Logical Reasoning)</option>
-          </select>
-        </label>
-        <br />
-        <label>
-          Enter Question ID (_id):
-          <input type="text" value={questionId} onChange={handleIdChange} />
-        </label>
-        <br />
-        {renderInputFields()}
-        <br />
-        <button type="submit">Fetch Question Data</button>
-        <button type="button" onClick={handleUpdateQuestion}>
-          Update Question
-        </button>
-      </form>
+    <div className="admin-questionEdit">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6">
+            <h1>Question Form</h1>
+            <form onSubmit={handleFormSubmit}>
+              <label>
+                Select Version:
+                <select value={version} onChange={handleVersionChange}>
+                  <option value="v1">Version 1</option>
+                  <option value="v2">Version 2</option>
+                </select>
+              </label>
+              <br />
+              <label>
+                Select Collection:
+                <select value={collection} onChange={handleCollectionChange}>
+                  <option value="math">Math</option>
+                  <option value="varc">
+                    Verbal Ability and Reading Comprehension
+                  </option>
+                  <option value="lr">LR (Logical Reasoning)</option>
+                </select>
+              </label>
+              <br />
+              <label>
+                Enter Question ID (_id):
+                <input
+                  type="text"
+                  value={questionId}
+                  onChange={handleIdChange}
+                />
+              </label>
+              <br />
+              {renderInputFields()}
+              <br />
+              <button type="submit">Fetch Question Data</button>
+              <button type="button" onClick={handleUpdateQuestion}>
+                Update Question
+              </button>
+            </form>
+          </div>
+          <div className="col-md-6">
+            {questionData ? <QuestionPreview data={questionData} /> : ""}
+          </div>
+        </div>
+      </div>
+
       {/* {Array.isArray(questionData) && questionData.length > 0 && <QuestionV2 data={questionData} />} */}
 
       {/* {questionData ? <QuestionV2 data={dataArray} /> : ""} */}
