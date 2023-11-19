@@ -429,8 +429,8 @@ const QuestionV2 = ({ data }) => {
                               ))}
                             </p>
                             <div className="d-flex justify-content-center align-items-center gap-3">
-                              {question.explanation.image &&
-                                question.explanation.image.map(
+                              {question.explanation.images &&
+                                question.explanation.images.map(
                                   (explanationImage, explanationImageIndex) => (
                                     <img
                                       className="question-image"

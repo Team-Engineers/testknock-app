@@ -3,6 +3,7 @@ import axios from "axios";
 import _ from "lodash";
 import "./QuestionEdit.css";
 import { API } from "../../utils/constants";
+import { MathText } from "../mathJax/MathText";
 
 const QuestionEdit = () => {
   const [version, setVersion] = useState("v1");
@@ -29,7 +30,7 @@ const QuestionEdit = () => {
       const response = await axios.get(
         `${API}/${collection}/question/${version}/getById/${questionId}`
       );
-      console.log("fetched Question",response.data)
+      console.log("fetched Question", response.data);
       setQuestionData(response.data);
     } catch (error) {
       console.error("Error fetching question data:", error);
@@ -250,6 +251,14 @@ const QuestionEdit = () => {
                           )
                         }
                       />
+                      <div>
+                        <label>Explanation Preview:</label>
+                        <MathText
+                          className="mb-2"
+                          text={explanationText}
+                          textTag="h6"
+                        />
+                      </div>
                     </div>
                   ))}
               </div>
