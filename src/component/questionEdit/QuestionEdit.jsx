@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import _ from "lodash";
 import "./QuestionEdit.css";
 import { API } from "../../utils/constants";
-import QuestionV2 from "../practicequestions/QuestionV2";
 
 const QuestionEdit = () => {
   const [version, setVersion] = useState("v1");
   const [collection, setCollection] = useState("math");
   const [questionId, setQuestionId] = useState("");
   const [questionData, setQuestionData] = useState(null);
-  const [dataArray, setDataArray] = useState([]); 
 
   const handleVersionChange = (event) => {
     setVersion(event.target.value);
@@ -33,7 +31,6 @@ const QuestionEdit = () => {
       );
       console.log("fetched Question",response.data)
       setQuestionData(response.data);
-      setDataArray(response.data);
     } catch (error) {
       console.error("Error fetching question data:", error);
     }
