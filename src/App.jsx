@@ -20,6 +20,7 @@ const App = () => {
 
   const isUserAdmin = () => {
     const storedUserData = JSON.parse(localStorage.getItem("user"));
+    if(storedUserData === null)return false;
     return storedUserData.isAdmin;
   };
   return (
