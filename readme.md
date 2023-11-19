@@ -29,3 +29,9 @@ Note: take 001 or 002 or 003 or 004 depends on the previous merged branch
 6. Now push your changes to remote using command git push origin feat-YourBranchName
 
 7. Then go to the github and create pull request for your changes add Thakursachin05 as reviewers, and once your PR got approved by him, then merge your changes to master
+
+
+create route in app jsx for admin page , 
+
+create button in header to link it as well
+
