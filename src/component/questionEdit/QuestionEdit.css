@@ -1,0 +1,80 @@
+/* Style for the form container */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  /* Style for section headings */
+  h2 {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  
+  /* Style for form sections */
+  .form-section {
+    margin: 10px 0;
+  }
+  
+  /* Style for labels */
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  /* Style for select elements */
+  select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  
+  /* Style for textareas */
+  textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  
+  /* Style for input elements */
+  input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  
+  /* Style for the update button */
+  button[type="update"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Style for the hidden-for-v1 class */
+  .hidden-for-v1 {
+    display: none;
+  }
+  
+  /* Style for the Math, DI, LR, and VARC sections */
+  .math, .di, .lr, .varc {
+    display: none;
+  }
+  
+  /* Show the selected section */
+  .math.show, .di.show, .lr.show, .varc.show {
+    display: block;
+  }

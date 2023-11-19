@@ -130,12 +130,13 @@
 }
 
 .question-practice .question-image {
-    width: 75%;
-    object-fit: cover;
-    border-radius: 10px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
+
+  width: 55%;
+  object-fit: cover;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .question-practice .p {
