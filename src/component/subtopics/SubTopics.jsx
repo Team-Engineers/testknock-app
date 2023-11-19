@@ -17,7 +17,7 @@ const TopicCard = styled.li`
   width: 18rem;
 
   &:hover {
-    background: blueviolet;
+    background-color: ;
     color: white;
   }
   &:hover a {

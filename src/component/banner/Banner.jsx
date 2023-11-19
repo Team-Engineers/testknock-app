@@ -43,7 +43,7 @@ const CustomModal = styled(Modal)`
     width: 320px;
     height: 80px;
     margin: 5px;
-    border: 1px solid #007bff;
+    border: 1px solid #79090b;
     border-radius: 10px;
     text-align: center;
     display: flex;
