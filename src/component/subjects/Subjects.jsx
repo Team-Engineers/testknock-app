@@ -8,17 +8,15 @@ const TopicCard = styled.button`
   background-color: white;
   box-shadow: 1px 1px 2px 1px #8d8d8d;
   width: 15rem;
-  border: 2px solid #79090b;
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
   font-size: 1rem;
-  color: black;
 
   &:hover {
-    background: #79090b;
+    background: blueviolet;
     color: white;
   }
 `;

@@ -14,7 +14,7 @@ import {
   setSliceContact,
   setSliceInstitute,
 } from "../../utils/userSlice";
-import PROFILEPIC_URL from "../../assets/images/user.jpg";
+import PROFILEPIC_URL from "../../assets/images/user-profile.jpg";
 
 const HeaderSection = styled.section`
   &.light {
@@ -69,37 +69,6 @@ const DropdownMenu = styled.div`
     padding-left: 15px;
     margin-top: 15px;
   }
-
-  li {
-    a,
-    button {
-      color: #79090b;
-      font-weight: bold;
-      text-decoration: none;
-
-      &:hover {
-        color: #79090b;
-        font-weight: bold;
-        text-decoration: bold;
-      }
-    }
-    button.logout-btn {
-      color: #79090b;
-      font-weight: bold;
-
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-
-      &:hover {
-        color: #79090b;
-        font-weight: bold;
-        text-decoration: none;
-      }
-    }
-  }
-}
 `;
 
 const Header = () => {
@@ -185,7 +154,7 @@ const Header = () => {
               </Link>
               <div className="user-data d-flex justify-content-between gap-3 align-items-center">
                 <Link to="/user">
-                  <div className="name" style={{ color: "#79090b", fontWeight: "bold" }}>{firstName}</div>
+                  <div className="name">{firstName}</div>
                 </Link>
 
                 <div className="profile-pic" onClick={handleDropdownToggle}>
@@ -195,8 +164,8 @@ const Header = () => {
                       alt="userLogo"
                       width="40"
                       height="40"
-                      className="rounded-circle border border-red"
-                      style={{ objectFit: "cover", border: "2px solid red" }}
+                      className="rounded-circle border border-primary"
+                      style={{ objectFit: "cover" }}
                     />
                   </Link>
                   <DropdownMenu isOpen={isDropdownOpen}>
@@ -213,7 +182,7 @@ const Header = () => {
                       )}
                       <li>
                         <button
-                          className="btn p-0 logout-btn"
+                          className="btn p-0 text-primary"
                           onClick={handleLogOut}
                         >
                           Log Out

@@ -15,8 +15,11 @@ const TopicCard = styled.li`
   border: 1px solid #bababa;
   border-radius: 10px;
   &:hover {
-    background-color: ;
-    color: white;
+    box-shadow: 1px 1px 1px 1px #eacfcc;
+  }
+
+   {
+    background: blueviolet;
   }
   &:hover a {
     color: white;
