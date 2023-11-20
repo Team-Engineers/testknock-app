@@ -6,8 +6,6 @@
     height: 15rem;
     position: relative;
     z-index: 1;
-
-    /* filter: brightness(50%); */
 }
 
 .breadcrumb-banner::after{
@@ -22,16 +20,14 @@
 }
 
 .breadcrumb-banner .breadcrumb-item a{
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: white;
     overflow-wrap: break-word
 
 }
 
 .breadcrumb-banner h2{
-    /* text-transform: capitalize; */
     color: #fff;
-    font-size: 2rem;
     display: block;
     overflow-wrap: break-word
 
@@ -47,8 +43,8 @@
 }
 
 .breadcrumb-banner .breadcrumb-item+.breadcrumb-item::before {
-    content: "\f101"; /* Use the Unicode or character code for the angle-right icon */
-    font-family: "FontAwesome"; /* Specify the Font Awesome font family */
+    content: "\f101";
+    font-family: "FontAwesome"; 
     color: white;
-    padding: 0 0.5rem; /* Add some padding if needed */
+    padding: 0 0.5rem; 
 }

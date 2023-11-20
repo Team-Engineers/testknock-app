@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import tietLogo from "../../assets/images/white-tietLogo.png";
 import "./footer.css";
 import { Link } from "react-router-dom";
 const Footer = () => {
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []); 
+
   return (
     <>
       <section class="row-10 footer mt-5">
         <div class="container">
           <div class="row footerContent">
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 pt-5  pt-lg-0 col-sm-6">
               <div class="logo pcLogo pb-3">
                 <Link to="https://www.thapar.edu/">
-                  <img src={tietLogo} alt="Thapar-Logo" className="img-fluid" />
+                  <img src={tietLogo} alt="Thapar-Logo" className="img-fluid"/>
                 </Link>
               </div>
-              <div class=" text-white pt-2 width90 pb-3">
+              <div class=" text-white pt-2 pb-3">
                 <h6 className="liWrapper">
                   Thapar Institute of Engineering and Technology in Patiala,
                   India, is a distinguished technical university renowned for
@@ -39,9 +44,9 @@ const Footer = () => {
             </div>
 
             <div class="col-lg-3 col-sm-6">
-              <div class="contactContent text-white  pe-md-2">
+              <div class="contactContent pt-5 pt-lg-0 text-white ps-lg-3 pe-md-2">
                 <div class="quickHeading fw-bold">Contact</div>
-                <div class=" pt-5 d-flex flex-column gap-4">
+                <div class=" pt-lg-5 pt-sm-5 pt-3 d-flex flex-column gap-4">
                   <a href="https://www.thapar.edu/">
                     <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
                       <i class="fa-solid fa-building"></i>
@@ -71,11 +76,11 @@ const Footer = () => {
               </div>
             </div>
             <div class="col-lg-3 col-sm-6">
-              <div class=" text-white ps-md-3">
+              <div class=" text-white pt-5 pt-lg-0 ps-lg-3">
                 <div class="fw-bolder quickHeading">
                   <span>Categories</span>
                 </div>
-                <div class=" pt-5 d-flex flex-column gap-4">
+                <div class="pt-sm-5 pt-lg-5 pt-3 d-flex flex-column gap-4">
                   <Link to="/QUANTITATIVE_APTITUDE">
                     <h6 className="liWrapper">Quantitative Aptitude</h6>
                   </Link>
@@ -94,9 +99,9 @@ const Footer = () => {
               </div>
             </div>
             <div class="col-lg-3 col-sm-6">
-              <div class=" text-white  pe-md-2">
+              <div class=" text-white pt-5 pt-lg-0  pe-md-2">
                 <div class=" fw-bold">Any Technical Issue?</div>
-                <div class=" pt-5 d-flex flex-column gap-4">
+                <div class="pt-sm-5 pt-lg-5 pt-3 d-flex flex-column gap-4">
                   <a href="https://www.templeoflearning.in/">
                     <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
                       <i class="fa-solid fa-building"></i>
@@ -135,24 +140,24 @@ const Footer = () => {
         <div class="container">
           <div class="row  text-white">
             <div class="col-md-12 ">
-              <div class="row">
-                <div class="col-md-4 order-3 order-md-1">
-                  <h6 class="condition mb-0">
+              <div class="row pt-2">
+                <div class="col-lg-4 order-3 order-md-1">
+                  <h6 class="condition ">
                     <i class="fa-regular fa-copyright"></i>
-                    All Rights Reserved. Thapar Institute of Engineering
+                    Thapar Institute of Engineering {currentYear}
                   </h6>
                 </div>
-                <div class="col-md-4 order-1 order-md-2 ">
-                  <h6 class=" mb-0 condition">
+                <div class="col-lg-4 order-1 order-md-2 ">
+                  <h6 class="  condition">
                     Terms and Conditions | Privacy Policy
                   </h6>
                 </div>
-                <div class="col-md-4 order-2 order-md-3">
-                  <h6 class=" mb-0 condition">
+                <div class="col-lg-4 order-2 order-md-3">
+                  <h6 class="  condition">
                     Website Designed by{" "}
-                    <a href="https://www.templeoflearning.in/">
-                      Temple Of Learning
-                    </a>
+                    <Link to="https://www.templeoflearning.in/" target = "_blank">
+                     Temple Of Learning
+                    </Link>
                   </h6>
                 </div>
               </div>

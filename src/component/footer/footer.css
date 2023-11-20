@@ -6,12 +6,6 @@
 }
 
 
-.width90 {
-    width: 90% ;
-    display: block;
-}
-
-
 .footer .links a {
     text-decoration: none ;
 }
@@ -19,7 +13,7 @@
 
 
 .footer .logo{
-    width: 4rem;
+    width: 3.5rem;
 }
 .footer .social i{
     width: 1.5rem;
@@ -49,7 +43,6 @@
 .termsConditions .condition {
     color: #FFF;
     font-size: 12px;
-    line-height: 2rem;
     letter-spacing: 0.24px;
     display: flex;
     justify-content: center;

@@ -5,10 +5,10 @@ import './mathText.css';
 export const MathText = ({ text, textTag = 'p' }) => {
   const TextTag = textTag || 'p';
 
-  if (typeof text !== 'string' || text.trim() === "") {
-    return <TextTag></TextTag>;
+  if(typeof text !== 'string'){
+    text = text[0]
   }
-
+  
   const parts = text.split(/\$(.*?)\$/);
 
   const jsxElements = parts.map((part, index) => {

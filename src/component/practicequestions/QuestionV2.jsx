@@ -116,137 +116,145 @@ const QuestionV2 = ({ data }) => {
     <section className="question-practice question-practice-v2">
       <div className="w-100 d-flex justify-content-center mt-4 align-items-center flex-column">
         {data.paragraph || data[0].paragraph ? (
-          data.paragraph ?  data : data.slice(currentPage * 1, currentPage + 1)
-            .map((item, itemIndex) => (
-              <div key={itemIndex} className="question-container">
-                <div className="question-box paragraph">
-                  <h6 className="mb-2 ">
-                    <strong>Direction:</strong> Read the following passage
-                    carefully and answer the questions that follow.
-                  </h6>
-                  <div className="d-flex justify-content-start align-items-center gap-3">
-                    <span className="question-number">{`P${
-                      itemIndex + 1 + currentPage
-                    } `}</span>
-                    <div className="question-text ">
-                      {item.paragraph.map((paragraph, paraindex) => (
-                        <MathText
-                          className="mb-2"
-                          key={paraindex}
-                          text={paragraph}
-                          textTag="h6"
-                        />
-                      ))}
+          data.paragraph ? (
+            data
+          ) : (
+            data
+              .slice(currentPage * 1, currentPage + 1)
+              .map((item, itemIndex) => (
+                <div key={itemIndex} className="question-container">
+                  <div className="question-box paragraph">
+                    <h6 className="mb-2 ">
+                      <strong>Direction:</strong> Read the following passage
+                      carefully and answer the questions that follow.
+                    </h6>
+                    <div className="d-flex justify-content-start align-items-center gap-3">
+                      <span className={`question-number id-${item._id}`}>{`P${
+                        itemIndex + 1 + currentPage
+                      } `}</span>
+                      <div className="question-text ">
+                        {item.paragraph.map((paragraph, paraindex) => (
+                          <MathText
+                            className="mb-2"
+                            key={paraindex}
+                            text={paragraph}
+                            textTag="h6"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-center align-items-center gap-3">
+                      {item.images &&
+                        item.images.map((image, imageIndex) => (
+                          <img
+                            className="question-image"
+                            key={imageIndex}
+                            src={image}
+                            alt={`Img ${imageIndex + 1}`}
+                          />
+                        ))}
                     </div>
                   </div>
-                  <div className="d-flex justify-content-center align-items-center gap-3">
-                    {item.images &&
-                      item.images.map((image, imageIndex) => (
-                        <img
-                          className="question-image"
-                          key={imageIndex}
-                          src={image}
-                          alt={`Img ${imageIndex + 1}`}
-                        />
-                      ))}
-                  </div>
-                </div>
-                <div className="options-container">
-                  {item.questions.map((question, questionIndex) => (
-                    <div key={questionIndex} className="options-grid">
-                      <div className="question-box">
-                        <div className="question-option">
-                          <div className="d-flex justify-content-start align-items-center gap-3 mb-3">
-                            <span className="question-number">{`${
-                              questionIndex + 1
-                            } `}</span>
-                            <div>
-                              {question.text.map((text, textIndex) => (
-                                <MathText
-                                  className="question-text mb-2"
-                                  key={textIndex}
-                                  text={text}
-                                  textTag="h6"
-                                />
-                              ))}
+                  <div className="options-container">
+                    {item.questions.map((question, questionIndex) => (
+                      <div key={questionIndex} className="options-grid">
+                        <div className="question-box">
+                          <div className="question-option">
+                            <div className="d-flex justify-content-start align-items-center gap-3 mb-3">
+                              <span className={`question-number`}>{`${
+                                questionIndex + 1
+                              } `}</span>
+                              <div>
+                                {question.text.map((text, textIndex) => (
+                                  <MathText
+                                    className="question-text mb-2"
+                                    key={textIndex}
+                                    text={text}
+                                    textTag="h6"
+                                  />
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                          <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
-                            {question.images &&
-                              question.images.map((image, imageIndex) => (
-                                <img
-                                  className="question-image"
-                                  key={imageIndex}
-                                  src={image}
-                                  alt={`Img ${imageIndex + 1}`}
-                                />
-                              ))}
-                          </div>
-                          {question.options.map((option, optionIndex) => (
-                            <div
-                              key={optionIndex}
-                              className={`option-box ${
-                                selectedOption[questionIndex] === optionIndex
-                                  ? question.correctOptionIndex - 1 ===
-                                    optionIndex
-                                    ? "correct"
-                                    : "incorrect"
-                                  : ""
-                              }`}
-                              onClick={() =>
-                                handleOptionClick(questionIndex, optionIndex)
-                              }
-                            >
-                              <h6 className="option-alphabet">
-                                {alphabets[optionIndex]}
-                              </h6>
-                              <div className="d-flex justify-content-start gap-3 w-100 align-items-center">
-                                <h6>{option.text}</h6>
-                                {option.image ? (
+                            <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
+                              {question.images &&
+                                question.images.map((image, imageIndex) => (
                                   <img
                                     className="question-image"
-                                    src={option.image}
-                                    alt={`Img ${optionIndex + 1}`}
+                                    key={imageIndex}
+                                    src={image}
+                                    alt={`Img ${imageIndex + 1}`}
                                   />
-                                ) : (
-                                  ""
-                                )}
-                              </div>
-
-                              <div className="d-flex">
-                                {question.correctOptionIndex - 1 ===
-                                  optionIndex &&
-                                  selectedOption[questionIndex] ===
-                                    optionIndex && (
-                                    <span className="correct-answer">
-                                      <i className="fa-solid fa-check"></i>
-                                    </span>
-                                  )}
-                                {selectedOption[questionIndex] ===
-                                  optionIndex &&
-                                  question.correctOptionIndex - 1 !==
-                                    optionIndex && (
-                                    <span className="incorrect-answer">
-                                      <i className="fa-solid fa-xmark"></i>
-                                    </span>
-                                  )}
-                              </div>
+                                ))}
                             </div>
-                          ))}
-                        </div>
-                        <button
-                          className="toggle-explanation-btn"
-                          onClick={() =>
-                            toggleExplanationVisibilityPara(
-                              itemIndex,
-                              questionIndex
-                            )
-                          }
-                        >
-                          {explanationsVisiblePara[itemIndex] &&
-                          explanationsVisiblePara[itemIndex][questionIndex]
-                            ? "Hide Explanation"
-                            : "Show Explanation"}
+                            {question.options.map((option, optionIndex) => (
+                              <div
+                                key={optionIndex}
+                                className={`option-box ${
+                                  selectedOption[questionIndex] === optionIndex
+                                    ? question.correctOptionIndex - 1 ===
+                                      optionIndex
+                                      ? "correct"
+                                      : "incorrect"
+                                    : ""
+                                }`}
+                                onClick={() =>
+                                  handleOptionClick(questionIndex, optionIndex)
+                                }
+                              >
+                                <h6 className="option-alphabet">
+                                  {alphabets[optionIndex]}
+                                </h6>
+                                <div className="d-flex justify-content-start gap-3 w-100 align-items-center">
+                                  <h6>{option.text}</h6>
+                                  {option.image ? (
+                                    <img
+                                      className="question-image"
+                                      src={option.image}
+                                      alt={`Img ${optionIndex + 1}`}
+                                    />
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+
+                                <div className="d-flex">
+                                  {question.correctOptionIndex - 1 ===
+                                    optionIndex &&
+                                    selectedOption[questionIndex] ===
+                                      optionIndex && (
+                                      <span className="correct-answer">
+                                        <i className="fa-solid fa-check"></i>
+                                      </span>
+                                    )}
+                                  {selectedOption[questionIndex] ===
+                                    optionIndex &&
+                                    question.correctOptionIndex - 1 !==
+                                      optionIndex && (
+                                      <span className="incorrect-answer">
+                                        <i className="fa-solid fa-xmark"></i>
+                                      </span>
+                                    )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="w-100 d-flex justify-content-center align-items-center">
+                            <button
+                              className="toggle-explanation-btn"
+                              onClick={() =>
+                                toggleExplanationVisibilityPara(
+                                  itemIndex,
+                                  questionIndex
+                                )
+                              }
+                            >
+                              {explanationsVisiblePara[itemIndex] &&
+                              explanationsVisiblePara[itemIndex][questionIndex]
+                                ? "Hide Explanation"
+                                : "Show Explanation"}
+                            </button>
+                          </div>
+
                           <div className="explanation-wrapper">
                             {explanationsVisiblePara[itemIndex] &&
                               explanationsVisiblePara[itemIndex][
@@ -286,45 +294,45 @@ const QuestionV2 = ({ data }) => {
                                 </div>
                               )}
                           </div>
-                        </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
 
-                <div className="pagination">
-                  <button
-                    className={`page-button ${
-                      currentPage === 0 ? "disabled" : ""
-                    }`}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                  >
-                    Prev
-                  </button>
-                  {generatePageNumbers2().map((pageIndex) => (
+                  <div className="pagination">
                     <button
-                      key={pageIndex}
                       className={`page-button ${
-                        currentPage === pageIndex ? "active" : ""
+                        currentPage === 0 ? "disabled" : ""
                       }`}
-                      onClick={() => handlePageChange(pageIndex)}
+                      onClick={() => handlePageChange(currentPage - 1)}
                     >
-                      {pageIndex + 1}
+                      Prev
                     </button>
-                  ))}
-                  <button
-                    className={`page-button ${
-                      currentPage === Math.ceil(data.length / 1) - 1
-                        ? "disabled"
-                        : ""
-                    }`}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                  >
-                    Next
-                  </button>
+                    {generatePageNumbers2().map((pageIndex) => (
+                      <button
+                        key={pageIndex}
+                        className={`page-button ${
+                          currentPage === pageIndex ? "active" : ""
+                        }`}
+                        onClick={() => handlePageChange(pageIndex)}
+                      >
+                        {pageIndex + 1}
+                      </button>
+                    ))}
+                    <button
+                      className={`page-button ${
+                        currentPage === Math.ceil(data.length / 1) - 1
+                          ? "disabled"
+                          : ""
+                      }`}
+                      onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))
+          )
         ) : (
           <div className="options-container">
             {data
@@ -335,7 +343,7 @@ const QuestionV2 = ({ data }) => {
                     <div className="question-option">
                       <div className="question">
                         <div className="question-number-container">
-                          <span className="question-number">{`${
+                          <span className={`question-number id-${question._id}`}>{`${
                             questionIndex + 1 + currentPage * 5
                           } `}</span>
                         </div>
@@ -408,44 +416,45 @@ const QuestionV2 = ({ data }) => {
                         </div>
                       ))}
                     </div>
-                    <button
-                      className="toggle-explanation-btn"
-                      onClick={() => toggleExplanationVisibility(questionIndex)}
-                    >
-                      {explanationsVisible[questionIndex]
-                        ? "Hide Explanation"
-                        : "Show Explanation"}
-                      <div className="explanation-wrapper ">
-                        {explanationsVisible[questionIndex] && (
-                          <div className="explanation">
-                            <p class="m-0 pt-3">
-                              {question.explanation.text.map((text, index) => (
-                                <MathText
-                                  key={index}
-                                  text={text}
-                                  textTag="h6"
-                                />
-                              ))}
-                            </p>
-                            <div className="d-flex justify-content-center align-items-center gap-3">
-                              {question.explanation.images &&
-                                question.explanation.images.map(
-                                  (explanationImage, explanationImageIndex) => (
-                                    <img
-                                      className="question-image"
-                                      key={explanationImageIndex}
-                                      src={explanationImage}
-                                      alt={`Explanation Img ${
-                                        explanationImageIndex + 1
-                                      }`}
-                                    />
-                                  )
-                                )}
-                            </div>
+                    <div className="w-100 d-flex justify-content-center align-items-center">
+                      <button
+                        className="toggle-explanation-btn"
+                        onClick={() =>
+                          toggleExplanationVisibility(questionIndex)
+                        }
+                      >
+                        {explanationsVisible[questionIndex]
+                          ? "Hide Explanation"
+                          : "Show Explanation"}
+                      </button>
+                    </div>
+
+                    <div className="explanation-wrapper ">
+                      {explanationsVisible[questionIndex] && (
+                        <div className="explanation">
+                          <p class="m-0 pt-3">
+                            {question.explanation.text.map((text, index) => (
+                              <MathText key={index} text={text} textTag="h6" />
+                            ))}
+                          </p>
+                          <div className="d-flex justify-content-center align-items-center gap-3">
+                            {question.explanation.images &&
+                              question.explanation.images.map(
+                                (explanationImage, explanationImageIndex) => (
+                                  <img
+                                    className="question-image"
+                                    key={explanationImageIndex}
+                                    src={explanationImage}
+                                    alt={`Explanation Img ${
+                                      explanationImageIndex + 1
+                                    }`}
+                                  />
+                                )
+                              )}
                           </div>
-                        )}
-                      </div>
-                    </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}

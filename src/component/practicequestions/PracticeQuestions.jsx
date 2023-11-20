@@ -43,7 +43,7 @@ const PracticeQuestions = () => {
       if (topic === "DATA_INTERPRETATION") {
         version = "v1";
       }
-      if(topic === "LOGICAL_REASONING" && (subTopic === "MISCELLANEOUS" || subTopic === "ARRANGEMENTS" || subTopic === "CRITICAL_REASONING")){
+      if(topic === "LOGICAL_REASONING" && (subTopic === "MISCELLANEOUS" || subTopic === "ARRANGEMENTS")){
         version = "v1";
       }
       try {
