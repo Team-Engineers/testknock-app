@@ -217,12 +217,6 @@
         gap: 20px;
     }
     
-    .quiz-section .images-container img {
-        height: 100px;
-        width: 100px;
-        border-radius: 10px;
-    }
-    
     .quiz-section .option-container img {
         height: 100px;
         width: 100px;
