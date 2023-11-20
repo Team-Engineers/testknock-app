@@ -94,7 +94,7 @@ const RecommendedSubTopics = () => {
             aria-labelledby="headingOne"
             data-bs-parent="#accordionExample"
           >
-            <div class="accordion-body p-1 my-3">
+            <div class="accordion-body p-1 mt-3">
               <Wrapper>
                 {subtopicsData[topic].map((currentTopic, subIndex) => (
                   <Link

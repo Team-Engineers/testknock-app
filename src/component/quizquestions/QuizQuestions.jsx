@@ -266,15 +266,18 @@ const QuizQuestions = () => {
           {data[0].paragraph ? (
             data.slice(0, 2).map((item, itemIndex) => (
               <div key={itemIndex} className="question-container">
-                <div className="question-box paragraph">
+                <div className="p-2 question-box paragraph">
                   <h6 className="mb-2 ">
                     <strong>Direction:</strong> Read the following passage
                     carefully and answer the questions that follow.
                   </h6>
                   <div className="d-flex justify-content-start align-items-center gap-3">
-                    <span className="question-number">{`P${
+                    <span className={`question-number id-${item._id}`}>{`P${
                       itemIndex + 1
                     } `}</span>
+                    <p className="subtopic-name">
+                      Subtopic - {item.topic?.split("_").join(" ")}
+                    </p>
                     <div className="question-text ">
                       {item.paragraph.map((paragraph, paraindex) => (
                         <h6 className="mb-2" key={paraindex}>
@@ -299,9 +302,10 @@ const QuizQuestions = () => {
                   {item.questions.map((question, questionIndex) => (
                     <div key={questionIndex} className="question-container">
                       <div className="question-header">
-                        <h6 className="question-number">{`${
+                        <h6 className={`question-number`}>{`${
                           questionIndex + 1
                         }`}</h6>
+
                         {question.text.map((text, textIndex) => (
                           <MathText
                             key={textIndex}
@@ -394,10 +398,10 @@ const QuizQuestions = () => {
                       </ul>
 
                       <div
-                        className={`d-flex justify-content-center align-items-start flex-column ${
+                        className={`d-flex justify-content-center align-items-center flex-column ${
                           testSubmitted ? "d-block" : "d-none"
                         }`}
-                        style={{ padding: "10px" }}
+                        style={{ margin: "10px" }}
                       >
                         <button
                           className="toggle-explanation-btn"
@@ -463,9 +467,13 @@ const QuizQuestions = () => {
               {data.map((question, questionIndex) => (
                 <div key={questionIndex} className="question-container">
                   <div className="question-header">
-                    <h6 className="question-number">{`${
+                    <h6 className={`question-number id-${question._id}`}>{`${
                       questionIndex + 1
                     }`}</h6>
+                    <p className="subtopic-name">
+                      Subtopic - {question.topic === "vocabulary" ? question.subTopic.split("_").join(" ") : question.topic.split("_").join(" ")}
+                    </p>
+
                     {question.text.map((text, textIndex) => (
                       <MathText
                         key={textIndex}
@@ -551,10 +559,10 @@ const QuizQuestions = () => {
                   </ul>
 
                   <div
-                    className={`d-flex justify-content-center align-items-start flex-column ${
+                    className={`d-flex justify-content-center align-items-center flex-column ${
                       testSubmitted ? "d-block" : "d-none"
                     }`}
-                    style={{ padding: "10px" }}
+                    style={{ margin: "10px" }}
                   >
                     <button
                       className="toggle-explanation-btn"

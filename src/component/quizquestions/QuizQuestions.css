@@ -16,12 +16,13 @@
         width: 100%;
         max-width: 800px;
     }
+
     
     @media screen and (max-width: 800px) {
         .quiz-section .mcq-container,
         .quiz-section .question-container,
         .quiz-section .para-header-container {
-            padding: 30px 10px;
+            padding: 2rem 0rem 0rem 0rem;
             position: relative;
             border-radius: 10px;
             margin: 20px 0px;
@@ -31,7 +32,7 @@
             width: 100%;
         }
         .quiz-section .question-container img {
-            width: 75%;
+            width: 100%;
         }
     }
     
@@ -120,6 +121,9 @@
     .toggle-explanation-btn {
         font-size: 1rem;
         border: 1px solid #bababa;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 10px;
     }
     
     .quiz-section .alphabet {
@@ -131,6 +135,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding : 10px;
     }
     
     .quiz-section .submit-button,
@@ -266,6 +271,20 @@
     
     .quiz-section .question-container ul {
         padding: 0px;
+        margin : 0px;
+    }
+
+    .quiz-section .subtopic-name{
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: #79090b;
+        color : white;
+        padding: 4px;
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        font-size: 14px;
+        
     }
     
     .selected-option {

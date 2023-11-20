@@ -185,11 +185,19 @@
     line-height: 2rem;
 }
 
+.question-practice .explanation-wrapper .explanation{
+    border: 1px solid #bababa;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
 .question-practice .question-box .toggle-explanation-btn {
     padding: 10px !important;
     border-radius: 15px;
     text-align: justify;
-    width: 100%;
+    /* width: 100%; */
+    margin: 10px 0;
 }
 
 .question-practice .question-box .toggle-explanation-btn {
@@ -211,6 +219,7 @@
     }
 }
 
+
 .question-practice h6 {
     margin-bottom: 0px;
     line-height: 1.5rem;
@@ -221,7 +230,7 @@
 }
 
 .question-practice .question-box .question-option {
-    padding: 2rem;
+    padding: 2rem 2rem 0 2rem;
 }
 
 .toggle-button {
@@ -244,4 +253,16 @@
 .content.visible {
     max-height: 1000px;
     /* Adjust the max height as needed */
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+
+@media screen and (max-width: 800px){
+    .question-practice .question-box .question-option {
+        padding: 2rem 1rem 0 1rem;
+    }
+    
 }
