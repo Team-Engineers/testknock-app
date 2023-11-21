@@ -12,6 +12,8 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import Nopage from "./pages/nopage/Nopage";
 import ScrollToTop from "./component/scrolltotop/ScrollToTop";
 import Admin from "./pages/admin/Admin";
+import QuestionPush from "./component/questionPush/QuestionPush";
+import QuestionUpdate from "./component/questionUpdate/QuestionUpdate";
 const App = () => {
   const isUserSignedIn = () => {
     const tokenData = JSON.parse(localStorage.getItem("accessToken"));
@@ -35,7 +37,11 @@ const App = () => {
             <Route exact path="/user" element={<UserProfile />} />
             <Route exact path="/quiz/:topic" element={<Quiz />} />
             {isUserAdmin() ? (
-              <Route exact path="/admin/questionEdit" element={<Admin />} />
+              <>
+              <Route exact path="/admin" element={<Admin />} />
+              <Route exact path="/admin/questionPush" element={<QuestionPush />} />
+              <Route exact path="/admin/questionUpdate" element={<QuestionUpdate />} />
+              </>
             ) : (
               ( <Route path="*" element={<Nopage />} />)
             )}
