@@ -16,10 +16,10 @@ const TopicCard = styled.li`
   border-radius: 10px;
   &:hover {
     background-color: ;
-    color: white;
+    font-weight: bold;
   }
   &:hover a {
-    color: white;
+    font-weight: bold;
   }
   img {
     width: 6rem;
@@ -98,7 +98,7 @@ const SubTopics = (props) => {
                       /\s/g,
                       "_"
                     )}`}
-                    key={index}
+                    key={index} style={{ color: "black", textDecoration: "none" }}
                   >
                     <TopicCard>
                       <Box>

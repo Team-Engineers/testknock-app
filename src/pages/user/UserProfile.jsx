@@ -370,6 +370,11 @@ const UserProfile = () => {
                             class="btn btn-primary px-4"
                             value="Save Changes"
                             onClick={handleFormSubmit}
+                            style={{
+                              backgroundColor: '#79090b',
+                              color: 'white',
+                              borderColor: '#79090b',
+                            }}
                           />
                         </div>
                       </div>
@@ -491,6 +496,11 @@ const UserProfile = () => {
                             class="btn btn-primary px-4"
                             value="Save Changes"
                             onClick={handleFormSubmit}
+                            style={{
+                              backgroundColor: '#79090b',
+                              color: 'white',
+                              borderColor: '#79090b',
+                            }}
                           />
                         </div>
                       </div>

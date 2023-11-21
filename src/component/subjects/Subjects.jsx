@@ -16,12 +16,18 @@ const TopicCard = styled.button`
   gap: 0.5rem;
   font-size: 1rem;
   color: black;
+  font-weight: bold;
 
   &:hover {
     background: #79090b;
     color: white;
   }
+  
 `;
+const BoldText = styled.span`
+  font-weight: 1800;
+  `;
+
 
 const Subjects = ({ setSelectedTopic }) => {
   const changeTopic = (topicName) => {
@@ -48,10 +54,12 @@ const Subjects = ({ setSelectedTopic }) => {
                   role="tab"
                   aria-controls="pills-home"
                   aria-selected="true"
+                  
                   onClick={() => changeTopic("QUANT")}
+                  style={{ fontWeight: 'bold' }}
                 >
                   <i class="fa-solid fa-calculator"></i>
-                  QUANTITATIVE APTITUDE
+                  <BoldText>QUANTITATIVE APTITUDE</BoldText>
                 </TopicCard>
               </li>
               <li className="nav-item " role="presentation">
