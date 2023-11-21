@@ -68,7 +68,7 @@ const NewHome = () => {
               <div key={index}>
                 <h4
                   className="mt-5 text-center mb-5"
-                  style={{ overflowWrap: "break-word" }}
+                  style={{ overflowWrap: "break-word", fontWeight: "700"}}
                 >
                   {topic.split("_").join(" ")}
                   <hr></hr>
