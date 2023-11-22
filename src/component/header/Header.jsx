@@ -206,7 +206,7 @@ const Header = () => {
                       </li>
                       {isAdmin ? (
                         <li>
-                          <Link to="/admin/questionEdit">Admin Panel</Link>
+                          <Link to="/admin">Admin Panel</Link>
                         </li>
                       ) : (
                         ""

@@ -1,0 +1,46 @@
+/* Add your CSS styling here */
+
+.question-push h1 {
+  color: #333;
+  /* text-align: center; */
+}
+/* 
+.question-push form {
+  width: 80%;
+  margin: 0 auto;
+} */
+
+.question-push .form-section {
+  margin-bottom: 20px;
+}
+
+.question-push label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.question-push input[type="text"],
+.question-push input[type="number"],
+.question-push select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.question-push select[multiple] {
+  height: 100px;
+}
+
+.question-push button {
+  background-color: #0074D9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+}

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import _ from "lodash";
-import "./QuestionEdit.css";
+import "./QuestionUpdate.css";
 import { API } from "../../utils/constants";
 import { MathText } from "../mathJax/MathText";
 import QuestionPreview from "./QuestionPreview";
 
-const QuestionEdit = () => {
+const QuestionUpdate = () => {
   const [version, setVersion] = useState("v1");
   const [collection, setCollection] = useState("math");
   const [questionId, setQuestionId] = useState("");
@@ -274,7 +274,7 @@ const QuestionEdit = () => {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-6">
-            <h1>Question Form</h1>
+            <h1>Question Update Form</h1>
             <form onSubmit={handleFormSubmit}>
               <label>
                 Select Version:
@@ -325,4 +325,4 @@ const QuestionEdit = () => {
   );
 };
 
-export default QuestionEdit;
+export default QuestionUpdate;
