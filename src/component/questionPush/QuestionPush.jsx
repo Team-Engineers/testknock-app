@@ -9,6 +9,15 @@ const QuestionPush = () => {
   const [optionCounts, setOptionCounts] = useState([5]);
   const [selectedVersion, setSelectedVersion] = useState("v2");
   const [selectedSubject, setSelectedSubject] = useState("math");
+  const [paragraph, setParagraph] = useState("");
+  const [difficultyLevel, setDifficultyLevel] = useState("L1");
+  const [mathTopic, setMathTopic] = useState("number_system");
+  const [lrTopic, setLrTopic] = useState("coding_and_decoding");
+  const [varcTopic, setVarcTopic] = useState("sentence_correction");
+  const [varcSubTopic, setVarcSubTopic] = useState("subject_verb_agreement");
+  const [diTopic, setDiTopic] = useState("pie_chart");
+  // const [file, setFile] = useState("");
+  const [entranceExams, setEntranceExams] = useState("Gate");
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,19 +31,13 @@ const QuestionPush = () => {
 
   firebase.initializeApp(firebaseConfig);
 
-
-  const resetForm = () =>{
+  const resetForm = () => {
     window.location.reload();
-  }
-
-  const handleVersionChange = (event) => {
-    const value = event.target.value;
-    setSelectedVersion(value);
   };
 
-  const handleSubjectChange = (event) => {
-    const value = event.target.value;
-    setSelectedSubject(value);
+  const handleFileChange = async (event) => {
+    // const file = event.target.files;
+    // setFile(file);
   };
 
   const uploadImage = async (imageFile) => {
@@ -192,7 +195,7 @@ const QuestionPush = () => {
             multiple
           />
 
-          <button type="button" onclick={addOption(`${questionNumber}`)}>
+          <button type="button" onClick={() => addOption(`${questionNumber}`)}>
             Add Option
           </button>
         </div>
@@ -201,88 +204,119 @@ const QuestionPush = () => {
   };
 
   const handleSubmit = async (event) => {
-    console.log('submit is clicked. Don\'t do anything, wait for the upload');
+    console.log("submit is clicked. Don't do anything, wait for the upload");
     event.preventDefault();
-  
-    const subject = document.getElementById('subject').value;
-    let version = document.getElementById('formChoice').value;
-  
+
+    const subject = document.getElementById("subject").value;
+    let version = document.getElementById("formChoice").value;
+
     if (version === "v1") {
       version = "v2";
     } else {
       version = "v1";
     }
-  
+
     let questions = [];
-  
-    const totalQuestions = document.querySelectorAll('.question-container').length;
-  
-    for (let questionIndex = 1; questionIndex <= totalQuestions; questionIndex++) {
+
+    const totalQuestions = document.querySelectorAll(
+      ".question-container"
+    ).length;
+
+    for (
+      let questionIndex = 1;
+      questionIndex <= totalQuestions;
+      questionIndex++
+    ) {
       const questionData = {
-        text: document.getElementById(`questionText${questionIndex}`).value.split('\n'),
-        images: await uploadImages(document.getElementById(`questionImages${questionIndex}`).files),
-        difficulty: document.getElementById(`questionDifficulty${questionIndex}`).value,
+        text: document
+          .getElementById(`questionText${questionIndex}`)
+          .value.split("\n"),
+        images: await uploadImages(
+          document.getElementById(`questionImages${questionIndex}`).files
+        ),
+        difficulty: document.getElementById(
+          `questionDifficulty${questionIndex}`
+        ).value,
         explanation: {
-          text: document.getElementById(`explanation${questionIndex}`).value.split('\n'),
-          images: await uploadImages(document.getElementById(`explanation${questionIndex}images`).files)
+          text: document
+            .getElementById(`explanation${questionIndex}`)
+            .value.split("\n"),
+          images: await uploadImages(
+            document.getElementById(`explanation${questionIndex}images`).files
+          ),
         },
-        correctOptionIndex: document.getElementById(`correctOptionIndex${questionIndex}`).value,
-        options: []
+        correctOptionIndex: document.getElementById(
+          `correctOptionIndex${questionIndex}`
+        ).value,
+        options: [],
       };
-  
-      for (let optionIndex = 1; optionIndex <= optionCounts[questionIndex - 1]; optionIndex++) {
+
+      for (
+        let optionIndex = 1;
+        optionIndex <= optionCounts[questionIndex - 1];
+        optionIndex++
+      ) {
         const optionData = {
-          text: document.getElementById(`optionText${questionIndex}_${optionIndex}`).value,
-          image: await uploadImage(document.getElementById(`optionImage${questionIndex}_${optionIndex}`).files[0])
+          text: document.getElementById(
+            `optionText${questionIndex}_${optionIndex}`
+          ).value,
+          image: await uploadImage(
+            document.getElementById(
+              `optionImage${questionIndex}_${optionIndex}`
+            ).files[0]
+          ),
         };
         questionData.options.push(optionData);
       }
-  
+
       questions.push(questionData);
     }
-  
+
     let formData;
-    const selectElement = document.getElementById('entranceExams');
-    const entranceExams = Array.from(selectElement.selectedOptions).map(option => option.value);
-  
+    const selectElement = document.getElementById("entranceExams");
+    const entranceExams = Array.from(selectElement.selectedOptions).map(
+      (option) => option.value
+    );
+
     if (selectedVersion === "v2") {
       formData = {
-        paragraph: document.getElementById('paragraph').value.split('\n'),
-        images: await uploadImages(document.getElementById('paragraphImages').files),
+        paragraph: document.getElementById("paragraph").value.split("\n"),
+        images: await uploadImages(
+          document.getElementById("paragraphImages").files
+        ),
         questions: questions,
-        difficulty: document.getElementById('difficulty').value,
+        difficulty: document.getElementById("difficulty").value,
         topic: document.getElementById(`${subject}`).value,
-        subTopic: document.getElementById('subTopic').value,
+        subTopic: document.getElementById("subTopic").value,
         entrance_exams: entranceExams,
       };
     } else {
       formData = {
         ...questions[0],
         topic: document.getElementById(`${subject}`).value,
-        subTopic: document.getElementById('subTopic').value,
+        subTopic: document.getElementById("subTopic").value,
         entrance_exams: entranceExams,
       };
     }
-  
+
     const apiEndpoint = `${API}/${subject}/question/${version}`;
     console.log("checking final data", formData, apiEndpoint);
-  
+
     fetch(apiEndpoint, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('API response:', data);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("API response:", data);
       })
-      .catch(error => {
-        console.error('API error:', error);
+      .catch((error) => {
+        console.error("API error:", error);
       });
   };
-  
 
   return (
     <section className="question-push">
@@ -295,7 +329,7 @@ const QuestionPush = () => {
               <select
                 id="subject"
                 value={selectedSubject}
-                onChange={handleSubjectChange}
+                onChange={(e) => setSelectedSubject(e.target.value)}
               >
                 <option value="math">Quant</option>
                 <option value="di">Data Interpretation</option>
@@ -311,7 +345,7 @@ const QuestionPush = () => {
               <select
                 id="formChoice"
                 value={selectedVersion}
-                onChange={handleVersionChange}
+                onChange={(e) => setSelectedVersion(e.target.value)}
               >
                 <option value="v1">v2</option>
                 <option value="v2">v1</option>
@@ -319,7 +353,10 @@ const QuestionPush = () => {
             </div>
 
             <h1>Create a New Question</h1>
-            <form id="question-form" onSubmit={handleSubmit}>
+            <form
+              id="question-form"
+               onSubmit={handleSubmit}
+            >
               <div className="form-section hidden-for-v1">
                 <label for="paragraph">Paragraph Text:</label>
                 <textarea
@@ -327,6 +364,8 @@ const QuestionPush = () => {
                   name="paragraph"
                   rows="5"
                   cols="80"
+                  onChange={(e) => setParagraph(e.target.value)}
+                  value={paragraph}
                 ></textarea>
 
                 <label for="paragraphImages">Upload Paragraph Images:</label>
@@ -335,13 +374,19 @@ const QuestionPush = () => {
                   id="paragraphImages"
                   name="paragraphImages"
                   accept="image/*"
+                  onChange={handleFileChange}
                   multiple
                 />
               </div>
 
               <div className="form-section hidden-for-v1">
                 <label for="difficulty">Difficulty:</label>
-                <select id="difficulty" name="difficulty">
+                <select
+                  id="difficulty"
+                  name="difficulty"
+                  value={difficultyLevel}
+                  onChange={(e) => setDifficultyLevel(e.target.value)}
+                >
                   <option value="L1">L1</option>
                   <option value="L2">L2</option>
                   <option value="L3">L3</option>
@@ -354,7 +399,12 @@ const QuestionPush = () => {
                 }`}
               >
                 <label for="topic">Topic:</label>
-                <select id="math" name="topic">
+                <select
+                  id="math"
+                  name="topic"
+                  value={mathTopic}
+                  onChange={(e) => setMathTopic(e.target.value)}
+                >
                   <option value="number_system">Number System</option>
                   <option value="profit_and_loss">Profit and Losss</option>
                   <option value="percentage">Percentage</option>
@@ -384,7 +434,12 @@ const QuestionPush = () => {
                 }`}
               >
                 <label for="topic">Topic:</label>
-                <select name="topic" id="di">
+                <select
+                  name="topic"
+                  id="di"
+                  value={diTopic}
+                  onChange={(e) => setDiTopic(e.target.value)}
+                >
                   <option value="pie_chart">Pie Chart</option>
                   <option value="bar_chart">Bar Chart</option>
                   <option value="line_chart">Line Chart</option>
@@ -397,7 +452,12 @@ const QuestionPush = () => {
                 }`}
               >
                 <label for="topic">Topic:</label>
-                <select name="topic" id="lr">
+                <select
+                  name="topic"
+                  id="lr"
+                  value={lrTopic}
+                  onChange={(e) => setLrTopic(e.target.value)}
+                >
                   <option value="coding_and_decoding">
                     Coding and Decoding
                   </option>
@@ -423,7 +483,12 @@ const QuestionPush = () => {
                 }`}
               >
                 <label for="topic">Topic:</label>
-                <select name="topic" id="varc">
+                <select
+                  name="topic"
+                  id="varc"
+                  value={varcTopic}
+                  onChange={(e) => setVarcTopic(e.target.value)}
+                >
                   <option value="sentence_correction">
                     Sentence Correction{" "}
                   </option>
@@ -444,7 +509,13 @@ const QuestionPush = () => {
                 <label for="subTopic" className="form-label">
                   SubTopic:
                 </label>
-                <select className="form-select" id="subTopic" name="subTopic">
+                <select
+                  className="form-select"
+                  id="subTopic"
+                  name="subTopic"
+                  value={varcSubTopic}
+                  onChange={(e) => setVarcSubTopic(e.target.value)}
+                >
                   <option value="subtopic1">Subtopic 1</option>
                   <option value="subject_verb_agreement">
                     Subject Verb Agreement
@@ -464,7 +535,13 @@ const QuestionPush = () => {
 
               <div className="form-section">
                 <label for="entranceExams">Entrance Exams:</label>
-                <select id="entranceExams" name="entrance_exams" multiple>
+                <select
+                  id="entranceExams"
+                  name="entrance_exams"
+                  value={entranceExams}
+                  onChange={(e) => setEntranceExams(e.target.value)}
+                  multiple
+                >
                   <option value="Gate">Gate</option>
                   <option value="JEE">JEE</option>
                   <option value="MCAT">MCAT</option>
@@ -482,7 +559,7 @@ const QuestionPush = () => {
               </div>
 
               <h2>Questions</h2>
-              {[...Array(questionCount)].map((_, index) =>
+              {[...Array(questionCount)].map((item, index) =>
                 generateQuestionSection(index + 1)
               )}
 
@@ -495,7 +572,7 @@ const QuestionPush = () => {
                 >
                   Add Question
                 </button>
-                <button type="button" onclick={resetForm}>
+                <button type="button" onClick={()=>resetForm()}>
                   Reset
                 </button>
               </div>

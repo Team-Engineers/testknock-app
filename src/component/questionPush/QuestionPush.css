@@ -2,13 +2,13 @@
 
 .question-push h1 {
   color: #333;
-  text-align: center;
+  /* text-align: center; */
 }
-
+/* 
 .question-push form {
   width: 80%;
   margin: 0 auto;
-}
+} */
 
 .question-push .form-section {
   margin-bottom: 20px;
