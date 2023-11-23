@@ -46,6 +46,11 @@ const PracticeQuestions = () => {
       if(topic === "LOGICAL_REASONING" && (subTopic === "MISCELLANEOUS" || subTopic === "ARRANGEMENTS")){
         version = "v1";
       }
+      const lastSubTopic = localStorage.getItem('currentSubTopic')
+      if(lastSubTopic && lastSubTopic !== subTopic){
+        localStorage.removeItem('currentPage')
+      }
+      localStorage.setItem('currentSubTopic', subTopic);
       try {
         const response = await axios.get(
           `${API}/${route}/question/${version}/${subTopicRoute.toLowerCase()}`
