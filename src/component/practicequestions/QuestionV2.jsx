@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./question.css";
 import { MathText } from "../mathJax/MathText";
+import { useLocation } from "react-router-dom";
 
 const QuestionV2 = ({ data }) => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -14,6 +15,28 @@ const QuestionV2 = ({ data }) => {
       .fill(null)
       .map(() => Array(10).fill(false))
   );
+  const [isMounted, setIsMounted] = useState(false);
+  const location =  useLocation();
+  useEffect(() => {
+    if (isMounted) {
+      localStorage.removeItem('currentPage');
+    }
+  }, [location.pathname, isMounted]);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const storedPage = localStorage.getItem('currentPage');
+    const parsedPage = parseInt(storedPage, 10);
+    if (!isNaN(parsedPage) && parsedPage >= 0) {
+      setCurrentPage(parsedPage);
+    } else {
+      setCurrentPage(0);
+    }
+    return () => {
+      setIsMounted(false);
+    };
+  }, []); 
+
 
   const handleOptionClick = (questionIndex, optionIndex) => {
     const updatedSelectedOption = [...selectedOption];
@@ -31,6 +54,7 @@ const QuestionV2 = ({ data }) => {
         .map(() => Array(10).fill(false))
     );
     window.scrollTo(0, 0);
+    localStorage.setItem('currentPage', pageIndex);
   };
 
   const generatePageNumbers2 = () => {
