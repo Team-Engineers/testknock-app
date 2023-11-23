@@ -3,6 +3,7 @@ import '../practicequestions/question.css'
 import { MathText } from "../mathJax/MathText";
 
 const QuestionPreview = ({ data }) => {
+  console.log("incoming data",data)
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
 
@@ -18,7 +19,7 @@ const QuestionPreview = ({ data }) => {
         
       <div className="w-100 d-flex justify-content-center mt-4 align-items-center flex-column">
         {
-        data.paragraph? (
+        data.paragraph ? (
               <div  className="question-container">
                 <div className="question-box paragraph">
                   <h6 className="mb-2 ">
@@ -132,11 +133,7 @@ const QuestionPreview = ({ data }) => {
                             </div>
                           ))}
                         </div>
-                        <button
-                          className="toggle-explanation-btn"
-                        >
-                          
-                          <div className="explanation-wrapper">
+                        <div className="explanation-wrapper">
                                 <div className="explanation">
                                   <p class="m-0 pt-3">
                                     {question.explanation.text &&
@@ -170,7 +167,6 @@ const QuestionPreview = ({ data }) => {
                                   </div>
                                 </div>
                           </div>
-                        </button>
                       </div>
                     </div>
                   ))}
@@ -186,7 +182,7 @@ const QuestionPreview = ({ data }) => {
                     <div className="question-option">
                       <div className="question">
                         <div className="question-text-container">
-                          {data.text.map((text, textIndex) => (
+                          {data.text?.map((text, textIndex) => (
                                <MathText
                               className="question-text mb-2"
                               key={textIndex}
@@ -198,7 +194,7 @@ const QuestionPreview = ({ data }) => {
                       </div>
                       <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
                         {data.images &&
-                          data.images.map((image, imageIndex) => (
+                          data.images?.map((image, imageIndex) => (
                             <img
                               className="question-image"
                               key={imageIndex}
@@ -208,7 +204,7 @@ const QuestionPreview = ({ data }) => {
                           ))}
                       </div>
                     </div>
-                    {data.options.map((option, optionIndex) => (
+                    {data.options?.map((option, optionIndex) => (
                         <div
                           key={optionIndex}
                           className={`option-box`}
@@ -231,13 +227,10 @@ const QuestionPreview = ({ data }) => {
                           </div>
                         </div>
                       ))}
-                    <button
-                      className="toggle-explanation-btn"
-                    >
-                      <div className="explanation-wrapper ">
+                    <div className="explanation-wrapper ">
                           <div className="explanation">
                             <p class="m-0 pt-3">
-                              {data.explanation.text.map((text, index) => (
+                              {data?.explanation?.text?.map((text, index) => (
                                 <MathText
                                   key={index}
                                   text={text}
@@ -246,8 +239,8 @@ const QuestionPreview = ({ data }) => {
                               ))}
                             </p>
                             <div className="d-flex justify-content-center align-items-center gap-3">
-                              {data.explanation.images &&
-                                data.explanation.images.map(
+                              {data?.explanation?.images &&
+                                data.explanation.images?.map(
                                   (explanationImage, explanationImageIndex) => (
                                     <img
                                       className="question-image"
@@ -262,7 +255,6 @@ const QuestionPreview = ({ data }) => {
                             </div>
                           </div>
                       </div>
-                    </button>
                   </div>
                 </div>
           </div>
