@@ -13,7 +13,12 @@ export const MathText = ({ text, textTag = 'p' }) => {
 
   const jsxElements = parts.map((part, index) => {
     if (index % 2 === 0) {
-      return <span key={index}>{part}</span>;
+      // return <div key = {index} dangerouslySetInnerHTML={{ __html: part }} />
+      if (part.trim() !== '') {
+        return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+      } else {
+        return null; // Skip rendering empty parts
+      }
     } else {
       return <MathComponent key={index} tex={part} display={false}  className='math-expression' />;
     }
