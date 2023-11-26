@@ -105,6 +105,8 @@ const Header = () => {
   const Navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleLogOut = () => {
@@ -151,6 +153,7 @@ const Header = () => {
         dispatch(setSliceYear(storedUserData.year));
         dispatch(setSliceInstitute(storedUserData.institute));
         dispatch(setSliceContact(storedUserData.contact));
+        setIsAdmin(storedUserData.isAdmin);
       } else {
         localStorage.removeItem("accessToken");
         Navigate("/login");
@@ -191,21 +194,34 @@ const Header = () => {
                       width="40"
                       height="40"
                       className="rounded-circle"
-                      style={{ objectFit: "cover", border: "1px solid #79090b" }}
+                      style={{
+                        objectFit: "cover",
+                        border: "1px solid #79090b",
+                      }}
                     />
                   </Link>
                   <DropdownMenu isOpen={isDropdownOpen}>
                     <ul>
                       <li>
-                        <Link to="/user"><h6 className="mb-0">Profile</h6></Link>
+                        <Link to="/user">
+                          <h6 className="mb-0">Profile</h6>
+                        </Link>
                       </li>
+                      {isAdmin ? (
+                        <li>
+                          <a href="/admin">
+                            <h6 className="mb-0">Admin Panel</h6>
+                          </a>
+                        </li>
+                      ) : (
+                        ""
+                      )}
                       <li>
-                        <button
-                          className="btn p-0 logout-btn"
-                          onClick={handleLogOut}
-                        >
-                        <h6 className="mb-0">Log Out</h6>
-                        </button>
+                        <a href = "/logout">
+                        <h6 className="mb-0" onClick={handleLogOut}>
+                          Log Out
+                        </h6>
+                        </a>
                       </li>
                     </ul>
                   </DropdownMenu>

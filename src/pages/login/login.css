@@ -95,6 +95,7 @@
     overflow: hidden;
     width: 768px;
     max-width: 100%;
+    min-height: 540px;
 }
 
 .login .form-container {
@@ -106,18 +107,8 @@
 
 .login .sign-in-container {
     left: 0;
-    width:50%;
+    width: 50%;
     z-index: 2;
-}
-
-@media screen and (max-width: 500px) {
-    .login .sign-in-container {
-    width:100%;
-    }
-    .login .container {
-    min-height: 540px;
-
-    }
 }
 
 .login .container.right-panel-active .sign-in-container {
@@ -139,7 +130,7 @@
     animation: show 0.6s;
 }
 
-.login .tiet-logo {
+.login img {
     height: 5rem;
 }
 

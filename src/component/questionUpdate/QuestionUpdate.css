@@ -1,0 +1,80 @@
+/* Style for the form container */
+.admin-questionEdit .form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  /* Style for section headings */
+ .admin-questionEdit h2 {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  
+  /* Style for form sections */
+ .admin-questionEdit .form-section {
+    margin: 10px 0;
+  }
+  
+  /* Style for labels */
+  .admin-questionEdit label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  /* Style for select elements */
+ .admin-questionEdit select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  
+  /* Style for textareas */
+ .admin-questionEdit textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  
+  /* Style for input elements */
+ .admin-questionEdit input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+  }
+  
+  /* Style for the update button */
+ .admin-questionEdit button[type="update"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Style for the hidden-for-v1 class */
+ .admin-questionEdit .hidden-for-v1 {
+    display: none;
+  }
+  
+  /* Style for the Math, DI, LR, and VARC sections */
+.admin-questionEdit  .math, .di, .lr, .varc {
+    display: none;
+  }
+  
+  /* Show the selected section */
+ .admin-questionEdit .math.show, .di.show, .lr.show, .varc.show {
+    display: block;
+  }
