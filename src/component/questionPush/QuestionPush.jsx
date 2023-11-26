@@ -3,10 +3,11 @@ import "./QuestionPush.css";
 import { useState } from "react";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
-import { API } from "../../utils/constants";
+// import { API } from "../../utils/constants";
+import QuestionPreview from "../questionUpdate/QuestionPreview";
 const QuestionPush = () => {
   const [questionCount, setQuestionCount] = useState(1);
-  const [optionCounts, setOptionCounts] = useState([5]);
+  const [optionCounts, setOptionCounts] = useState([4]);
   const [selectedVersion, setSelectedVersion] = useState("v2");
   const [selectedSubject, setSelectedSubject] = useState("math");
   const [paragraph, setParagraph] = useState("");
@@ -16,6 +17,7 @@ const QuestionPush = () => {
   const [varcTopic, setVarcTopic] = useState("sentence_correction");
   const [varcSubTopic, setVarcSubTopic] = useState("subject_verb_agreement");
   const [diTopic, setDiTopic] = useState("pie_chart");
+  const [previewData,setPreviewData] = useState("")
   // const [file, setFile] = useState("");
   const [entranceExams, setEntranceExams] = useState("Gate");
 
@@ -124,7 +126,7 @@ const QuestionPush = () => {
         className="form-section"
         key={questionNumber}
       >
-        <h2 className="hidden-for-v1">{`Question ${questionNumber}`}</h2>
+       
         <div className="question-container">
           <label for={`questionText${questionNumber}`}>
             {`Question ${questionNumber} Text`}:
@@ -133,7 +135,7 @@ const QuestionPush = () => {
             id={`questionText${questionNumber}`}
             name={`questions[${questionNumber}].text`}
             rows="5"
-            cols="80"
+            cols="50"
             required
           ></textarea>
 
@@ -183,7 +185,8 @@ const QuestionPush = () => {
             name={`explanation${questionNumber}`}
             required
             rows="5"
-            cols="80"
+            cols="50"
+            
           ></textarea>
 
           <label for="explanation1images">Upload Paragraph Images:</label>
@@ -204,7 +207,7 @@ const QuestionPush = () => {
   };
 
   const handleSubmit = async (event) => {
-    console.log("submit is clicked. Don't do anything, wait for the upload");
+    // console.log("submit is clicked. Don't do anything, wait for the upload");
     event.preventDefault();
 
     const subject = document.getElementById("subject").value;
@@ -299,30 +302,36 @@ const QuestionPush = () => {
       };
     }
 
-    const apiEndpoint = `${API}/${subject}/question/${version}`;
-    console.log("checking final data", formData, apiEndpoint);
+    // const apiEndpoint = `${API}/${subject}/question/${version}`;
+    // console.log("checking final data", formData, apiEndpoint);
+    console.log("checking final data", formData);
+    
 
-    fetch(apiEndpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("API response:", data);
-      })
-      .catch((error) => {
-        console.error("API error:", error);
-      });
+    let previewData = formData;
+    // previewData = formData.json();
+    // console.log("preview data",previewData.json())
+    setPreviewData(previewData);
+    // fetch(apiEndpoint, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("API response:", data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("API error:", error);
+    //   });
   };
 
   return (
     <section className="question-push">
       <div className="container">
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-6">
             <h2> Subject </h2>
             <div className="form-section">
               <label htmlFor="subject">Select Subject:</label>
@@ -353,45 +362,50 @@ const QuestionPush = () => {
             </div>
 
             <h1>Create a New Question</h1>
-            <form
-              id="question-form"
-               onSubmit={handleSubmit}
-            >
-              <div className="form-section hidden-for-v1">
-                <label for="paragraph">Paragraph Text:</label>
-                <textarea
-                  id="paragraph"
-                  name="paragraph"
-                  rows="5"
-                  cols="80"
-                  onChange={(e) => setParagraph(e.target.value)}
-                  value={paragraph}
-                ></textarea>
+            <form id="question-form" onSubmit={handleSubmit}>
+              {selectedVersion === "v2" ? (
+                <>
+                  <div className="form-section hidden-for-v1">
+                    <label for="paragraph">Paragraph Text:</label>
+                    <textarea
+                      id="paragraph"
+                      name="paragraph"
+                      rows="5"
+                      cols="50"
+                      onChange={(e) => setParagraph(e.target.value)}
+                      value={paragraph}
+                    ></textarea>
 
-                <label for="paragraphImages">Upload Paragraph Images:</label>
-                <input
-                  type="file"
-                  id="paragraphImages"
-                  name="paragraphImages"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  multiple
-                />
-              </div>
+                    <label for="paragraphImages">
+                      Upload Paragraph Images:
+                    </label>
+                    <input
+                      type="file"
+                      id="paragraphImages"
+                      name="paragraphImages"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      multiple
+                    />
+                  </div>
 
-              <div className="form-section hidden-for-v1">
-                <label for="difficulty">Difficulty:</label>
-                <select
-                  id="difficulty"
-                  name="difficulty"
-                  value={difficultyLevel}
-                  onChange={(e) => setDifficultyLevel(e.target.value)}
-                >
-                  <option value="L1">L1</option>
-                  <option value="L2">L2</option>
-                  <option value="L3">L3</option>
-                </select>
-              </div>
+                  <div className="form-section hidden-for-v1">
+                    <label for="difficulty">Difficulty:</label>
+                    <select
+                      id="difficulty"
+                      name="difficulty"
+                      value={difficultyLevel}
+                      onChange={(e) => setDifficultyLevel(e.target.value)}
+                    >
+                      <option value="L1">L1</option>
+                      <option value="L2">L2</option>
+                      <option value="L3">L3</option>
+                    </select>
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
 
               <div
                 className={`form-section math ${
@@ -572,11 +586,19 @@ const QuestionPush = () => {
                 >
                   Add Question
                 </button>
-                <button type="button" onClick={()=>resetForm()}>
+                <button type="button" onClick={() => resetForm()}>
                   Reset
                 </button>
               </div>
             </form>
+          </div>
+          <div className="col-md-6">
+            {
+              previewData ? (
+                <QuestionPreview data = {previewData}/>
+
+              ) : ""
+            }
           </div>
         </div>
       </div>
