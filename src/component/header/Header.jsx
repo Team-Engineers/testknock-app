@@ -47,7 +47,7 @@ const HeaderSection = styled.section`
     }
 
     .name {
-      color: inherit;
+      color: #79090b;
     }
   }
 `;
@@ -74,27 +74,24 @@ const DropdownMenu = styled.div`
     a,
     button {
       color: #79090b;
-      font-weight: bold;
+      
       text-decoration: none;
 
       &:hover {
         color: #79090b;
-        font-weight: bold;
+        
         text-decoration: bold;
       }
     }
     button.logout-btn {
       color: #79090b;
-      font-weight: bold;
-
       background: none;
       border: none;
       padding: 0;
       cursor: pointer;
 
       &:hover {
-        color: #79090b;
-        font-weight: bold;
+        color: #79090b;   
         text-decoration: none;
       }
     }
@@ -105,10 +102,11 @@ const DropdownMenu = styled.div`
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isHeaderSolid, setIsHeaderSolid] = useState(false);
-  const [isAdmin,setIsAdmin] = useState(false);
   const Navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleLogOut = () => {
@@ -155,7 +153,7 @@ const Header = () => {
         dispatch(setSliceYear(storedUserData.year));
         dispatch(setSliceInstitute(storedUserData.institute));
         dispatch(setSliceContact(storedUserData.contact));
-        setIsAdmin(storedUserData.isAdmin)
+        setIsAdmin(storedUserData.isAdmin);
       } else {
         localStorage.removeItem("accessToken");
         Navigate("/login");
@@ -185,7 +183,7 @@ const Header = () => {
               </Link>
               <div className="user-data d-flex justify-content-between gap-3 align-items-center">
                 <Link to="/user">
-                  <div className="name" style={{ color: "#79090b", fontWeight: "bold" }}>{firstName}</div>
+                  <h6 className="name mb-0">{firstName}</h6>
                 </Link>
 
                 <div className="profile-pic" onClick={handleDropdownToggle}>
@@ -195,29 +193,35 @@ const Header = () => {
                       alt="userLogo"
                       width="40"
                       height="40"
-                      className="rounded-circle border border-red"
-                      style={{ objectFit: "cover", border: "2px solid red" }}
+                      className="rounded-circle"
+                      style={{
+                        objectFit: "cover",
+                        border: "1px solid #79090b",
+                      }}
                     />
                   </Link>
                   <DropdownMenu isOpen={isDropdownOpen}>
                     <ul>
                       <li>
-                        <Link to="/user">Profile</Link>
+                        <Link to="/user">
+                          <h6 className="mb-0">Profile</h6>
+                        </Link>
                       </li>
                       {isAdmin ? (
                         <li>
-                          <Link to="/admin">Admin Panel</Link>
+                          <a href="/admin">
+                            <h6 className="mb-0">Admin Panel</h6>
+                          </a>
                         </li>
                       ) : (
                         ""
                       )}
                       <li>
-                        <button
-                          className="btn p-0 logout-btn"
-                          onClick={handleLogOut}
-                        >
+                        <a href = "/logout">
+                        <h6 className="mb-0" onClick={handleLogOut}>
                           Log Out
-                        </button>
+                        </h6>
+                        </a>
                       </li>
                     </ul>
                   </DropdownMenu>

@@ -6,7 +6,7 @@ const Footer = () => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
-  }, []); 
+  }, []);
 
   return (
     <>
@@ -16,15 +16,16 @@ const Footer = () => {
             <div class="col-lg-3 pt-5  pt-lg-0 col-sm-6">
               <div class="logo pcLogo pb-3">
                 <Link to="https://www.thapar.edu/">
-                  <img src={tietLogo} alt="Thapar-Logo" className="img-fluid"/>
+                  <img src={tietLogo} alt="Thapar-Logo" className="img-fluid" />
                 </Link>
               </div>
               <div class=" text-white pt-2 pb-3">
                 <h6 className="liWrapper">
-                  Thapar Institute of Engineering and Technology in Patiala,
-                  India, is a distinguished technical university renowned for
-                  its quality education, research, and innovation in engineering
-                  and technology fields, offering diverse programs.
+                  Thapar Institute of Engineering & Technology (TIET) in
+                  Patiala, India, is a distinguished technical university
+                  renowned for its quality education, research, and innovation
+                  in engineering and technology fields, offering diverse
+                  programs.
                 </h6>
               </div>
               <div class="social">
@@ -45,19 +46,19 @@ const Footer = () => {
 
             <div class="col-lg-3 col-sm-6">
               <div class="contactContent pt-5 pt-lg-0 text-white ps-lg-3 pe-md-2">
-                <div class="quickHeading fw-bold">Contact</div>
+                <h6 class="quickHeading fw-bold">Contact</h6>
                 <div class=" pt-lg-5 pt-sm-5 pt-3 d-flex flex-column gap-4">
                   <a href="https://www.thapar.edu/">
                     <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
                       <i class="fa-solid fa-building"></i>
-                      <h6>Thapar Institute of Engineering</h6>
+                      <h6>Centre for Training & Development (CTD)</h6>
                     </div>
                   </a>
                   <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
                     <i class="fa-solid fa-location-dot"></i>
                     <h6>
-                      P.O. Box 32, Bhadson Road, Patiala, Punjab, Pin -147004,
-                      India
+                      Thapar Institute of Engineering & Technology Bhadson Road,
+                      Patiala Punjab, 147004
                     </h6>
                   </div>
                   <a href="mailto:admissions@thapar.edu">
@@ -66,33 +67,30 @@ const Footer = () => {
                       <h6>admissions@thapar.edu</h6>
                     </h6>
                   </a>
-                  <a href="tel:18002024100">
-                    <h6 class="liWrapper d-flex justify-content-start align-items-center gap-3">
-                      <i class="fa-solid fa-phone-volume"></i>
-                      18002024100
-                    </h6>
-                  </a>
                 </div>
               </div>
             </div>
             <div class="col-lg-3 col-sm-6">
               <div class=" text-white pt-5 pt-lg-0 ps-lg-3">
-                <div class="fw-bolder quickHeading">
-                  <span>Categories</span>
-                </div>
+                <h6 className="fw-bolder quickHeading">Categories</h6>
                 <div class="pt-sm-5 pt-lg-5 pt-3 d-flex flex-column gap-4">
                   <Link to="/QUANTITATIVE_APTITUDE">
-                    <h6 className="liWrapper">Quantitative Aptitude</h6>
+                    <h6 className="liWrapper d-flex justify-content-start  align-items-center gap-3">
+                    <i class="fa-solid fa-file"></i>Quantitative Aptitude</h6>
                   </Link>
+
                   <Link to="/DATA_INTERPRETATION">
-                    <h6 className="liWrapper">Data Interpretation</h6>
+                    <h6 className="liWrapper d-flex justify-content-start  align-items-center gap-3">
+                    <i class="fa-solid fa-file"></i>Data Interpretation</h6>
                   </Link>
+
                   <Link to="/LOGICAL_REASONING">
-                    <h6 className="liWrapper">Logical Reasoning</h6>
+                    <h6 className="liWrapper d-flex justify-content-start  align-items-center gap-3">
+                    <i class="fa-solid fa-file"></i>Logical Reasoning</h6>
                   </Link>
                   <Link to="/VERBAL_ABILITY_AND_READING_COMPREHENSION">
-                    <h6 className="liWrapper">
-                      Verbal Ability &amp; Reading Comprehension
+                    <h6 className="liWrapper d-flex justify-content-start  align-items-center gap-3 mb-0">
+                    <i class="fa-solid fa-file"></i> Verbal Ability &amp; Reading Comprehension
                     </h6>
                   </Link>
                 </div>
@@ -100,32 +98,32 @@ const Footer = () => {
             </div>
             <div class="col-lg-3 col-sm-6">
               <div class=" text-white pt-5 pt-lg-0  pe-md-2">
-                <div class=" fw-bold">Any Technical Issue?</div>
+                <h6 class="quickHeading fw-bold">Any Technical Issue?</h6>
                 <div class="pt-sm-5 pt-lg-5 pt-3 d-flex flex-column gap-4">
-                  <a href="https://www.templeoflearning.in/">
+                  <a href="https://testknock.com/">
                     <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
                       <i class="fa-solid fa-building"></i>
-                      <h6>Temple Of Learning</h6>
+                      <h6>TestKnock Technologies</h6>
                     </div>
                   </a>
                   <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
                     <i class="fa-solid fa-location-dot"></i>
                     <h6>
-                      Head Office L-3, Kanchanjunga Building Barakhamba Road,
-                      Connaught Place New Delhi - 110001
+                      Office No. - 42, Durga Vihar Near Amrapali Saphhire
+                      Sector-45, Noida, 201301
                     </h6>
                   </div>
-                  <a href="mailto:info@templeoflearning.com">
+                  <a href="mailto:info@testknock.com">
                     <div class=" liWrapper mb-0 d-flex justify-content-start  align-items-center gap-3">
                       <i class="fa-solid fa-paper-plane"></i>
-                      <h6>info@templeoflearning.com</h6>
+                      <h6>info@testknock.com</h6>
                     </div>
                   </a>
-                  <a href="tel:9810033495">
+                  <a href="tel:9953617456">
                     <div class="liWrapper d-flex justify-content-start align-items-center gap-3">
                       <i class="fa-solid fa-phone-volume"></i>
                       <h6 className="d-flex justify-content-center align-items-center">
-                        +91- 98100 33495<br></br> 011-45 019 365
+                        +91- 9953617456<br></br>
                       </h6>
                     </div>
                   </a>
@@ -140,11 +138,11 @@ const Footer = () => {
         <div class="container">
           <div class="row  text-white">
             <div class="col-md-12 ">
-              <div class="row pt-2">
+              <div class="row py-2">
                 <div class="col-lg-4 order-3 order-md-1">
-                  <h6 class="condition ">
+                  <h6 className="condition mb-0">
                     <i class="fa-regular fa-copyright"></i>
-                    Thapar Institute of Engineering {currentYear}
+                    Thapar Institute of Engineering & Technology {currentYear}
                   </h6>
                 </div>
                 <div class="col-lg-4 order-1 order-md-2 ">
@@ -155,8 +153,8 @@ const Footer = () => {
                 <div class="col-lg-4 order-2 order-md-3">
                   <h6 class="  condition">
                     Website Designed by{" "}
-                    <Link to="https://www.templeoflearning.in/" target = "_blank">
-                     Temple Of Learning
+                    <Link to="https://testknock.com/" target="_blank">
+                      TestKnock Technologies
                     </Link>
                   </h6>
                 </div>

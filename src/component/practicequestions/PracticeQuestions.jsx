@@ -37,7 +37,8 @@ const PracticeQuestions = () => {
 
       if(topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION" && (subTopic === "IDIOMS_AND_PHRASES" ||
       subTopic === "SYNONYMS" ||
-      subTopic === "ANTONYMS")){
+      subTopic === "ANTONYMS" ||
+      subTopic === "ONE_WORD_SUBSTITUTION")){
         subTopicRoute = `sub/vocabulary/${subTopic.toLowerCase()}`
       }
       if (topic === "DATA_INTERPRETATION") {
@@ -46,6 +47,11 @@ const PracticeQuestions = () => {
       if(topic === "LOGICAL_REASONING" && (subTopic === "MISCELLANEOUS" || subTopic === "ARRANGEMENTS")){
         version = "v1";
       }
+      const lastSubTopic = localStorage.getItem('currentSubTopic')
+      if(lastSubTopic && lastSubTopic !== subTopic){
+        localStorage.removeItem('currentPage')
+      }
+      localStorage.setItem('currentSubTopic', subTopic);
       try {
         const response = await axios.get(
           `${API}/${route}/question/${version}/${subTopicRoute.toLowerCase()}`

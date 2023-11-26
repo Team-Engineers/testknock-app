@@ -5,28 +5,6 @@ import styled from "styled-components";
 import { subtopicsData } from "../../utils/constants";
 import { useParams } from "react-router-dom";
 
-const TopicCard = styled.li`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 11rem;
-  width: 13rem;
-  border: 1px solid #bababa;
-  border-radius: 10px;
-  &:hover {
-    background-color: ;
-    color: white;
-  }
-  &:hover a {
-    color: white;
-  }
-  img {
-    width: 6rem;
-    height: 6rem;
-    object-fit: cover;
-  }
-`;
 
 const Wrapper = styled.ul`
   display: flex;
@@ -49,17 +27,9 @@ const Box = styled.div`
   gap: 1rem;
 `;
 
-const Box1 = styled.div`
-  width: 6rem;
-`;
-const Box2 = styled.h6`
-  width: 12rem;
-  margin-bottom: 0px;
-  text-transform: uppercase;
-  overflow-wrap: break-word;
-`;
 
-//
+
+
 const SubTopics = (props) => {
   const selectedSubTopics = subtopicsData[props.topic] || [];
   let imageIndex = 1;
@@ -100,18 +70,18 @@ const SubTopics = (props) => {
                     )}`}
                     key={index}
                   >
-                    <TopicCard>
+                    <li className = "topic-card">
                       <Box>
-                        <Box1>
+                        <div className="topic-image">
                           <img
                             src={require(`../../assets/images/subTopicLogo/${imagePath}`)}
                             alt="subtopic-logo"
                             className="img-fluid"
                           />
-                        </Box1>
-                        <Box2>{subtopic}</Box2>
+                        </div>
+                        <h6>{subtopic}</h6>
                       </Box>
-                    </TopicCard>
+                    </li>
                   </Link>
                 );
               })}

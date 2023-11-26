@@ -138,7 +138,7 @@ const QuestionPreview = ({ data }) => {
                           
                           <div className="explanation-wrapper">
                                 <div className="explanation">
-                                  <p class="m-0 pt-3">
+                                  <p class="m-0 text-left pt-3">
                                     {question.explanation.text &&
                                       question.explanation.text.map(
                                         (text, index) => (
@@ -236,7 +236,7 @@ const QuestionPreview = ({ data }) => {
                     >
                       <div className="explanation-wrapper ">
                           <div className="explanation">
-                            <p class="m-0 pt-3">
+                            <p class="m-0 pt-3 text-start">
                               {data.explanation.text.map((text, index) => (
                                 <MathText
                                   key={index}

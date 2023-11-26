@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./QuizQuestions.css";
 import { Modal, Button } from "react-bootstrap";
 import giphy from "../../assets/images/giphy.gif";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { API } from "../../utils/constants";
 import axios from "axios";
 import TietLoader from "../Loader/Loader";
@@ -261,8 +261,10 @@ const QuizQuestions = () => {
       ) : data.length > 0 ? (
         <div className="mcq-section">
           <div className={`timer ${testSubmitted ? "d-none" : ""}`}>
-            Time Remaining: {Math.floor(timer / 60)}:{timer % 60}
+            Time Remaining: {Math.floor(timer / 60)}:
+            {(timer % 60).toString().padStart(2, "0")}
           </div>
+
           {data[0].paragraph ? (
             data.slice(0, 2).map((item, itemIndex) => (
               <div key={itemIndex} className="question-container">
@@ -404,7 +406,7 @@ const QuizQuestions = () => {
                         style={{ margin: "10px" }}
                       >
                         <button
-                          className="toggle-explanation-btn"
+                          className="btn-tertiary"
                           onClick={() =>
                             toggleExplanationVisibilityPara(
                               itemIndex,
@@ -471,7 +473,10 @@ const QuizQuestions = () => {
                       questionIndex + 1
                     }`}</h6>
                     <p className="subtopic-name">
-                      Subtopic - {question.topic === "vocabulary" ? question.subTopic.split("_").join(" ") : question.topic.split("_").join(" ")}
+                      Subtopic -{" "}
+                      {question.topic === "vocabulary"
+                        ? question.subTopic.split("_").join(" ")
+                        : question.topic.split("_").join(" ")}
                     </p>
 
                     {question.text.map((text, textIndex) => (
@@ -565,7 +570,7 @@ const QuizQuestions = () => {
                     style={{ margin: "10px" }}
                   >
                     <button
-                      className="toggle-explanation-btn"
+                      className="btn-tertiary"
                       onClick={() => toggleExplanationVisibility(questionIndex)}
                     >
                       {explanationsVisible[questionIndex]
@@ -612,23 +617,22 @@ const QuizQuestions = () => {
 
       {data.length > 0 ? (
         testSubmitted ? (
-          <div>
+          <div className="d-flex justify-content-center align-items-center gap-5">
             <button
-              className="retake-button btn mb-4"
+              className="retake-button btn btn-primary"
               onClick={handleRetakeTest}
             >
               Take New Test
             </button>
-            <a
-              className="home-button btn mb-4"
-              href="/"
-              style={{ marginLeft: "50px" }}
-            >
+            <Link className="home-button btn btn-primary" to="/">
               Home
-            </a>
+            </Link>
           </div>
         ) : (
-          <button className="submit-button btn  mb-4" onClick={handleSubmit}>
+          <button
+            className="submit-button btn btn-primary"
+            onClick={handleSubmit}
+          >
             Submit
           </button>
         )
@@ -644,13 +648,20 @@ const QuizQuestions = () => {
         dialogClassName="warning-modal-dialog"
       >
         <Modal.Body>
-          <p className="bold-text">Time is Left !!!</p>
-          <p className="bold-text">Do you want still want to continue?</p>
+          <h6 className="bold-text mb-2">You've got time left.</h6>
+          <h6 className="bold-text mb-2">{`Time remains ${Math.floor(timer / 60)}:${timer % 60}`}</h6>
+          <h6 className="bold-text">Do you want still want to continue?</h6>
           <div className="modal-buttons">
-            <Button variant="secondary" onClick={handleCloseWarningModal}>
+            <Button
+              className="btn btn-primary"
+              onClick={handleCloseWarningModal}
+            >
               Cancel
             </Button>
-            <Button variant="primary" onClick={handleShowSubmissionModal}>
+            <Button
+              className="btn btn-primary"
+              onClick={handleShowSubmissionModal}
+            >
               Submit Anyway
             </Button>
           </div>
@@ -673,16 +684,16 @@ const QuizQuestions = () => {
             Wrong Answers: {wrongAnswers}
           </p>
           <p className="unattempted-answers orange-text">
-            Unattempted Answers: {unattemptedAnswers}
+            Unattempted Questions: {unattemptedAnswers}
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={handleCloseSubmissionModal}>
+          <Button className="btn-primary" onClick={handleCloseSubmissionModal}>
             Review Test
           </Button>
-          <a className="gohome" href="/">
-            <Button variant="secondary">Home</Button>
-          </a>
+          <Link className="gohome" to="/">
+            <Button className="btn-primary">Home</Button>
+          </Link>
         </Modal.Footer>
       </Modal>
     </section>

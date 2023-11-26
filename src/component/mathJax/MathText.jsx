@@ -9,7 +9,6 @@ export const MathText = ({ text, textTag = 'p' }) => {
     text = text[0];
   }
 
-  // Check if < > tags are present in the text
   const hasHTMLTags = /<.*?>/.test(text);
 
   if (hasHTMLTags) {

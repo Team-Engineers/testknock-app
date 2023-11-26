@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 import Loader from "../../component/Loader/Loader";
+import Footer from '../../component/footer/Footer'
 import {
   setSliceEmail,
   setSliceName,
@@ -24,7 +25,6 @@ import { useCallback } from "react";
 const UserProfile = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  // const [profilePic, setProfilePic] = useState(null);
   const [branch, setBranch] = useState("");
   const [year, setYear] = useState("");
   const [contact, setContact] = useState("");
@@ -128,7 +128,6 @@ const UserProfile = () => {
       setVarcProgress(varcProgress);
       setLrProgress(lrProgress);
     } catch (error) {
-      // console.error("Error calculating questions length:", error);
     }
   }, []);
 
@@ -169,7 +168,6 @@ const UserProfile = () => {
 
         const downloadURL = await fileRef.getDownloadURL();
 
-        // setProfilePic(downloadURL);
         const updatedUserData = {
           ...storedUserData,
           profilePic: downloadURL,
@@ -267,7 +265,6 @@ const UserProfile = () => {
     setGithub(storedUserData.social.github);
     setLinkedin(storedUserData.social.linkedin);
     setPortfolio(storedUserData.social.portfolio);
-    // setProfilePic(storedUserData.profilePic);
     calculateQuestionsLength();
   }, [calculateQuestionsLength]);
 
@@ -288,10 +285,10 @@ const UserProfile = () => {
                         <img
                           src={sliceProfile}
                           alt="user"
-                          class="rounded-circle p-1 border border-primary"
+                          class="rounded-circle p-1 "
                           width="110"
                           height="110"
-                          style={{ objectFit: "cover" }}
+                          style={{ objectFit: "cover", border: "1px solid #79090b"  }}
                         />
                         <div class="mt-3">
                           <h4>{sliceName}</h4>
@@ -300,8 +297,8 @@ const UserProfile = () => {
                       <hr class="my-4" />
                       <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                          <Link class="text-secondary" to={portfolio}>
-                            <h6 class="mb-0">
+                          <Link to={portfolio}>
+                            <h6 class="mb-0 text-black">
                               <i class="fa-solid fa-globe me-2"></i>
                               Portfolio
                             </h6>
@@ -321,8 +318,8 @@ const UserProfile = () => {
                           </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                          <Link class="text-secondary" to={github}>
-                            <h6 class="mb-0">
+                          <Link to={github}>
+                            <h6 class="mb-0 text-black">
                               <i class="fa-brands me-2 fa-github"></i>
                               Github
                             </h6>
@@ -342,8 +339,8 @@ const UserProfile = () => {
                           </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                          <Link class="text-secondary" to={linkedin}>
-                            <h6 class="mb-0">
+                          <Link to={linkedin}>
+                            <h6 class="mb-0 text-black">
                               <i class="fa-brands me-2 fa-linkedin"></i>
                               Linkedin
                             </h6>
@@ -381,9 +378,9 @@ const UserProfile = () => {
                     <div class="card-body">
                       <div class="row mb-3">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Name</h6>
+                          <h6 class="mb-0 text-black">Name</h6>
                         </div>
-                        <div class="col-sm-9 text-secondary">
+                        <div class="col-sm-9 text-secondary text-center">
                           <input
                             type="text"
                             class="form-control"
@@ -396,7 +393,7 @@ const UserProfile = () => {
                       </div>
                       <div class="row mb-3">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Email</h6>
+                          <h6 class="mb-0 text-black">Email</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <input
@@ -411,7 +408,7 @@ const UserProfile = () => {
                       </div>
                       <div class="row mb-3">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Profile Pic</h6>
+                          <h6 class="mb-0 text-black">Profile Pic</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <input
@@ -424,7 +421,7 @@ const UserProfile = () => {
 
                       <div class="row mb-3">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Branch</h6>
+                          <h6 class="mb-0 text-black">Branch</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <input
@@ -439,7 +436,7 @@ const UserProfile = () => {
                       </div>
                       <div class="row mb-3">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Year</h6>
+                          <h6 class="mb-0 text-black">Year</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <input
@@ -454,7 +451,7 @@ const UserProfile = () => {
                       </div>
                       <div class="row mb-3">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Insitute</h6>
+                          <h6 class="mb-0 text-black">Insitute</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <input
@@ -470,7 +467,7 @@ const UserProfile = () => {
 
                       <div class="row mb-3">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Mobile</h6>
+                          <h6 class="mb-0 text-black">Mobile</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
                           <input
@@ -555,6 +552,7 @@ const UserProfile = () => {
               </div>
             </div>
           </div>
+          <Footer/>
         </>
       )}
     </section>
