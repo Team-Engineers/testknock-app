@@ -12,6 +12,7 @@ const PracticeQuestions = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { topic, subTopic } = useParams();
+  const [useMathJx, setUseMathJx] = useState("false");
 
   useEffect(() => {
     setIsLoading(true);
@@ -22,7 +23,10 @@ const PracticeQuestions = () => {
         subTopicRoute = "simple_interest_and_compound_interest";
       if (subTopic === "NUMBER_OR_ALPHABET_SERIES")
         subTopicRoute = "number_alphabet_series";
-      if (topic === "QUANTITATIVE_APTITUDE") route = "math";
+      if (topic === "QUANTITATIVE_APTITUDE"){
+        route = "math";
+        setUseMathJx("true");
+      }
       if (topic === "DATA_INTERPRETATION") route = "di";
       if (topic === "VERBAL_ABILITY_AND_READING_COMPREHENSION") route = "varc";
       if (topic === "LOGICAL_REASONING") route = "lr";
@@ -73,7 +77,7 @@ const PracticeQuestions = () => {
               <RecommendedSubTopics />
             </div>
             <div className="col-lg-8">
-              <QuestionV2 data={data} />
+              <QuestionV2 data={data} useMathJx = {useMathJx}/>
             </div>
           </div>
         </div>

@@ -3,7 +3,6 @@ import axios from "axios";
 import _ from "lodash";
 import "./QuestionUpdate.css";
 import { API } from "../../utils/constants";
-import { MathText } from "../mathJax/MathText";
 import QuestionPreview from "./QuestionPreview";
 
 const QuestionUpdate = () => {
@@ -11,6 +10,7 @@ const QuestionUpdate = () => {
   const [collection, setCollection] = useState("math");
   const [questionId, setQuestionId] = useState("");
   const [questionData, setQuestionData] = useState(null);
+  const [useMathJx, setUseMathJx] = useState("false");
 
   const handleVersionChange = (event) => {
     setVersion(event.target.value);
@@ -31,8 +31,26 @@ const QuestionUpdate = () => {
       const response = await axios.get(
         `${API}/${collection}/question/${version}/getById/${questionId}`
       );
+
       console.log("fetched Question", response.data);
       setQuestionData(response.data);
+      const data = response.data;
+      console.log("data ka otpic",data.topic)
+      if (
+        data.topic === "number_system" ||
+        data.topic === "profit_and_loss" ||
+        data.topic === "percentage" ||
+        data.topic === "average" ||
+        data.topic === "simple_interest_and_compound_interest" ||
+        data.topic === "partnership" ||
+        data.topic === "ratio_and_proportion" ||
+        data.topic === "time_and_work" ||
+        data.topic === "time_speed_and_distance" ||
+        data.topic === "probability" ||
+        data.topic === "permutation_and_combination"
+      ) {
+        setUseMathJx("true");
+      }
     } catch (error) {
       console.error("Error fetching question data:", error);
     }
@@ -253,12 +271,12 @@ const QuestionUpdate = () => {
                         }
                       />
                       <div>
-                        <label>Explanation Preview:</label>
+                        {/* <label>Explanation Preview:</label>
                         <MathText
                           className="mb-2"
                           text={explanationText}
                           textTag="h6"
-                        />
+                        /> */}
                       </div>
                     </div>
                   ))}
@@ -313,14 +331,10 @@ const QuestionUpdate = () => {
             </form>
           </div>
           <div className="col-md-6">
-            {questionData ? <QuestionPreview data={questionData} /> : ""}
+            {questionData ? <QuestionPreview data={questionData} useMathJx={useMathJx}/> : ""}
           </div>
         </div>
       </div>
-
-      {/* {Array.isArray(questionData) && questionData.length > 0 && <QuestionV2 data={questionData} />} */}
-
-      {/* {questionData ? <QuestionV2 data={dataArray} /> : ""} */}
     </div>
   );
 };

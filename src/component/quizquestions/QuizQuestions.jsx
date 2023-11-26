@@ -16,6 +16,8 @@ const QuizQuestions = () => {
   const [wrongAnswers, setWrongAnswers] = useState(0);
   const [unattemptedAnswers, setUnattemptedAnswers] = useState(0);
   const [correctAnswersArray, setCorrectAnswersArray] = useState([]);
+  const [useMathJx, setUseMathJx] = useState("false");
+
   const [explanationsVisible, setExplanationsVisible] = useState(
     Array(10).fill(false)
   );
@@ -45,7 +47,7 @@ const QuizQuestions = () => {
       try {
         let version = "v2";
         if (topic === "di") version = "v1";
-
+        if(topic === "math") setUseMathJx("true")
         const response = await axios.get(
           `${API}/${topic}/question/${version}/l1/random`
         );
@@ -279,11 +281,22 @@ const QuizQuestions = () => {
                       Subtopic - {item.topic?.split("_").join(" ")}
                     </p>
                     <div className="question-text ">
-                      {item.paragraph.map((paragraph, paraindex) => (
-                        <h6 className="mb-2" key={paraindex}>
-                          {paragraph}
-                        </h6>
-                      ))}
+                      {item.paragraph.map((paragraph, paraindex) =>
+                        useMathJx === "true" ? (
+                          <MathText
+                            className="mb-2"
+                            key={paraindex}
+                            text={paragraph}
+                            textTag="h6"
+                          />
+                        ) : (
+                          <h6
+                            dangerouslySetInnerHTML={{ __html: paragraph }}
+                            className="mb-2"
+                            key={paraindex}
+                          />
+                        )
+                      )}
                     </div>
                   </div>
                   <div className="d-flex justify-content-center align-items-center gap-3">
@@ -306,14 +319,22 @@ const QuizQuestions = () => {
                           questionIndex + 1
                         }`}</h6>
 
-                        {question.text.map((text, textIndex) => (
-                          <MathText
-                            key={textIndex}
-                            className="mb-2"
-                            text={text}
-                            textTag="h6"
-                          />
-                        ))}
+                        {question.text.map((text, textIndex) =>
+                          useMathJx === "true" ? (
+                            <MathText
+                              className="question-text mb-2"
+                              key={textIndex}
+                              text={text}
+                              textTag="h6"
+                            />
+                          ) : (
+                            <h6
+                              className="question-text mb-2"
+                              key={textIndex}
+                              dangerouslySetInnerHTML={{ __html: text }}
+                            />
+                          )
+                        )}
                       </div>
                       <div className="images-container">
                         {question.images.map((image, imageIndex) => (
@@ -362,11 +383,16 @@ const QuizQuestions = () => {
                                   {String.fromCharCode(65 + optionIndex)}{" "}
                                 </h6>
                                 <div className="option-container">
-                                  <MathText
-                                    className="option-text"
-                                    text={option.text}
-                                    textTag="h6"
-                                  />
+                                  {useMathJx === "true" ? (
+                                    <MathText text={option.text} textTag="h6" />
+                                  ) : (
+                                    <h6
+                                      dangerouslySetInnerHTML={{
+                                        __html: option.text,
+                                      }}
+                                    />
+                                  )}
+
                                   {option.image && (
                                     <img
                                       src={option.image}
@@ -427,11 +453,18 @@ const QuizQuestions = () => {
                                 <p>
                                   {question.explanation.text.map(
                                     (text, index) => (
-                                      <MathText
-                                        key={index}
-                                        text={text}
-                                        textTag="h6"
-                                      />
+                                      useMathJx === "true" ? (
+                                        <MathText
+                                          text={text}
+                                          key={index}
+                                          textTag="h6"
+                                        />
+                                      ) : (
+                                        <h6
+                                          dangerouslySetInnerHTML={{ __html: text }}
+                                          key={index}
+                                        />
+                                      )
                                     )
                                   )}
                                 </p>
@@ -471,16 +504,27 @@ const QuizQuestions = () => {
                       questionIndex + 1
                     }`}</h6>
                     <p className="subtopic-name">
-                      Subtopic - {question.topic === "vocabulary" ? question.subTopic.split("_").join(" ") : question.topic.split("_").join(" ")}
+                      Subtopic -{" "}
+                      {question.topic === "vocabulary"
+                        ? question.subTopic.split("_").join(" ")
+                        : question.topic.split("_").join(" ")}
                     </p>
 
                     {question.text.map((text, textIndex) => (
-                      <MathText
-                        key={textIndex}
-                        className="mb-2"
-                        text={text}
-                        textTag="h6"
-                      />
+                      useMathJx === "true" ? (
+                        <MathText
+                          className="question-text mb-2"
+                          key={textIndex}
+                          text={text}
+                          textTag="h6"
+                        />
+                      ) : (
+                        <h6
+                          className="question-text mb-2"
+                          key={textIndex}
+                          dangerouslySetInnerHTML={{ __html: text }}
+                        />
+                      )
                     ))}
                   </div>
                   <div className="images-container">
@@ -524,11 +568,11 @@ const QuizQuestions = () => {
                               {String.fromCharCode(65 + optionIndex)}{" "}
                             </h6>
                             <div className="option-container">
-                              <MathText
-                                className="option-text"
-                                text={option.text}
-                                textTag="h6"
-                              />
+                            {useMathJx === "true" ? (
+                        <MathText text={option.text} textTag="h6" />
+                      ) : (
+                        <h6 dangerouslySetInnerHTML={{ __html: option.text }} />
+                      )}
                               {option.image && (
                                 <img
                                   src={option.image}
@@ -578,7 +622,14 @@ const QuizQuestions = () => {
                         <div className="explanation">
                           <p>
                             {question.explanation.text.map((text, index) => (
-                              <MathText key={index} text={text} textTag="h6" />
+                              useMathJx === "true" ? (
+                                <MathText key={index} text={text} textTag="h6" />
+                              ) : (
+                                <h6
+                                  key={index}
+                                  dangerouslySetInnerHTML={{ __html: text }}
+                                />
+                              )
                             ))}
                           </p>
 

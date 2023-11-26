@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./question.css";
 import { MathText } from "../mathJax/MathText";
 
-const QuestionV2 = ({ data }) => {
+const QuestionV2 = ({ data, useMathJx }) => {
   const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   const [selectedOption, setSelectedOption] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -133,14 +133,22 @@ const QuestionV2 = ({ data }) => {
                         itemIndex + 1 + currentPage
                       } `}</span>
                       <div className="question-text ">
-                        {item.paragraph.map((paragraph, paraindex) => (
-                          <MathText
-                            className="mb-2"
-                            key={paraindex}
-                            text={paragraph}
-                            textTag="h6"
-                          />
-                        ))}
+                        {item.paragraph.map((paragraph, paraindex) =>
+                          useMathJx === "true" ? (
+                            <MathText
+                              className="mb-2"
+                              key={paraindex}
+                              text={paragraph}
+                              textTag="h6"
+                            />
+                          ) : (
+                            <h6
+                              dangerouslySetInnerHTML={{ __html: paragraph }}
+                              className="mb-2"
+                              key={paraindex}
+                            />
+                          )
+                        )}
                       </div>
                     </div>
                     <div className="d-flex justify-content-center align-items-center gap-3">
@@ -165,14 +173,22 @@ const QuestionV2 = ({ data }) => {
                                 questionIndex + 1
                               } `}</span>
                               <div>
-                                {question.text.map((text, textIndex) => (
-                                  <MathText
-                                    className="question-text mb-2"
-                                    key={textIndex}
-                                    text={text}
-                                    textTag="h6"
-                                  />
-                                ))}
+                                {question.text.map((text, textIndex) =>
+                                  ( useMathJx === "true" ? (
+                                    <MathText
+                                      className="question-text mb-2"
+                                      key={textIndex}
+                                      text={text}
+                                      textTag="h6"
+                                    />
+                                  ) : (
+                                    <h6
+                                      className="question-text mb-2"
+                                      key={textIndex}
+                                      dangerouslySetInnerHTML={{ __html: text }}
+                                    />
+                                  ))
+                                )}
                               </div>
                             </div>
                             <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
@@ -264,13 +280,21 @@ const QuestionV2 = ({ data }) => {
                                   <p class="m-0 pt-3">
                                     {question.explanation.text &&
                                       question.explanation.text.map(
-                                        (text, index) => (
-                                          <MathText
-                                            text={text}
-                                            key={index}
-                                            textTag="h6"
-                                          />
-                                        )
+                                        (text, index) =>
+                                          useMathJx === "true" ? (
+                                            <MathText
+                                              text={text}
+                                              key={index}
+                                              textTag="h6"
+                                            />
+                                          ) : (
+                                            <h6
+                                              dangerouslySetInnerHTML={{
+                                                __html: text,
+                                              }}
+                                              key={index}
+                                            />
+                                          )
                                       )}
                                   </p>
                                   <div className="d-flex justify-content-center align-items-center gap-3">
@@ -343,19 +367,27 @@ const QuestionV2 = ({ data }) => {
                     <div className="question-option">
                       <div className="question">
                         <div className="question-number-container">
-                          <span className={`question-number id-${question._id}`}>{`${
-                            questionIndex + 1 + currentPage * 5
-                          } `}</span>
+                          <span
+                            className={`question-number id-${question._id}`}
+                          >{`${questionIndex + 1 + currentPage * 5} `}</span>
                         </div>
                         <div className="question-text-container">
-                          {question.text.map((text, textIndex) => (
-                            <MathText
-                              className="question-text mb-2"
-                              key={textIndex}
-                              text={text}
-                              textTag="h6"
-                            />
-                          ))}
+                          {question.text.map((text, textIndex) =>
+                            useMathJx === "true" ? (
+                              <MathText
+                                className="question-text mb-2"
+                                key={textIndex}
+                                text={text}
+                                textTag="h6"
+                              />
+                            ) : (
+                              <h6
+                                className="question-text mb-2"
+                                key={textIndex}
+                                dangerouslySetInnerHTML={{ __html: text }}
+                              />
+                            )
+                          )}
                         </div>
                       </div>
                       <div className="d-flex justify-content-center align-items-center gap-3 mb-3">
@@ -387,7 +419,15 @@ const QuestionV2 = ({ data }) => {
                             {alphabets[optionIndex]}
                           </span>
                           <div className="d-flex align-items-center justify-content-start gap-3 w-100 align-items-center ">
-                            <MathText text={option.text} textTag="h6" />
+                            {useMathJx === "true" ? (
+                              <MathText text={option.text} textTag="h6" />
+                            ) : (
+                              <h6
+                                dangerouslySetInnerHTML={{
+                                  __html: option.text,
+                                }}
+                              />
+                            )}
                             {option.image ? (
                               <img
                                 className="question-image"
@@ -433,9 +473,20 @@ const QuestionV2 = ({ data }) => {
                       {explanationsVisible[questionIndex] && (
                         <div className="explanation">
                           <p class="m-0 pt-3">
-                            {question.explanation.text.map((text, index) => (
-                              <MathText key={index} text={text} textTag="h6" />
-                            ))}
+                            {question.explanation.text.map((text, index) =>
+                              useMathJx === "true" ? (
+                                <MathText
+                                  key={index}
+                                  text={text}
+                                  textTag="h6"
+                                />
+                              ) : (
+                                <h6
+                                  key={index}
+                                  dangerouslySetInnerHTML={{ __html: text }}
+                                />
+                              )
+                            )}
                           </p>
                           <div className="d-flex justify-content-center align-items-center gap-3">
                             {question.explanation.images &&
