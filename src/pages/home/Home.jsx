@@ -6,12 +6,12 @@ import NewHome from "../../component/newhome/NewHome";
 
 const Home = () => {
   return (
-    <>
+    <section style = {{backgroundColor:"#fff7f7"}}>
       <Header />
       <Banner />
       <NewHome/>
       <Footer />
-    </>
+    </section>
   );
 };
 

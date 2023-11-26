@@ -16,6 +16,12 @@ export const subtopicsData = {
       "PROBABILITY",
       "PERMUTATION AND COMBINATION",
     ],
+    "DATA_INTERPRETATION": [
+      "BAR CHART",
+      "PIE CHART",
+      "TABLE CHART",
+      "LINE CHART",
+    ],
     "LOGICAL_REASONING": [
       "CODING AND DECODING",
       "FAMILY TREE AND BLOOD RELATIONS",
@@ -35,13 +41,10 @@ export const subtopicsData = {
       "SYLLOGISMS",
       "SYNONYMS",
       "ANTONYMS",
+      "ONE WORD SUBSTITUTION",
       "IDIOMS AND PHRASES",   
       "ANALOGY",
+      
     ],
-    "DATA_INTERPRETATION": [
-      "BAR CHART",
-      "PIE CHART",
-      "TABLE CHART",
-      "LINE CHART",
-    ],
+
   };

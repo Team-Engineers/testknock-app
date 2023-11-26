@@ -10,3 +10,34 @@
     width: 100%;
     height: 100vh;
   }
+  @keyframes moveUpDown {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(8px);
+    }
+  }
+  
+  .fa-arrow-down {
+    animation: moveUpDown 1s infinite; 
+  }
+
+  @keyframes moveRightLeft {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(8px); 
+    }
+  }
+  
+  .fa-arrow-right {
+    animation: moveRightLeft 1s infinite; /* Adjust the duration as needed */
+  }
+
+
+  .fa-arrow-right:hover{
+    animation: none ;
+    transition: none;
+  }
