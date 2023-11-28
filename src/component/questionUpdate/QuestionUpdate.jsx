@@ -144,7 +144,7 @@ const QuestionUpdate = () => {
               <div key={index} className="my-3">
                 <img
                   src={image || ""}
-                  alt={`paragraph-image-${index + 1}`}
+                  alt={`paragraph-img-${index + 1}`}
                   style={{ maxWidth: "200px", maxHeight: "200px" }}
                 />
                 <input
