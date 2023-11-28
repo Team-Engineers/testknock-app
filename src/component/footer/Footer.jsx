@@ -146,12 +146,12 @@ const Footer = () => {
                   </h6>
                 </div>
                 <div class="col-lg-4 order-1 order-md-2 ">
-                  <h6 class="  condition">
+                  <h6 class="condition">
                     Terms and Conditions | Privacy Policy
                   </h6>
                 </div>
                 <div class="col-lg-4 order-2 order-md-3">
-                  <h6 class="  condition">
+                  <h6 class="condition">
                     Website Designed by{" "}
                     <Link to="https://testknock.com/" target="_blank">
                       TestKnock Technologies
