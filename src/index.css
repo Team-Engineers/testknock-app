@@ -8,6 +8,11 @@ a {
   text-decoration: none;
 }
 
+.text-default{
+  color: #79090b;
+  font-weight: bold;
+}
+
 .btn-primary {
   color: white;
   background-color: #9d3535;

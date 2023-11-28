@@ -3,8 +3,9 @@ import axios from "axios";
 import _ from "lodash";
 import "./QuestionUpdate.css";
 import { API } from "../../utils/constants";
-import { MathText } from "../mathJax/MathText";
 import QuestionPreview from "./QuestionPreview";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
 
 const QuestionUpdate = () => {
   const [version, setVersion] = useState("v1");
@@ -26,7 +27,7 @@ const QuestionUpdate = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+    
     try {
       const response = await axios.get(
         `${API}/${collection}/question/${version}/getById/${questionId}`
@@ -38,13 +39,13 @@ const QuestionUpdate = () => {
     }
   };
 
-    const handleInputChange = (field, value) => {
-      setQuestionData((prevData) => {
-        const newData = _.cloneDeep(prevData);
-        _.set(newData, field, value);
-        return newData;
-      });
-    };
+  const handleInputChange = (field, value) => {
+    setQuestionData((prevData) => {
+      const newData = _.cloneDeep(prevData);
+      _.set(newData, field, value);
+      return newData;
+    });
+  };
 
   const handleUpdateQuestion = async () => {
     try {
@@ -70,13 +71,53 @@ const QuestionUpdate = () => {
       console.error("Error updating question:", error);
     }
   };
+
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const storage = firebase.storage();
+  const storageRef = storage.ref();
+
+  const handleImageChange = async (field, event) => {
+    const file = event.target.files[0];
+    const fileName = file.name;
+    const timestamp = Date.now();
+    const uniqueFileName = `${timestamp}-${fileName}`;
+    const folderPath = "questionImages";
+    const fileRef = storageRef.child(`${folderPath}/${uniqueFileName}`);
+    let downloadURL = "";
+    try {
+      await fileRef.put(file);
+
+      downloadURL = await fileRef.getDownloadURL();
+      setQuestionData((prevData) => {
+        const newData = _.cloneDeep(prevData);
+        _.set(newData, field, downloadURL);
+        return newData;
+      });
+    } catch (error) {
+      alert("Unable to upload the image");
+      return;
+    }
+
+  };
+
   const renderInputFields = () => {
     if (!questionData) return null;
 
     return (
       <div className="admin-questionEdit">
         <div>
-          <label>{version === "v1" ? "Paragraph" : "Text"}:</label>
+          <label>{version === "v1" ? "Paragraph" : "question"}:</label>
           <textarea
             value={
               version === "v1"
@@ -89,12 +130,34 @@ const QuestionUpdate = () => {
             }
             onChange={(e) =>
               handleInputChange(
-                version === "v1" ? "paragraph" : "text[0]",
+                version === "v1" ? "paragraph" : "text",
                 e.target.value.split("\n")
               )
             }
           />
         </div>
+
+        {version === "v1" ? (
+          <>
+            <label>Paragraph Images:</label>
+            {questionData.images.map((image, index) => (
+              <div key={index} className="my-3">
+                <img
+                  src={image || ""}
+                  alt={`paragraph-image-${index + 1}`}
+                  style={{ maxWidth: "200px", maxHeight: "200px" }}
+                />
+                <input
+                  type="file"
+                  // value = {image || ""}
+                  onChange={(event) =>
+                    handleImageChange(`images[${index}]`, event)
+                  }
+                />
+              </div>
+            ))}
+          </>
+        ) : null}
 
         {version === "v2" && (
           <>
@@ -114,6 +177,22 @@ const QuestionUpdate = () => {
               </div>
             ))}
 
+            {questionData.explanation.images.map((explanationImage, index) => (
+              <div key={index}>
+                <label>{`Explanation Image ${index + 1}:`}</label>
+                <input
+                  type="file"
+                  // value={explanationImage || ""}
+                  onChange={(e) =>
+                    handleImageChange(
+                      `explanation.images[${index}]`,
+                      e
+                    )
+                  }
+                />
+              </div>
+            ))}
+
             {questionData.options.map((option, index) => (
               <div key={option._id}>
                 <label>{`Option ${index + 1} Text:`}</label>
@@ -122,6 +201,14 @@ const QuestionUpdate = () => {
                   value={option.text}
                   onChange={(e) =>
                     handleInputChange(`options[${index}].text`, e.target.value)
+                  }
+                />
+                <label>{`Option ${index + 1} Image:`}</label>
+                <input
+                  type="file"
+                  // value={option.image || ""}
+                  onChange={(e) =>
+                    handleImageChange(`options[${index}].image`, e)
                   }
                 />
               </div>
@@ -166,7 +253,7 @@ const QuestionUpdate = () => {
           />
         </div>
 
-        <div>
+        <div className="mb-2">
           <label>Entrance Exams:</label>
           <input
             type="text"
@@ -184,7 +271,9 @@ const QuestionUpdate = () => {
         {questionData.questions &&
           questionData.questions.map((question, index) => (
             <div key={index}>
-              <label>{`Question ${index + 1}:`}</label>
+              <label className="fs-4 text-danger">{`Question ${
+                index + 1
+              }:`}</label>
               <input
                 type="text"
                 value={question.text ? question.text.join(", ") : ""}
@@ -195,6 +284,22 @@ const QuestionUpdate = () => {
                   )
                 }
               />
+
+              {question.images.map((questionImage, imageIndex) => (
+                <div key={index}>
+                  <label>{`Question Image ${index + 1}:`}</label>
+                  <input
+                    type="file"
+                    // value={questionImage || ""}
+                    onChange={(e) =>
+                      handleImageChange(
+                        `questions[${index}].images[${imageIndex}]`,
+                        e
+                      )
+                    }
+                  />
+                </div>
+              ))}
 
               <div>
                 <label>Options:</label>
@@ -209,6 +314,17 @@ const QuestionUpdate = () => {
                           handleInputChange(
                             `questions[${index}].options[${optIndex}].text`,
                             e.target.value
+                          )
+                        }
+                      />
+                      <label>{`Image ${optIndex + 1}:`}</label>
+                      <input
+                        type="text"
+                        value={option.image || ""}
+                        onChange={(e) =>
+                          handleImageChange(
+                            `questions[${index}].options[${optIndex}].image`,
+                            e
                           )
                         }
                       />
@@ -252,16 +368,32 @@ const QuestionUpdate = () => {
                           )
                         }
                       />
-                      <div>
-                        <label>Explanation Preview:</label>
-                        <MathText
-                          className="mb-2"
-                          text={explanationText}
-                          textTag="h6"
-                        />
-                      </div>
+                      <div></div>
                     </div>
                   ))}
+              </div>
+
+              <div>
+                <label>Explanations Images:</label>
+                {question.explanation &&
+                  question.explanation.images &&
+                  question.explanation.images.map(
+                    (explanationImage, expIndex) => (
+                      <div key={expIndex}>
+                        <label>{`Explanation Image ${expIndex + 1}:`}</label>
+                        <input
+                          type="file"
+                          // value={explanationImage || ""}
+                          onChange={(e) =>
+                            handleImageChange(
+                              `questions[${index}].explanation.image[${expIndex}]`,
+                              e
+                            )
+                          }
+                        />
+                      </div>
+                    )
+                  )}
               </div>
             </div>
           ))}
@@ -292,6 +424,7 @@ const QuestionUpdate = () => {
                     Verbal Ability and Reading Comprehension
                   </option>
                   <option value="lr">LR (Logical Reasoning)</option>
+                  <option value="di">Data Interpretation (DI)</option>
                 </select>
               </label>
               <br />
@@ -317,10 +450,6 @@ const QuestionUpdate = () => {
           </div>
         </div>
       </div>
-
-      {/* {Array.isArray(questionData) && questionData.length > 0 && <QuestionV2 data={questionData} />} */}
-
-      {/* {questionData ? <QuestionV2 data={dataArray} /> : ""} */}
     </div>
   );
 };
