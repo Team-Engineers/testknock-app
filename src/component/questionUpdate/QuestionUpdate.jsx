@@ -87,12 +87,34 @@ const QuestionUpdate = () => {
   const storage = firebase.storage();
   const storageRef = storage.ref();
 
+  const handleDeleteImage = (field, imageUrlToDelete) => {
+    const storageRef = firebase.storage().refFromURL(imageUrlToDelete);
+    let imageData = ""
+    if(field.includes('images')){
+      imageData = []
+    }
+    
+    storageRef
+      .delete()
+      .then(() => {
+        console.log("Image deleted from storage.");
+        setQuestionData((prevData) => {
+          const newData = _.cloneDeep(prevData);
+          _.set(newData, field, imageData);
+          return newData;
+        });
+      })
+      .catch((error) => {
+        console.error("Error deleting image from storage:", error);
+      });
+  };
+
   const handleImageChange = async (field, event) => {
     const file = event.target.files[0];
     const fileName = file.name;
     const timestamp = Date.now();
     const uniqueFileName = `${timestamp}-${fileName}`;
-    const folderPath = "testingImages";
+    const folderPath = "questionImages";
     const fileRef = storageRef.child(`${folderPath}/${uniqueFileName}`);
     let downloadURL = "";
     try {
@@ -140,13 +162,19 @@ const QuestionUpdate = () => {
           <>
             <label>Paragraph Images:</label>
             <div>
-                <input
-                  type="file"
-                  onChange={(event) =>
-                    handleImageChange(`images[0]`, event)
-                  }
-                />
+              <input
+                type="file"
+                onChange={(event) => handleImageChange(`images[0]`, event)}
+              />
+              <div
+                className="btn btn-danger"
+                onClick={() =>
+                  handleDeleteImage(`images`, questionData.images[0])
+                }
+              >
+                Delete
               </div>
+            </div>
             {/* {questionData.images.map((image, index) => (
               <div key={index} className="my-3">
                 <img
@@ -191,6 +219,17 @@ const QuestionUpdate = () => {
                     handleImageChange(`explanation.images[${index}]`, e)
                   }
                 />
+                <div
+                  className="btn btn-danger"
+                  onClick={() =>
+                    handleDeleteImage(
+                      `explanation.images[${index}]`,
+                      questionData.explanation.images[0]
+                    )
+                  }
+                >
+                  Delete
+                </div>
               </div>
             ))}
 
@@ -211,6 +250,17 @@ const QuestionUpdate = () => {
                     handleImageChange(`options[${index}].image`, e)
                   }
                 />
+                <div
+                  className="btn btn-danger"
+                  onClick={() =>
+                    handleDeleteImage(
+                      `options[${index}].image`,
+                      questionData.options[index].image
+                    )
+                  }
+                >
+                  Delete
+                </div>
               </div>
             ))}
           </>
@@ -292,6 +342,17 @@ const QuestionUpdate = () => {
                     handleImageChange(`questions[${index}].images[0]`, e)
                   }
                 />
+                <div
+                  className="btn btn-danger"
+                  onClick={() =>
+                    handleDeleteImage(
+                      `questions[${index}].images`,
+                      questionData.questions[index].images[0]
+                    )
+                  }
+                >
+                  Delete
+                </div>
               </div>
 
               {/* {question.images.map((questionImage, imageIndex) => (
@@ -327,7 +388,6 @@ const QuestionUpdate = () => {
                       <label>{`Image ${optIndex + 1}:`}</label>
                       <input
                         type="file"
-                        value={option.image || ""}
                         onChange={(e) =>
                           handleImageChange(
                             `questions[${index}].options[${optIndex}].image`,
@@ -335,6 +395,18 @@ const QuestionUpdate = () => {
                           )
                         }
                       />
+                      <div
+                        className="btn btn-danger"
+                        onClick={() =>
+                          handleDeleteImage(
+                            `questions[${index}].options[${optIndex}].image`,
+                            questionData.questions[index].options[optIndex]
+                              .image
+                          )
+                        }
+                      >
+                        Delete
+                      </div>
                     </div>
                   ))}
               </div>
@@ -390,6 +462,18 @@ const QuestionUpdate = () => {
                     )
                   }
                 />
+                <div
+                  className="btn btn-danger"
+                  onClick={() =>
+                    handleDeleteImage(
+                      `questions[${index}].explanation.images`,
+                      questionData.questions[index].explanation.images[0]
+                    )
+                  }
+                >
+                  Delete
+                </div>
+
                 {/* {question.explanation &&
                   question.explanation.images &&
                   question.explanation.images.map(
@@ -453,8 +537,14 @@ const QuestionUpdate = () => {
               <br />
               {renderInputFields()}
               <br />
-              <button type="submit">Fetch Question Data</button>
-              <button type="button" onClick={handleUpdateQuestion}>
+              <button className="btn btn-primary me-3" type="submit ">
+                Fetch Question Data
+              </button>
+              <button
+                className="btn btn-success"
+                type="button "
+                onClick={handleUpdateQuestion}
+              >
                 Update Question
               </button>
             </form>
