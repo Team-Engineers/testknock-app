@@ -27,7 +27,7 @@ const QuestionUpdate = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+    
     try {
       const response = await axios.get(
         `${API}/${collection}/question/${version}/getById/${questionId}`
@@ -130,6 +130,7 @@ const QuestionUpdate = () => {
       alert("Unable to upload the image");
       return;
     }
+
   };
 
   const renderInputFields = () => {
@@ -233,6 +234,22 @@ const QuestionUpdate = () => {
               </div>
             ))}
 
+            {questionData.explanation.images.map((explanationImage, index) => (
+              <div key={index}>
+                <label>{`Explanation Image ${index + 1}:`}</label>
+                <input
+                  type="file"
+                  // value={explanationImage || ""}
+                  onChange={(e) =>
+                    handleImageChange(
+                      `explanation.images[${index}]`,
+                      e
+                    )
+                  }
+                />
+              </div>
+            ))}
+
             {questionData.options.map((option, index) => (
               <div key={option._id}>
                 <label>{`Option ${index + 1} Text:`}</label>
@@ -250,6 +267,7 @@ const QuestionUpdate = () => {
                     handleImageChange(`options[${index}].image`, e)
                   }
                 />
+
                 <div
                   className="btn btn-danger"
                   onClick={() =>
@@ -370,6 +388,22 @@ const QuestionUpdate = () => {
                 </div>
               ))} */}
 
+              {question.images.map((questionImage, imageIndex) => (
+                <div key={index}>
+                  <label>{`Question Image ${index + 1}:`}</label>
+                  <input
+                    type="file"
+                    // value={questionImage || ""}
+                    onChange={(e) =>
+                      handleImageChange(
+                        `questions[${index}].images[${imageIndex}]`,
+                        e
+                      )
+                    }
+                  />
+                </div>
+              ))}
+
               <div>
                 {question.options &&
                   question.options.map((option, optIndex) => (
@@ -395,6 +429,7 @@ const QuestionUpdate = () => {
                           )
                         }
                       />
+
                       <div
                         className="btn btn-danger"
                         onClick={() =>
@@ -407,6 +442,7 @@ const QuestionUpdate = () => {
                       >
                         Delete
                       </div>
+
                     </div>
                   ))}
               </div>
@@ -492,6 +528,29 @@ const QuestionUpdate = () => {
                       </div>
                     )
                   )} */}
+              </div>
+
+              <div>
+                <label>Explanations Images:</label>
+                {question.explanation &&
+                  question.explanation.images &&
+                  question.explanation.images.map(
+                    (explanationImage, expIndex) => (
+                      <div key={expIndex}>
+                        <label>{`Explanation Image ${expIndex + 1}:`}</label>
+                        <input
+                          type="file"
+                          // value={explanationImage || ""}
+                          onChange={(e) =>
+                            handleImageChange(
+                              `questions[${index}].explanation.image[${expIndex}]`,
+                              e
+                            )
+                          }
+                        />
+                      </div>
+                    )
+                  )}
               </div>
             </div>
           ))}
