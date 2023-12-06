@@ -2,7 +2,7 @@
 
 ### Rules for new branch name 
 Use Branch Name : feat-001YourFeatureName <br>
-Note: take 001 or 002 or 003 or 004 depends on the previous merged branch
+Note: take 001 or 002 or 003 or 004 depends on the previous merged branch.
 
 ### IMPORTANT NOTE 
 
