@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./question.css";
 import { MathText } from "../mathJax/MathText";
 import { useLocation } from "react-router-dom";
@@ -17,16 +17,16 @@ const QuestionV2 = ({ data }) => {
   );
 
   const [isMounted, setIsMounted] = useState(false);
-  const location =  useLocation();
+  const location = useLocation();
   useEffect(() => {
     if (isMounted) {
-      localStorage.removeItem('currentPage');
+      localStorage.removeItem("currentPage");
     }
   }, [location.pathname, isMounted]);
 
   useEffect(() => {
     setIsMounted(true);
-    const storedPage = localStorage.getItem('currentPage');
+    const storedPage = localStorage.getItem("currentPage");
     const parsedPage = parseInt(storedPage, 10);
     if (!isNaN(parsedPage) && parsedPage >= 0) {
       setCurrentPage(parsedPage);
@@ -36,8 +36,7 @@ const QuestionV2 = ({ data }) => {
     return () => {
       setIsMounted(false);
     };
-  }, []); 
-
+  }, []);
 
   const handleOptionClick = (questionIndex, optionIndex) => {
     const updatedSelectedOption = [...selectedOption];
@@ -55,7 +54,7 @@ const QuestionV2 = ({ data }) => {
         .map(() => Array(10).fill(false))
     );
     window.scrollTo(0, 0);
-    localStorage.setItem('currentPage', pageIndex);
+    localStorage.setItem("currentPage", pageIndex);
   };
 
   const generatePageNumbers2 = () => {
@@ -120,8 +119,9 @@ const QuestionV2 = ({ data }) => {
 
   const toggleExplanationVisibility = (questionIndex) => {
     const updatedExplanationsVisible = [...explanationsVisible];
-    updatedExplanationsVisible[questionIndex] =
-      !updatedExplanationsVisible[questionIndex];
+    updatedExplanationsVisible[questionIndex] = !updatedExplanationsVisible[
+      questionIndex
+    ];
     setExplanationsVisible(updatedExplanationsVisible);
   };
 
@@ -131,8 +131,9 @@ const QuestionV2 = ({ data }) => {
       updatedExplanationsVisible[itemIndex] = [
         ...prevExplanationsVisible[itemIndex],
       ];
-      updatedExplanationsVisible[itemIndex][questionIndex] =
-        !prevExplanationsVisible[itemIndex][questionIndex];
+      updatedExplanationsVisible[itemIndex][
+        questionIndex
+      ] = !prevExplanationsVisible[itemIndex][questionIndex];
       return updatedExplanationsVisible;
     });
   };
@@ -230,7 +231,7 @@ const QuestionV2 = ({ data }) => {
                                   {alphabets[optionIndex]}
                                 </h6>
                                 <div className="d-flex justify-content-start gap-3 w-100 align-items-center">
-                                  <h6>{option.text}</h6>
+                                  <MathText text={option.text} textTag="h6" />
                                   {option.image ? (
                                     <img
                                       className="question-image"
@@ -287,6 +288,20 @@ const QuestionV2 = ({ data }) => {
                               ] && (
                                 <div className="explanation">
                                   <p class="m-0 pt-3">
+                                    <h6>
+                                      <span className="text-default">
+                                        Answer:
+                                      </span>{" "}
+                                      <strong>{`Option ${
+                                        alphabets[
+                                          question.correctOptionIndex - 1
+                                        ]
+                                      } `}</strong>
+                                      <div />
+                                      <span className="text-default">
+                                        Solution:
+                                      </span>
+                                    </h6>
                                     {question.explanation.text &&
                                       question.explanation.text.map(
                                         (text, index) => (
@@ -368,9 +383,9 @@ const QuestionV2 = ({ data }) => {
                     <div className="question-option">
                       <div className="question">
                         <div className="question-number-container">
-                          <span className={`question-number id-${question._id}`}>{`${
-                            questionIndex + 1 + currentPage * 5
-                          } `}</span>
+                          <span
+                            className={`question-number id-${question._id}`}
+                          >{`${questionIndex + 1 + currentPage * 5} `}</span>
                         </div>
                         <div className="question-text-container">
                           {question.text.map((text, textIndex) => (
@@ -458,6 +473,14 @@ const QuestionV2 = ({ data }) => {
                       {explanationsVisible[questionIndex] && (
                         <div className="explanation">
                           <p class="m-0 pt-3">
+                            <h6>
+                              <span className="text-default">Answer:</span>{" "}
+                              <strong>{`Option ${
+                                alphabets[question.correctOptionIndex - 1]
+                              } `}</strong>
+                              <div />
+                              <span className="text-default">Solution:</span>
+                            </h6>
                             {question.explanation.text.map((text, index) => (
                               <MathText key={index} text={text} textTag="h6" />
                             ))}
